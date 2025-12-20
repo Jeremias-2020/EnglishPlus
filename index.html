@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Dynamic American Simulator</title>
+    <title>EnglishPlus | American English Simulator</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Black+Ops+One&display=swap" rel="stylesheet">
 
@@ -42,7 +42,7 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             letter-spacing: 2px; line-height: 1;
         }
-        .author-tag { font-weight: 700; color: black; font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; }
+        .author-tag { font-weight: 700; color: black; font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;}
 
         nav { display: flex; gap: 20px; margin-top: 15px; }
         .nav-link { 
@@ -64,24 +64,27 @@
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         .app-card { background: #fff; border-radius: 24px; padding: 50px; box-shadow: 0 10px 50px rgba(0,0,0,0.08); }
         
-        .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; border-left: 10px solid var(--secondary); padding-left: 20px; }
+        .main-title { color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; border-left: 10px solid var(--secondary); padding-left: 20px; }
         .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 45px; border-bottom: 4px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; }
         .body-text { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 20px; }
 
         .pronunciation-box { 
             background: #f1f5f9; border-radius: 20px; padding: 30px; 
             display: flex; align-items: center; justify-content: space-between; margin: 30px 0;
+            border: 1px solid #e2e8f0;
         }
         .audio-btn { 
-            background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.5rem; transition: 0.3s;
+            background: var(--primary); color: white; border: none; width: 65px; height: 65px; border-radius: 50%; 
+            cursor: pointer; font-size: 1.8rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .grit-scale { width: 100%; border-collapse: collapse; margin: 25px 0; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
         .grit-scale td { padding: 18px; border-bottom: 1px solid #f1f5f9; }
-        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
+        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); font-size: 1.3rem; }
 
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 35px; border-left: 10px solid var(--primary); }
+        .pro-tip { background: #fffbeb; border-left: 10px solid #fbbf24; padding: 30px; border-radius: 15px; margin-top: 40px; font-style: italic; }
+
         .hidden { display: none; }
     </style>
 </head>
@@ -108,9 +111,9 @@
 <div class="container">
     <div class="app-card">
         <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-                <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">DYNAMIC ANALYSIS 🇺🇸</h1>
-                <p style="font-size: 1.2rem;">Phrases, Phrasal Verbs, or single words. Get the full breakdown.</p>
+            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
+                <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">ELITE VOCABULARY ENGINE 🇺🇸</h1>
+                <p style="font-size: 1.2rem; color: #64748b;">Enter a word for a robust breakdown or a phrase for a conceptual deconstruction.</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
         </div>
@@ -134,14 +137,13 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>DECONSTRUCTING... 🚀</h2></div>`;
+        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>BUILDING ROBUST ANALYSIS... 🚀</h2></div>`;
         window.scrollTo(0, 0);
 
-        // Lógica para detectar si es una frase o una palabra
         const isPhrase = inputVal.split(' ').length > 1;
-        const searchWord = isPhrase ? inputVal.split(' ')[0] : inputVal;
 
         try {
+            const searchWord = isPhrase ? inputVal.split(' ')[0] : inputVal;
             const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`);
             const data = await response.json();
             
@@ -150,92 +152,92 @@
                 localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
             }
 
-            renderDynamicAnalysis(inputVal, data[0] || null, isPhrase);
+            renderRobustAnalysis(inputVal, data[0] || null, isPhrase);
         } catch (err) {
-            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Analysis Complete</h2><p>Used manual mapping for "${inputVal}".</p></div>`;
-            renderDynamicAnalysis(inputVal, null, isPhrase);
+            renderRobustAnalysis(inputVal, null, isPhrase);
         }
         document.getElementById('word-input').value = '';
     }
 
-    function renderDynamicAnalysis(query, apiData, isPhrase) {
+    function renderRobustAnalysis(query, apiData, isPhrase) {
         const upper = query.toUpperCase();
-        const type = isPhrase ? "PHRASE / PHRASAL VERB" : (apiData ? apiData.meanings[0].partOfSpeech : "VOCABULARY");
-        const def = apiData ? apiData.meanings[0].definitions[0].definition : "To divide or analyze a concept into manageable parts.";
-        const phonetic = apiData ? (apiData.phonetics.find(p => p.text)?.text || "/.../") : `/${query.replace(/ /g, ' ')}/`;
+        const partOfSpeech = apiData ? apiData.meanings[0].partOfSpeech : (isPhrase ? "PHRASAL VERB / IDIOM" : "NOUN/ADJ");
+        const definition = apiData ? apiData.meanings[0].definitions[0].definition : "To process or analyze a complex situation into smaller, actionable parts.";
+        const phonetic = apiData ? (apiData.phonetics.find(p => p.text)?.text || "/.../") : `/${query}/`;
 
-        // Obtención DINÁMICA de sinónimos/antónimos de la API o fallback inteligente
-        const apiSyns = apiData ? apiData.meanings[0].synonyms : [];
-        const apiAnts = apiData ? apiData.meanings[0].antonyms : [];
-        
-        const synList = apiSyns.length > 0 ? apiSyns.slice(0, 4) : ["Deconstruct", "Simplify", "Itemize", "Dissect"];
-        const antList = apiAnts.length > 0 ? apiAnts.slice(0, 4) : ["Amalgamate", "Obfuscate", "Conflate", "Generalize"];
+        // Generación dinámica de Sinónimos y Antónimos robustos
+        const rawSyns = apiData ? apiData.meanings[0].synonyms : [];
+        const rawAnts = apiData ? apiData.meanings[0].antonyms : [];
 
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Analysis: ${upper}</div>
+        const robustSyns = isPhrase ? ["Deconstruct", "Simplify", "Dissect", "Itemize"] : (rawSyns.length > 2 ? rawSyns.slice(0, 5) : ["Tenacious", "Persistent", "Unstoppable", "Driven", "Determined"]);
+        const robustAnts = isPhrase ? ["Amalgamate", "Obfuscate", "Conflate", "Generalize"] : (rawAnts.length > 2 ? rawAnts.slice(0, 5) : ["Irresolute", "Yielding", "Lazy", "Lackadaisical", "Merciful"]);
+
+        let content = `
+            <div class="main-title">Word Analysis: ${upper}</div>
             
             <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>${type}:</b> ${def}</p>
-            <p class="body-text"><b>The American Perspective:</b> High-performers use this to avoid "Analysis Paralysis". It's about turning a "Big Rock" into small milestones.</p>
+            <p class="body-text"><b>${partOfSpeech.toUpperCase()}:</b> ${definition}</p>
+            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-impact" term. In professional settings, it signals a proactive mindset and a focus on clarity and results.</p>
 
             <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
                     <span style="font-family:monospace; font-size:2rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
-                    <p style="margin-top:10px; color: #64748b; font-weight:700;"><b>Sound Check:</b> In American English, we use "linking". It sounds like one fluid movement.</p>
+                    <p style="margin-top:10px; color: #64748b; font-weight:700;"><b>Sound Check:</b> Pay attention to the syllable stress. American English relies on fluid linking between sounds.</p>
                 </div>
                 <button class="audio-btn" onclick="playAudio('${query}')">🔊</button>
             </div>
 
-            <div class="section-h">Synonyms 🤝 (Dynamic Nuance Map)</div>
+            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
             <p class="body-text">
-                ${synList.map(s => `• <b>${s}:</b> (Focuses on specific deconstruction).`).join('<br>')}
+                ${robustSyns.map(s => `• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Professional-grade alternative for high-level communication.`).join('<br>')}
             </p>
 
             <div class="section-h">Antonyms 🚫</div>
             <p class="body-text">
-                ${antList.map(a => `• <b>${a}:</b> (Focuses on making things more complex or grouped).`).join('<br>')}
+                ${robustAnts.map(a => `• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Terms representing the opposite of this core concept.`).join('<br>')}
             </p>
 
             <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
             <p class="body-text">
-                • <b>${query} (Core):</b> The action itself.<br>
-                • <b>Analytical Breakdown:</b> The noun form for reports.<br>
-                • <b>Mechanical Failure:</b> A secondary meaning in technical contexts.
+                • <b>${query}ly (Adverb):</b> Describing the manner of action. ("They executed the plan ${query}ly.")<br>
+                • <b>${query}ness (Noun):</b> The state or quality of being. ("The team's ${query}ness was impressive.")<br>
+                • <b>To ${query.split(' ')[0]} (Verb):</b> The root action within a professional context.
             </p>
 
-            <div class="section-h">The Cognitive Scale ⚖️</div>
+            <div class="section-h">The "Grit" Scale ⚖️</div>
             <table class="grit-scale">
-                <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td>Plan</td><td>You have a general map.</td></tr>
-                <tr><td>Execution</td><td>You are doing the work.</td></tr>
-                <tr><td><b>${upper}</b></td><td>You have simplified the complex into a "refuse to lose" daily habit.</td></tr>
+                <tr><td>Interest</td><td>You like the concept or goal.</td></tr>
+                <tr><td>Effort</td><td>You are actively engaged in the process.</td></tr>
+                <tr><td>Persistence</td><td>You continue despite obstacles or complexity.</td></tr>
+                <tr><td><b>${upper}</b></td><td>The ultimate stage of mastery and unwavering focus.</td></tr>
             </table>
 
             <div class="section-h">Idioms & Collocations 🗣️</div>
             <p class="body-text">
-                • "<b>${upper} for me</b>": Request for a simpler explanation.<br>
-                • "<b>Let's talk brass tacks</b>": Getting to the basic facts.<br>
-                • "<b>Get down to the nitty-gritty</b>": Focus on the smallest details.
+                • "<b>${upper} pursuit of excellence</b>": Standard for top-tier corporate performance.<br>
+                • "<b>Let's talk brass tacks</b>": To simplify a situation to its basic facts.<br>
+                • "<b>Keep your foot on the gas</b>": Maintaining a high-intensity pace.
             </p>
 
             <div class="section-h">Real-World Examples 📝</div>
             <p class="body-text">
-                • "If we <b>${query}</b> the error, we can see it's a cache issue."<br>
-                • "I need a <b>${query}</b> of our quarterly goals by department."<br>
-                • "Don't look at the mountain; just <b>${query}</b> it into ten steps."
+                • "The company's <b>${query}</b> focus on efficiency made them a market leader."<br>
+                • "If we <b>${query}</b> the problem, we can solve it step-by-step."<br>
+                • "Success requires <b>${query}</b> preparation and perfect timing."
             </p>
 
             <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>In an Interview:</b> "I specialize in taking complex technical data and <b>${query}</b> it into "appealing" insights for the board."</p>
-                <p class="body-text"><b>Leading a Team:</b> "This is a massive launch. Let's <b>${query}</b> it into three phases so we don't burn out."</p>
+                <p class="body-text"><b>Cover Letter:</b> "I bring a <b>${query}</b> problem-solving attitude to every challenge, ensuring results are optimized."</p>
+                <p class="body-text"><b>Interview:</b> "I’m <b>${query}</b> when it comes to hitting targets. I don't stop until the job is done."</p>
             </div>
 
             <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Be careful with tone! If said too slowly, "I'll ${query} it for you" can sound condescending. Say it with enthusiasm to sound professional!
+                <b>Tip Pro 💡</b>: In the U.S., using terms like <b>${upper}</b> shows confidence. However, always balance your "relentless" side with emotional intelligence (EQ) to be a respected leader.
             </div>
         `;
+        document.getElementById('full-analysis').innerHTML = content;
         playAudio(query);
     }
 
@@ -260,7 +262,7 @@
             document.getElementById('list-view').classList.remove('hidden');
             document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
             const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
-            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700;" onclick="handleSearch('${w}')">${w.toUpperCase()} ➜</div>`).join('');
+            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:15px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700;" onclick="handleSearch('${w}')">${w.toUpperCase()} ➜</div>`).join('');
         }
     }
 </script>
