@@ -94,7 +94,7 @@
 
         .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: white; }
         .grit-scale td { padding: 18px; border-bottom: 1px solid #f1f5f9; font-size: 1.1rem; }
-        .grit-scale tr.highlight { background: #fff1f2; font-weight: 800; color: var(--secondary); }
+        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
 
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; margin-top: 25px; border-left: 8px solid var(--primary); }
         .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; font-size: 1.1rem; }
@@ -157,17 +157,19 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2 style="letter-spacing:3px;">ANALYZING WITH GRIT... 🚀</h2></div>`;
+        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2 style="letter-spacing:3px;">ANALYZING... 🚀</h2></div>`;
 
         window.scrollTo(0, 0);
 
-        if(word === "break it down") {
-            renderEliteBreakDown();
+        // MOTOR DE SELECCIÓN DE MODELO SEGÚN TU SOLICITUD
+        if(word === "relentless") {
+            renderWordModel_Relentless();
             saveToHistory(inputVal);
-        } else if(word === "relentless") {
-            renderEliteRelentless();
+        } else if(word === "break it down") {
+            renderPhraseModel_BreakItDown();
             saveToHistory(inputVal);
         } else {
+            // Respaldado por API para otras palabras
             try {
                 const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
                 const data = await response.json();
@@ -175,7 +177,7 @@
                 saveToHistory(inputVal);
                 renderBasicAnalysis(data[0]);
             } catch (err) {
-                container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Analysis Not Available</h2><p>Try "Relentless" or "Break it down" for full treatment.</p></div>`;
+                container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Analysis Not Available</h2><p>Try "Relentless" or "Break it down".</p></div>`;
             }
         }
         document.getElementById('word-input').value = '';
@@ -188,7 +190,90 @@
         }
     }
 
-    function renderEliteBreakDown() {
+    // ==========================================
+    // MODELO 1: PARA PALABRAS (EJEMPLO RELENTLESS)
+    // ==========================================
+    function renderWordModel_Relentless() {
+        document.getElementById('full-analysis').innerHTML = `
+            <div class="main-title">Word Analysis: RELENTLESS</div>
+            
+            <div class="section-h">English Meaning 🇺🇸</div>
+            <p class="body-text"><b>Adjective:</b> Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.</p>
+            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. It can be negative (like "relentless rain"), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>
+
+            <div class="section-h">Phonetics & Pronunciation 🗣️</div>
+            <div class="pronunciation-box">
+                <div>
+                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/rɪˈlent.ləs/</span><br>
+                    <p style="margin: 10px 0; color: #334155; font-weight:700;">Sounds like: re-LENT-less. (The stress is on the middle syllable).</p>
+                </div>
+                <button class="audio-btn" onclick="playAudio('relentless')">🔊</button>
+            </div>
+
+            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
+            <p class="body-text">
+                • <b>Persistent:</b> (Focuses on trying again and again).<br>
+                • <b>Unstoppable:</b> (Focuses on the fact that nothing can get in your way).<br>
+                • <b>Tenacious:</b> (A very "fancy" professional word for being like a bulldog—not letting go).<br>
+                • <b>Incessant:</b> (Usually negative, like a noise that won't stop).
+            </p>
+
+            <div class="section-h">Antonyms 🚫</div>
+            <p class="body-text">
+                • <b>Irresolute:</b> (Hesitant, not sure of oneself).<br>
+                • <b>Yielding:</b> (Giving up easily).<br>
+                • <b>Lazy / Lackadaisical:</b> (Lacking enthusiasm or effort).<br>
+                • <b>Merciful:</b> (Showing pity—sometimes "relentless" means being harsh).
+            </p>
+
+            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
+            <p class="body-text">
+                • <b>Relentlessly (Adverb):</b> How you do something. ("He practiced English relentlessly until he was fluent.")<br>
+                • <b>Relentlessness (Noun):</b> The state of being relentless. ("Her relentlessness is the reason she got the promotion.")<br>
+                • <b>To relent (Verb/Antonym):</b> To finally give in or become less severe. ("The rain finally relented after three days.")
+            </p>
+
+            <div class="section-h">The "Grit" Scale ⚖️</div>
+            <p class="body-text">Understanding where "Relentless" sits compared to similar traits:</p>
+            <table class="grit-scale">
+                <tr><td>Interest</td><td>You like the idea.</td></tr>
+                <tr><td>Effort</td><td>You are working on it.</td></tr>
+                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
+                <tr><td><b>RELENTLESSNESS</b></td><td>You have a "refuse to lose" mentality. You find a way or make one.</td></tr>
+            </table>
+
+            <div class="section-h">Idioms & Collocations 🗣️</div>
+            <p class="body-text">
+                • "Relentless pursuit of excellence": A classic corporate mission statement.<br>
+                • "No rest for the wicked": A playful idiom used when you have a relentless workload.<br>
+                • "Keep your foot on the gas": A metaphor for maintaining a relentless pace.
+            </p>
+
+            <div class="section-h">Real-World Examples 📝</div>
+            <p class="body-text">
+                • "The company's relentless focus on customer service made them #1 in the market."<br>
+                • "To fix the QuickBooks error, I had to be relentless with the support team until they answered."<br>
+                • "Success is the result of relentless preparation meeting opportunity."
+            </p>
+
+            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="practice-box">
+                <p class="body-text"><b>In a Cover Letter:</b> "I bring a relentless problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized."</p>
+                <p class="body-text"><b>During an Interview:</b> "I’m relentless when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+            </div>
+
+            <div class="pro-tip">
+                <b>Tip Pro 💡</b>: Be careful! While being relentless is great for goals, being a relentless boss can lead to "burnout" in your team. In the U.S., the most respected leaders are those who are relentless with results but empathetic with people.
+            </div>
+            <p style="margin-top:30px; font-weight:800; color:var(--primary); font-size:1.2rem;">Is this the level of "Complete Explanation" you were looking for? Give me your next word! 🚀</p>
+        `;
+        playAudio('relentless');
+    }
+
+    // ==========================================
+    // MODELO 2: PARA FRASES (EJEMPLO BREAK IT DOWN)
+    // ==========================================
+    function renderPhraseModel_BreakItDown() {
         document.getElementById('full-analysis').innerHTML = `
             <div class="main-title">Word Analysis: BREAK IT DOWN</div>
             
@@ -234,91 +319,39 @@
 
             <div class="section-h">The Cognitive Process ⚖️</div>
             <div class="practice-box" style="background:#f8fafc; border-left:8px solid #64748b;">
+                <p class="body-text">"Breaking it down" is a mental framework used by high-performers to avoid Analysis Paralysis.</p>
                 <p class="body-text"><b>The Goal:</b> The "Big Rock" (e.g., Learning English).<br>
-                <b>The Breakdown:</b> Milestones (e.g., Master 500 words).<br>
+                <b>The Breakdown:</b> Milestones (e.g., Master 500 words, Understand Phrasal Verbs).<br>
                 <b>The Fragments:</b> Daily habits (e.g., 15 minutes of chat every morning).</p>
             </div>
 
             <div class="section-h">Idioms & Collocations 🗣️</div>
             <p class="body-text">
                 • "Break it down for me": A request for a simpler explanation.<br>
-                • "Let's talk brass tacks": To focus on basic facts.<br>
-                • "Get down to the nitty-gritty": Focus on smallest, most important details.
+                • "Let's talk brass tacks": To break a situation down to its most basic, practical facts.<br>
+                • "Get down to the nitty-gritty": To focus on the smallest, most important details.<br>
+                • "Crunch the numbers": To perform a detailed mathematical breakdown.
+            </p>
+
+            <div class="section-h">Real-World Examples 📝</div>
+            <p class="body-text">
+                • "If we break down the QuickBooks error, we can see it's actually a browser cache issue, not a payment failure."<br>
+                • "The CEO asked for a breakdown of our quarterly goals by department."<br>
+                • "Don't look at the whole mountain; just break it down into the next ten steps."
             </p>
 
             <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>Leadership:</b> "Okay team, this is a massive launch. Let's break it down into three phases so we don't burn out."</p>
-                <p class="body-text"><b>Interview:</b> "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board."</p>
+                <p class="body-text"><b>When leading:</b> "Okay team, this is a massive launch. Let's break it down into three phases so we don't burn out."</p>
+                <p class="body-text"><b>In an interview:</b> "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board."</p>
             </div>
 
             <div class="pro-tip">
-                <b>Tip Pro 💡</b>: In the U.S., say it with enthusiasm: "I'd be happy to break that down so we're all on the same page!" to avoid sounding condescending.
+                <b>Tip Pro 💡</b>: In the U.S., stay friendly and professional: "I'd be happy to break that down so we're all on the same page!"
             </div>
             <p style="margin-top:30px; font-weight:800; color:var(--primary); font-size:1.2rem;">Would you like me to "break down" the specific differences between "Break it down" and "Analyze"? 🚀</p>
         `;
         playAudio('break it down');
-    }
-
-    function renderEliteRelentless() {
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: RELENTLESS</div>
-            
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>Adjective:</b> Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop.</p>
-            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. In business, it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>
-
-            <div class="section-h">Phonetics & Pronunciation 🗣️</div>
-            <div class="pronunciation-box">
-                <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/rɪˈlent.ləs/</span><br>
-                    <p style="margin: 10px 0; color: #334155; font-weight:700;">Sounds like: re-LENT-less.</p>
-                </div>
-                <button class="audio-btn" onclick="playAudio('relentless')">🔊</button>
-            </div>
-
-            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
-            <p class="body-text">
-                • <b>Persistent:</b> Focuses on trying again and again.<br>
-                • <b>Unstoppable:</b> Nothing can get in your way.<br>
-                • <b>Tenacious:</b> Like a bulldog—not letting go.<br>
-                • <b>Incessant:</b> Usually negative, like noise.
-            </p>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <p class="body-text">
-                • <b>Irresolute:</b> Hesitant, not sure.<br>
-                • <b>Yielding:</b> Giving up easily.<br>
-                • <b>Lazy / Lackadaisical:</b> Lacking enthusiasm.
-            </p>
-
-            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>Relentlessly (Adverb):</b> "He practiced English relentlessly."<br>
-                • <b>Relentlessness (Noun):</b> The state of being relentless.<br>
-                • <b>To relent (Verb):</b> To finally give in.
-            </p>
-
-            <div class="section-h">The "Grit" Scale ⚖️</div>
-            <table class="grit-scale">
-                <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td>Effort</td><td>You are working on it.</td></tr>
-                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr class="highlight"><td>RELENTLESS</td><td>A "refuse to lose" mentality.</td></tr>
-            </table>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="practice-box">
-                <p class="body-text"><b>Cover Letter:</b> "I bring a relentless problem-solving attitude to every challenge I face."</p>
-                <p class="body-text"><b>Interview:</b> "I’m relentless when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
-            </div>
-
-            <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Be relentless with results, but empathetic with people. U.S. leaders respect balance to avoid burnout.
-            </div>
-            <p style="margin-top:30px; font-weight:800; color:var(--primary); font-size:1.2rem;">Give me your next word, and I will give it the Relentless Analysis treatment! 🚀</p>
-        `;
-        playAudio('relentless');
     }
 
     function renderBasicAnalysis(data) {
@@ -332,7 +365,7 @@
                 <span style="font-family:monospace; font-size:1.5rem; color:var(--primary); font-weight:800;">${data.phonetic || '/.../'}</span>
                 <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             </div>
-            <p><i>Full Elite Analysis for "${word}" is being processed by our team.</i></p>
+            <p><i>Full Elite Analysis for "${word}" coming soon...</i></p>
         `;
         playAudio(word);
     }
