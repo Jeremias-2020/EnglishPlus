@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#002868">
+    <title>EnglishPlus | American English Simulator</title>
     
-    <title>EnglishPlus | American English Vocabulary Simulator</title>
-    
-    <meta property="og:image" content="https://i.postimg.cc/k4xT20pL/Imagen1.png">
     <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -28,6 +23,7 @@
             margin: 0; padding-top: 150px; color: #1e293b; 
         }
         
+        /* FIXED HEADER & NAV */
         header { 
             background: var(--card); 
             border-bottom: 4px solid var(--primary); 
@@ -42,28 +38,46 @@
         }
         .nav-link { 
             border: none; background: none; font-weight: 800; color: #94a3b8; 
-            cursor: pointer; font-size: 0.75rem; text-transform: uppercase; 
-            padding: 10px 15px; transition: 0.3s;
+            cursor: pointer; font-size: 0.75rem; text-transform: uppercase; padding: 10px 15px; 
         }
         .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
 
         .container { max-width: 850px; margin: 20px auto; padding: 0 15px; }
-        .search-area { display: flex; gap: 10px; margin-bottom: 25px; }
         
-        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1.1rem; outline: none; }
-        .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        /* SEARCH AREA CON BOTÓN */
+        .search-area { display: flex; gap: 10px; margin-bottom: 25px; }
+        input { 
+            flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; 
+            font-size: 1.1rem; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); }
+        
+        .btn-search { 
+            background: var(--primary); color: white; border: none; padding: 0 30px; 
+            border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; 
+            transition: 0.2s; box-shadow: 0 4px 6px rgba(0,40,104,0.2);
+        }
+        .btn-search:hover { background: #001a45; transform: translateY(-1px); }
+        .btn-search:active { transform: translateY(0); }
 
         .app-card { background: #fff; border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); min-height: 500px; }
         
-        /* ANALISIS BOXES */
+        /* PRONUNCIATION STYLING */
+        .pronunciation-box { 
+            background: #eef2ff; border: 1px solid #d0e2ff; padding: 25px; 
+            border-radius: 20px; display: flex; align-items: center; justify-content: space-between; 
+            margin-bottom: 30px;
+        }
+        .audio-btn { 
+            background: white; border: none; width: 65px; height: 65px; border-radius: 50%; 
+            cursor: pointer; font-size: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            display: flex; align-items: center; justify-content: center;
+        }
+
         .section-title { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
         .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 20px; }
-        .body-text b { color: var(--primary); }
         
-        .pronunciation-box { background: #eef2ff; border: 1px solid #d0e2ff; padding: 25px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; }
-        .audio-btn { background: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
-        .grit-scale { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .grit-scale { width: 100%; border-collapse: collapse; margin: 15px 0; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #f1f5f9; }
         .grit-scale td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; font-size: 1rem; }
         .grit-scale td:first-child { font-weight: 700; color: var(--primary); width: 35%; }
         
@@ -94,21 +108,21 @@
     <div class="app-card">
         <div id="display-view">
             <div id="welcome-msg" style="text-align: center; padding-top: 60px;">
-                <h1 style="color: var(--primary); font-size: 2.2rem;">Ready for Analysis? 🚀</h1>
-                <p style="color: #64748b;">Get the full American breakdown of any word.</p>
+                <h1 style="color: var(--primary); font-size: 2.5rem;">Let's Get to Work! 🚀</h1>
+                <p style="color: #64748b; font-size: 1.1rem;">Ready for the full American breakdown? Search a word!</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
         </div>
 
         <div id="list-view" class="hidden">
-            <h2 id="view-title" style="color: var(--primary);">Your Progress</h2>
+            <h2 id="view-title" style="color: var(--primary);">Progress</h2>
             <div id="data-list" class="list-container"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let myHistory = JSON.parse(localStorage.getItem('ep_v_final')) || [];
+    let myHistory = JSON.parse(localStorage.getItem('ep_v_9')) || [];
 
     document.getElementById('word-input').addEventListener('keypress', (e) => {
         if(e.key === 'Enter') handleSearch();
@@ -117,9 +131,10 @@
     function handleSearch(clicked = null) {
         const word = (clicked || document.getElementById('word-input').value).trim();
         if(!word) return;
-        if(!myHistory.includes(word.toLowerCase())) {
-            myHistory.push(word.toLowerCase());
-            localStorage.setItem('ep_v_final', JSON.stringify(myHistory));
+        const lower = word.toLowerCase();
+        if(!myHistory.includes(lower)) {
+            myHistory.push(lower);
+            localStorage.setItem('ep_v_9', JSON.stringify(myHistory));
         }
         document.getElementById('word-input').value = '';
         renderFullAnalysis(word);
@@ -135,11 +150,11 @@
         container.innerHTML = `
             <div class="pronunciation-box">
                 <div>
-                    <h1 style="margin:0; color:var(--primary); font-size: 2.2rem;">${upper}</h1>
-                    <div style="margin-top:5px; font-weight:700; color:var(--secondary);">
+                    <h1 style="margin:0; color:var(--primary); font-size: 2.5rem;">${upper}</h1>
+                    <div style="margin-top:10px; font-weight:700; color:var(--secondary);">
                         Phonetics & Pronunciation 🗣️<br>
-                        <span style="font-family:monospace; font-size:1.2rem;">/rɪˈlent.ləs/</span><br>
-                        <small>Sounds like: re-LENT-less. (The stress is on the middle syllable).</small>
+                        <span style="font-family:monospace; font-size:1.3rem; color:var(--primary);">/rɪˈlent.ləs/</span><br>
+                        <small style="color:#64748b;">Sounds like: re-LENT-less. (The stress is on the middle syllable).</small>
                     </div>
                 </div>
                 <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
@@ -151,25 +166,15 @@
                 <b>Adjective:</b> Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.
             </p>
             <p class="body-text">
-                <b>Connotation:</b> In American English, this is a "high-energy" word. It can be negative (like "relentless rain"), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.
+                <b>Connotation:</b> In American English, this is a "high-energy" word. It can be negative, but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.
             </p>
 
             <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
             <p class="body-text">
                 • <b>Persistent:</b> Focuses on trying again and again.<br>
                 • <b>Unstoppable:</b> Nothing can get in your way.<br>
-                • <b>Tenacious:</b> A very "fancy" professional word for not letting go.<br>
-                • <b>Incessant:</b> Usually negative, like a noise that won't stop.
-            </p>
-
-            <div class="section-title">Antonyms 🚫</div>
-            <p class="body-text">Irresolute • Yielding • Lazy / Lackadaisical • Merciful.</p>
-
-            <div class="section-title">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>${word}lessly (Adverb):</b> How you do something.<br>
-                • <b>${word}lessness (Noun):</b> The state of being ${word}.<br>
-                • <b>To relent (Verb):</b> To finally give in or become less severe.
+                • <b>Tenacious:</b> A very professional word for being like a bulldog.<br>
+                • <b>Incessant:</b> Usually negative, like an annoying noise.
             </p>
 
             <div class="section-title">The "Grit" Scale ⚖️</div>
@@ -177,27 +182,17 @@
                 <tr><td>Interest</td><td>You like the idea.</td></tr>
                 <tr><td>Effort</td><td>You are working on it.</td></tr>
                 <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr><td>${upper}</td><td>You have a "refuse to lose" mentality.</td></tr>
+                <tr><td>${upper}</td><td>A "refuse to lose" mentality.</td></tr>
             </table>
-
-            <div class="section-title">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-                "Relentless pursuit of excellence" • "No rest for the wicked" • "Keep your foot on the gas."
-            </p>
 
             <div class="section-title">Real-World Examples 📝</div>
             <p class="body-text">
-                "The company's <b>${word}</b> focus on customer service made them #1."<br>
+                "The company's <b>${word}</b> focus on customer service made them #1 in the market."<br>
                 "Success is the result of <b>${word}</b> preparation meeting opportunity."
             </p>
 
-            <div class="section-title">Friendly Practice (The American Way) 🇺🇸</div>
-            <p class="body-text">
-                <b>During an Interview:</b> "I’m <b>${word}</b> when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done."
-            </p>
-
             <div class="pro-tip-box">
-                <b>Tip Pro 💡</b>: Be careful! While being <b>${word}</b> is great for goals, being a <b>${word}</b> boss can lead to "burnout." In the U.S., the most respected leaders are those who are <b>${word}</b> with results but empathetic with people. 🚀
+                <b>Tip Pro 💡</b>: In an interview, say: <i>"I’m <b>${word}</b> when it comes to hitting my KPIs. I stop when the job is done."</i> 🚀
             </div>
         `;
         playAudio(word);
@@ -215,7 +210,6 @@
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         document.getElementById('display-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
-
         if(t === 'home') {
             document.querySelectorAll('.nav-link')[0].classList.add('active');
             document.getElementById('display-view').classList.remove('hidden');
