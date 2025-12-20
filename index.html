@@ -3,40 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus+ | American English Simulator</title>
+    <title>EnglishPlus+ | Masterclass Vocabulary Simulator</title>
     <style>
-        /* CSS Variables for Brand Identity */
         :root {
             --us-blue: #0033A0;
             --us-red: #BF0A30;
             --us-white: #FFFFFF;
-            --bg-gray: #f4f7f9;
-            --text-dark: #1a1a1a;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --light-gray: #f8f9fa;
+            --text-main: #1d1d1f;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
         }
 
         body {
             background-color: var(--us-white);
-            color: var(--text-dark);
-            line-height: 1.6;
+            color: var(--text-main);
+            overflow-x: hidden;
         }
 
-        /* Header & Navigation Styles */
+        /* --- Header & Branding --- */
         header {
-            background-color: var(--us-white);
-            padding: 2rem 5%;
-            border-bottom: 4px solid var(--us-blue);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            padding: 2.5rem 5%;
+            background: var(--us-white);
+            border-bottom: 5px solid var(--us-blue);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .header-top {
@@ -44,210 +41,223 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 20px;
         }
 
-        .logo-container {
+        .brand {
             display: flex;
             flex-direction: column;
         }
 
         .app-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+            font-size: 2.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
             display: flex;
             align-items: center;
         }
 
         .title-blue { color: var(--us-blue); }
         .title-red { color: var(--us-red); }
-        .star-decor {
-            color: var(--us-blue);
-            font-size: 1.2rem;
-            margin: 0 5px;
-        }
+        .star { color: var(--us-blue); margin: 0 8px; font-size: 1.4rem; }
 
         .subtitle {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #555;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #444;
             margin-top: -5px;
+            letter-spacing: 0.5px;
         }
 
-        /* Search Bar */
-        .search-container {
+        /* --- Search System --- */
+        .search-wrapper {
             display: flex;
-            box-shadow: var(--shadow);
+            background: #fff;
+            border: 2.5px solid var(--us-blue);
             border-radius: 50px;
             overflow: hidden;
-            border: 2px solid var(--us-blue);
-            max-width: 500px;
             width: 100%;
+            max-width: 550px;
+            transition: var(--transition);
         }
 
-        .search-container input {
+        .search-wrapper:focus-within {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--us-red);
+        }
+
+        .search-wrapper input {
             border: none;
-            padding: 12px 20px;
+            padding: 15px 25px;
             width: 100%;
             outline: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
-        .search-container button {
-            background-color: var(--us-blue);
+        .search-wrapper button {
+            background: var(--us-blue);
             color: white;
             border: none;
-            padding: 0 25px;
+            padding: 0 35px;
+            font-weight: 800;
             cursor: pointer;
-            font-weight: bold;
+            text-transform: uppercase;
             transition: var(--transition);
         }
 
-        .search-container button:hover {
-            background-color: #002575;
+        .search-wrapper button:hover {
+            background: var(--us-red);
         }
 
-        /* Navigation Tabs */
+        /* --- Navigation --- */
         nav {
             display: flex;
-            gap: 10px;
-            padding: 0 5%;
-            margin-top: 10px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
         }
 
-        .tab-btn {
-            padding: 10px 20px;
+        .nav-link {
+            padding: 12px 25px;
             cursor: pointer;
-            border: none;
-            background: #eee;
-            border-radius: 5px 5px 0 0;
-            font-weight: 600;
+            font-weight: 700;
             color: #666;
+            border-bottom: 3px solid transparent;
             transition: var(--transition);
         }
 
-        .tab-btn.active {
-            background-color: var(--us-blue);
-            color: white;
+        .nav-link.active {
+            color: var(--us-blue);
+            border-bottom-color: var(--us-blue);
         }
 
-        /* Content Sections */
+        /* --- Main Content --- */
         main {
-            padding: 2rem 5%;
-            min-height: 60vh;
+            padding: 3rem 5%;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        .content-section {
+        .tab-content {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: slideUp 0.5s ease forwards;
         }
 
-        .content-section.active {
-            display: block;
-        }
+        .tab-content.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Analysis Card Styles */
-        .analysis-card {
+        /* --- Analysis Masterclass Styling --- */
+        .analysis-container {
             background: white;
-            border-left: 8px solid var(--us-blue);
-            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
             box-shadow: var(--shadow);
-            border-radius: 8px;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
         .analysis-header {
+            background: var(--us-blue);
+            color: white;
+            padding: 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
         }
 
         .analysis-header h2 {
-            color: var(--us-blue);
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .audio-trigger {
             font-size: 2rem;
-        }
-
-        .audio-icon {
             cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--us-red);
-            transition: transform 0.2s;
+            transition: var(--transition);
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .audio-icon:hover {
-            transform: scale(1.2);
+        .audio-trigger:hover {
+            background: var(--us-red);
+            transform: scale(1.1);
         }
 
-        .data-grid {
+        .analysis-body {
+            padding: 2.5rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
 
-        .data-item {
-            margin-bottom: 1.2rem;
-        }
+        .full-width { grid-column: 1 / -1; }
 
-        .label {
+        .section-block { margin-bottom: 20px; }
+
+        .section-title {
             font-weight: 800;
             color: var(--us-red);
+            font-size: 0.9rem;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            display: block;
-            margin-bottom: 4px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
-        .value {
+        .text-content {
             font-size: 1.05rem;
-            color: var(--text-dark);
+            color: #333;
+            line-height: 1.7;
         }
 
-        .highlight-box {
-            background-color: #f0f4ff;
-            padding: 15px;
-            border-radius: 6px;
-            border-right: 4px solid var(--us-red);
+        .highlight-card {
+            background: #f0f4f8;
+            padding: 20px;
+            border-left: 5px solid var(--us-blue);
+            border-radius: 4px;
         }
 
-        /* Lists Tables */
-        .list-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .pro-tip {
+            background: #fff9e6;
+            padding: 20px;
+            border: 1px dashed #ffd966;
+            border-radius: 8px;
+            margin-top: 20px;
         }
 
-        .list-item {
+        /* --- Lists Styling --- */
+        .list-entry {
             display: flex;
             justify-content: space-between;
-            padding: 12px 20px;
-            background: #f9f9f9;
-            margin-bottom: 8px;
-            border-radius: 4px;
-            border-left: 4px solid var(--us-blue);
+            align-items: center;
+            padding: 15px 25px;
+            background: var(--light-gray);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-right: 4px solid var(--us-red);
+            transition: var(--transition);
         }
 
-        .type-tag {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: #ddd;
-            font-weight: bold;
-        }
+        .list-entry:hover { transform: translateX(5px); background: #eee; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* --- Responsive Design --- */
+        @media (max-width: 850px) {
+            .analysis-body { grid-template-columns: 1fr; }
             .header-top { justify-content: center; text-align: center; }
-            .search-container { max-width: 100%; }
-            .analysis-header { flex-direction: column; text-align: center; }
+            .app-title { font-size: 2rem; }
         }
     </style>
 </head>
@@ -255,232 +265,248 @@
 
     <header>
         <div class="header-top">
-            <div class="logo-container">
+            <div class="brand">
                 <h1 class="app-title">
-                    <span class="star-decor">★</span>
+                    <span class="star">★</span>
                     <span class="title-blue">English</span><span class="title-red">Plus+</span>
-                    <span class="star-decor">★</span>
+                    <span class="star">★</span>
                 </h1>
                 <p class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
             </div>
             
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Enter a word or phrase in American English" aria-label="Search">
-                <button id="searchBtn">Go</button>
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Enter a word or phrase in American English">
+                <button onclick="handleSearch()">Go</button>
             </div>
         </div>
+
+        <nav>
+            <div class="nav-link active" onclick="showTab('simulator', this)">Simulator</div>
+            <div class="nav-link" onclick="showTab('history', this)">History Search</div>
+            <div class="nav-link" onclick="showTab('azlist', this)">AZ-List</div>
+        </nav>
     </header>
 
-    <nav>
-        <button class="tab-btn active" onclick="switchTab('simulator')">Simulator</button>
-        <button class="tab-btn" onclick="switchTab('history')">History Search</button>
-        <button class="tab-btn" onclick="switchTab('azlist')">AZ-List</button>
-    </nav>
-
     <main>
-        <section id="simulator" class="content-section active">
-            <div id="resultArea">
-                <div style="text-align: center; color: #888; margin-top: 4rem;">
-                    <p>Welcome to EnglishPlus+. Enter a term above to initiate a deep linguistic analysis.</p>
+        <section id="simulator" class="tab-content active">
+            <div id="outputArea">
+                <div style="text-align: center; color: #bbb; padding-top: 5rem;">
+                    <p style="font-size: 1.2rem; font-weight: 500;">Ready for high-level linguistic simulation.</p>
+                    <p>Input a term to begin the masterclass analysis.</p>
                 </div>
             </div>
         </section>
 
-        <section id="history" class="content-section">
-            <div class="list-container">
-                <h2 style="margin-bottom: 1.5rem; color: var(--us-blue);">Search History</h2>
-                <div id="historyList"></div>
-            </div>
+        <section id="history" class="tab-content">
+            <h2 style="margin-bottom: 2rem; color: var(--us-blue);">Chronological Search History</h2>
+            <div id="historyList"></div>
         </section>
 
-        <section id="azlist" class="content-section">
-            <div class="list-container">
-                <h2 style="margin-bottom: 1.5rem; color: var(--us-blue);">A-Z Vocabulary Index</h2>
-                <div id="alphabeticalList"></div>
-            </div>
+        <section id="azlist" class="tab-content">
+            <h2 style="margin-bottom: 2rem; color: var(--us-blue);">Alphabetical Index</h2>
+            <div id="azListContent"></div>
         </section>
     </main>
 
     <script>
-        /**
-         * GLOBAL STATE & DATA
-         */
-        const searchHistory = [];
-        const azSet = new Set();
+        // --- State Management ---
+        const historyData = [];
+        const azData = new Set();
 
-        /**
-         * WEB SPEECH API INTEGRATION
-         */
-        function speak(text) {
+        // --- Audio Engine ---
+        function playPronunciation(text) {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            utterance.pitch = 1;
-            window.speechSynthesis.speak(utterance);
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.85; // Slightly slower for clarity
+            msg.pitch = 1.0;
+            window.speechSynthesis.speak(msg);
         }
 
-        /**
-         * UI TAB NAVIGATION
-         */
-        function switchTab(tabId) {
-            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-
-            if(tabId === 'history') renderHistory();
-            if(tabId === 'azlist') renderAZ();
-        }
-
-        /**
-         * CORE LOGIC: SIMULATION ENGINE
-         */
-        function performSearch() {
+        // --- Search Router ---
+        function handleSearch() {
             const input = document.getElementById('searchInput').value.trim();
             if (!input) return;
 
             const isPhrase = input.split(/\s+/).length > 1;
-            const resultArea = document.getElementById('resultArea');
-            
-            // Logic to track history
-            const entry = { term: input, type: isPhrase ? 'Phrase' : 'Word', timestamp: new Date() };
-            searchHistory.push(entry);
-            azSet.add(JSON.stringify({ term: input, type: isPhrase ? 'Phrase' : 'Word' }));
+            const termType = isPhrase ? 'Phrase' : 'Word';
 
-            // Generate simulated data based on input type
-            const html = isPhrase ? generatePhraseAnalysis(input) : generateWordAnalysis(input);
-            resultArea.innerHTML = html;
+            // Add to Tracking
+            const entry = { term: input, type: termType, date: new Date().toLocaleTimeString() };
+            historyData.push(entry);
+            azData.add(JSON.stringify({ term: input, type: termType }));
 
-            // Trigger Voice
-            speak(input);
+            // Render Result
+            const outputArea = document.getElementById('outputArea');
+            outputArea.innerHTML = isPhrase ? getPhraseTemplate(input) : getWordTemplate(input);
+
+            // Auto Audio
+            playPronunciation(input);
             document.getElementById('searchInput').value = '';
+            showTab('simulator', document.querySelectorAll('.nav-link')[0]);
         }
 
-        /**
-         * TEMPLATE GENERATORS (B2-C1 VOCABULARY)
-         */
-        function generateWordAnalysis(word) {
+        // --- Masterclass Templates ---
+        function getWordTemplate(word) {
             return `
-                <div class="analysis-card">
+                <div class="analysis-container">
                     <div class="analysis-header">
                         <h2>Word Analysis: ${word}</h2>
-                        <span class="audio-icon" onclick="speak('${word}')">🔊</span>
+                        <div class="audio-trigger" onclick="playPronunciation('${word}')">🔊</div>
                     </div>
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <span class="label">English Meaning 🇺🇸</span>
-                            <p class="value">To demonstrate a profound level of professional competence or a specific conceptual framework within high-stakes environments.</p>
+                    <div class="analysis-body">
+                        <div class="section-block">
+                            <div class="section-title">English Meaning 🇺🇸</div>
+                            <div class="text-content">A high-level descriptor emphasizing professional precision and authoritative presence. It refers to an unwavering state of competence or a characteristic that persists despite systemic challenges.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Connotation & Professional Tone</span>
-                            <p class="value">Generally carries a sophisticated or authoritative weight. Suitable for executive summaries and academic discourse.</p>
+                        <div class="section-block">
+                            <div class="section-title">Connotation & Tone</div>
+                            <div class="text-content">In American corporate culture, this is a <strong>High-Energy</strong> term. While it can describe literal persistence, it is primarily used as a testament to an individual's robust work ethic and refusal to settle for mediocrity.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Phonetics & Pronunciation 🗣️</span>
-                            <p class="value">Standard General American (GenAm) inflection.</p>
+                        <div class="section-block">
+                            <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+                            <div class="text-content">Standard American emphasis on the primary root. Articulated with a crisp, decisive finish.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Synonyms (Nuance Map)</span>
-                            <p class="value">Substantiate, Exemplify, Leverage (Context dependent).</p>
+                        <div class="section-block">
+                            <div class="section-title">Synonyms (Nuance Map) 🤝</div>
+                            <div class="text-content">
+                                <strong>Tenacious:</strong> Focuses on a "bulldog" grip on goals.<br>
+                                <strong>Persistent:</strong> Emphasizes repetitive effort over time.<br>
+                                <strong>Unstoppable:</strong> A more colloquial, powerful synonym for high-stakes momentum.
+                            </div>
                         </div>
-                    </div>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-                    <div class="highlight-box">
-                        <span class="label">Real-World Professional Examples</span>
-                        <p class="value">"The quarterly report aims to <strong>${word}</strong> our strategic pivot towards sustainable infrastructure."</p>
-                    </div>
-                    <div class="data-item" style="margin-top:20px">
-                        <span class="label">Pro Tip 💡</span>
-                        <p class="value">Avoid overusing this term in casual settings; it is best reserved for persuasive business arguments.</p>
+                        <div class="section-block">
+                            <div class="section-title">Antonyms 🚫</div>
+                            <div class="text-content">Irresolute, Yielding, Lackadaisical, Complacent.</div>
+                        </div>
+                        <div class="section-block">
+                            <div class="section-title">The "Grit" Scale ⚖️</div>
+                            <div class="text-content">
+                                1. Interest → 2. Effort → 3. Persistence → <strong>4. ${word} (Refuse to Lose)</strong>.
+                            </div>
+                        </div>
+                        <div class="section-block full-width">
+                            <div class="section-title">Idioms & Collocations 🗣️</div>
+                            <div class="highlight-card">
+                                "The pursuit of excellence," "Keep your foot on the gas," "Moving the needle."
+                            </div>
+                        </div>
+                        <div class="section-block full-width">
+                            <div class="section-title">Real-World Professional Examples 📝</div>
+                            <div class="text-content">
+                                <em>"Our <strong>${word}</strong> focus on customer success resulted in a 40% increase in retention this quarter."</em><br>
+                                <em>"Success in this market requires a <strong>${word}</strong> preparation strategy."</em>
+                            </div>
+                        </div>
+                        <div class="section-block full-width">
+                            <div class="pro-tip">
+                                <strong>Pro Tip 💡:</strong> In the U.S., the most respected leaders are those who are <strong>${word}</strong> with results but empathetic with people. Use this to sell your results-driven mindset in interviews.
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        function generatePhraseAnalysis(phrase) {
+        function getPhraseTemplate(phrase) {
             return `
-                <div class="analysis-card">
-                    <div class="analysis-header">
+                <div class="analysis-container">
+                    <div class="analysis-header" style="background: var(--us-red);">
                         <h2>Phrase Analysis: ${phrase}</h2>
-                        <span class="audio-icon" onclick="speak('${phrase}')">🔊</span>
+                        <div class="audio-trigger" onclick="playPronunciation('${phrase}')">🔊</div>
                     </div>
-                    <div class="data-grid">
-                        <div class="data-item">
-                            <span class="label">English Meaning 🇺🇸</span>
-                            <p class="value">An idiomatic or phrasal construction utilized to streamline communication and convey complex operational states.</p>
+                    <div class="analysis-body">
+                        <div class="section-block">
+                            <div class="section-title">English Meaning 🇺🇸</div>
+                            <div class="text-content">A strategic phrasal construction used to deconstruct complex information into manageable, actionable components. It facilitates clarity and prevents "Analysis Paralysis" in high-pressure environments.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Action Perspective</span>
-                            <p class="value">Refers to the tactical implementation of a strategy or the immediate initiation of a workflow.</p>
+                        <div class="section-block">
+                            <div class="section-title">The "Action" Perspective</div>
+                            <div class="text-content">This represents the tactical execution of a plan. If a project is a wall, using <strong>"${phrase}"</strong> means examining the individual bricks to ensure structural integrity.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Cognitive Process ⚖️</span>
-                            <p class="value">High cognitive load; requires the listener to understand implicit cultural metaphors common in US corporate culture.</p>
+                        <div class="section-block">
+                            <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+                            <div class="text-content">The vowels undergo a natural "linking" effect in fluid American speech. The cadence is brisk and rhythmic.</div>
                         </div>
-                        <div class="data-item">
-                            <span class="label">Idioms & Collocations</span>
-                            <p class="value">Synergistic alignment, Paradigmatic shift, Mission-critical.</p>
+                        <div class="section-block">
+                            <div class="section-title">Cognitive Process ⚖️</div>
+                            <div class="text-content">
+                                <strong>Goal:</strong> The Big Picture.<br>
+                                <strong>${phrase}:</strong> Identifying milestones.<br>
+                                <strong>Execution:</strong> Daily micro-habits.
+                            </div>
                         </div>
-                    </div>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-                    <div class="highlight-box" style="border-right-color: var(--us-blue);">
-                        <span class="label">Friendly Practice (Leadership) 🇺🇸</span>
-                        <p class="value">"Team, let's <strong>${phrase}</strong> before the stakeholder meeting to ensure our KPIs are synchronized."</p>
-                    </div>
-                    <div class="data-item" style="margin-top:20px">
-                        <span class="label">Pro Tip 💡</span>
-                        <p class="value">In American leadership, using this phrase demonstrates decisiveness and proactive management style.</p>
+                        <div class="section-block">
+                            <div class="section-title">Synonyms (Nuance Map) 🤝</div>
+                            <div class="text-content">Deconstruct, Dissect, Itemize, Simplify, Decouple.</div>
+                        </div>
+                        <div class="section-block">
+                            <div class="section-title">Antonyms 🚫</div>
+                            <div class="text-content">Amalgamate, Obfuscate, Conflate, Over-complicate.</div>
+                        </div>
+                        <div class="section-block full-width">
+                            <div class="section-title">Real-World Professional Examples 📝</div>
+                            <div class="highlight-card" style="border-left-color: var(--us-red);">
+                                "Let's <strong>${phrase}</strong> the quarterly budget to see where the leakage is occurring."<br>
+                                "I can <strong>${phrase}</strong> this technical jargon for the client so they understand the ROI."
+                            </div>
+                        </div>
+                        <div class="section-block full-width">
+                            <div class="pro-tip">
+                                <strong>Pro Tip 💡:</strong> To sound like a leader, use this phrase with enthusiasm. "I'd be happy to <strong>${phrase}</strong> so we're all on the same page!" It shows you are proactive and collaborative.
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        /**
-         * TAB RENDERING LOGIC
-         */
+        // --- Navigation Logic ---
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabId === 'history') renderHistory();
+            if (tabId === 'azlist') renderAZ();
+        }
+
         function renderHistory() {
             const container = document.getElementById('historyList');
-            if (searchHistory.length === 0) {
-                container.innerHTML = '<p style="color:#999">No search history recorded yet.</p>';
+            if (historyData.length === 0) {
+                container.innerHTML = '<p>No searches yet.</p>';
                 return;
             }
-            container.innerHTML = searchHistory.map(item => `
-                <div class="list-item">
-                    <strong>${item.term}</strong>
-                    <span class="type-tag">${item.type}</span>
+            container.innerHTML = historyData.map(item => `
+                <div class="list-entry">
+                    <span><strong>${item.term}</strong> <small style="color:#888; margin-left:10px;">${item.date}</small></span>
+                    <span style="font-size:0.7rem; background:#0033A0; color:white; padding:3px 8px; border-radius:10px;">${item.type}</span>
                 </div>
             `).join('');
         }
 
         function renderAZ() {
-            const container = document.getElementById('alphabeticalList');
-            const items = Array.from(azSet).map(s => JSON.parse(s));
-            
+            const container = document.getElementById('azListContent');
+            const items = Array.from(azData).map(i => JSON.parse(i));
             if (items.length === 0) {
-                container.innerHTML = '<p style="color:#999">Your vocabulary index is currently empty.</p>';
+                container.innerHTML = '<p>No items in index.</p>';
                 return;
             }
-
             items.sort((a, b) => a.term.localeCompare(b.term));
-
             container.innerHTML = items.map(item => `
-                <div class="list-item">
+                <div class="list-entry">
                     <strong>${item.term}</strong>
-                    <span style="color: var(--us-red); font-size: 0.8rem;">(Ref: ${item.type})</span>
+                    <i style="color:var(--us-blue)">${item.type}</i>
                 </div>
             `).join('');
         }
 
-        /**
-         * EVENT LISTENERS
-         */
-        document.getElementById('searchBtn').addEventListener('click', performSearch);
+        // --- Enter Key Support ---
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') performSearch();
+            if (e.key === 'Enter') handleSearch();
         });
-
     </script>
 </body>
 </html>
