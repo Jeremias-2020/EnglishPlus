@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus+ | Advanced Linguistic Simulator</title>
+    <title>EnglishPlus+ | Doctoral Linguistic Simulator</title>
     <style>
         :root {
             --us-blue: #0033A0;
             --us-red: #BF0A30;
             --us-white: #FFFFFF;
-            --gray-subtle: #f4f4f9;
-            --text-dark: #121212;
-            --border-val: 1px solid #d1d5db;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --bg-body: #f8fafc;
+            --text-dark: #0f172a;
+            --border-color: #e2e8f0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -28,399 +27,425 @@
             line-height: 1.6;
         }
 
-        /* --- Master Header --- */
+        /* --- Master Header & Title --- */
         header {
-            padding: 3rem 5% 1.5rem 5%;
-            background: var(--us-white);
-            border-bottom: 6px solid var(--us-blue);
+            padding: 2.5rem 5% 1rem 5%;
+            border-bottom: 5px solid var(--us-blue);
         }
 
-        .header-main {
+        .header-container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 20px;
         }
 
-        .brand-box h1 {
-            font-size: 3rem;
+        .title-group h1 {
+            font-size: 2.8rem;
             font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 5px;
+            letter-spacing: -1.5px;
         }
 
-        .brand-blue { color: var(--us-blue); }
-        .brand-red { color: var(--us-red); }
+        .title-blue { color: var(--us-blue); }
+        .title-red { color: var(--us-red); }
 
-        .brand-box p {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #555;
+        .subtitle {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-top: -5px;
         }
 
-        /* --- Search Component --- */
-        .search-area {
+        /* --- Search Bar --- */
+        .search-box {
             display: flex;
             width: 100%;
-            max-width: 600px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .search-area input {
-            flex: 1;
-            padding: 18px 25px;
+            max-width: 550px;
             border: 2px solid var(--us-blue);
-            border-right: none;
-            font-size: 1.1rem;
-            outline: none;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        .search-area button {
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+        }
+
+        .search-box button {
             background: var(--us-blue);
             color: white;
             border: none;
-            padding: 0 40px;
-            font-weight: 700;
+            padding: 0 30px;
+            font-weight: 800;
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        .search-area button:hover {
-            background: var(--us-red);
-        }
+        .search-box button:hover { background: var(--us-red); }
 
-        /* --- Tabs --- */
+        /* --- Navigation Tabs --- */
         nav {
             display: flex;
-            gap: 2px;
-            background: #eee;
-            margin-top: 2rem;
             padding: 0 5%;
+            margin-top: 2rem;
+            background: #f1f5f9;
         }
 
-        .tab-btn {
-            padding: 15px 30px;
+        .tab-link {
+            padding: 15px 25px;
             cursor: pointer;
-            border: none;
-            background: #e5e7eb;
             font-weight: 700;
-            color: #4b5563;
-            transition: all 0.2s;
+            color: #475569;
+            border: none;
+            background: transparent;
+            transition: all 0.3s;
         }
 
-        .tab-btn.active {
-            background: var(--us-white);
+        .tab-link.active {
+            background: white;
             color: var(--us-blue);
-            box-shadow: 0 -4px 0 var(--us-blue) inset;
+            box-shadow: inset 0 -3px 0 var(--us-blue);
         }
 
         /* --- Content Layout --- */
         main {
-            padding: 3rem 5%;
-            max-width: 1000px;
+            padding: 2rem 5%;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .view { display: none; }
-        .view.active { display: block; animation: fadeIn 0.4s ease; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; animation: fadeIn 0.4s ease; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Doctoral Analysis Card (Single Column) --- */
+        /* --- Doctoral Analysis (Single Column) --- */
         .analysis-card {
             background: white;
-            border: var(--border-val);
-            border-radius: 8px;
-            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        .card-header {
-            background: #f9fafb;
+        .analysis-header {
+            background: #f8fafc;
             padding: 2rem;
-            border-bottom: var(--border-val);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .card-header h2 {
-            font-size: 2.2rem;
+        .analysis-header h2 {
+            font-size: 2rem;
             color: var(--us-blue);
             font-weight: 800;
         }
 
-        .audio-btn {
-            font-size: 2rem;
-            cursor: pointer;
+        .speaker-icon {
+            font-size: 1.8rem;
             color: var(--us-red);
-            padding: 10px;
-            border-radius: 50%;
+            cursor: pointer;
             transition: transform 0.2s;
         }
 
-        .audio-btn:hover { transform: scale(1.1); }
+        .speaker-icon:hover { transform: scale(1.1); }
 
         .analysis-section {
             padding: 1.5rem 2rem;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .analysis-section:last-child { border-bottom: none; }
 
         .label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 800;
             color: var(--us-red);
+            font-weight: 800;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             margin-bottom: 8px;
         }
 
-        .content {
-            font-size: 1.15rem;
-            color: #2d3748;
-            line-height: 1.8;
+        .value {
+            font-size: 1.1rem;
+            color: #1e293b;
+            line-height: 1.7;
         }
 
         .pro-tip-box {
             background: #fffbeb;
-            border-left: 6px solid #fbbf24;
-            padding: 20px;
-            margin-top: 10px;
+            border-left: 5px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 4px;
         }
 
-        /* --- Lists --- */
-        .list-row {
-            padding: 15px 20px;
-            border-bottom: 1px solid #edf2f7;
+        /* --- List Styles --- */
+        .list-item {
             display: flex;
             justify-content: space-between;
+            padding: 15px 20px;
+            background: #fdfdfd;
+            border-bottom: 1px solid #eee;
             align-items: center;
         }
 
-        .list-row:hover { background: var(--gray-subtle); }
-
-        .tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
+        .type-pill {
+            font-size: 0.7rem;
             background: var(--us-blue);
             color: white;
-            border-radius: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-main">
-            <div class="brand-box">
-                <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
-                <p>Doctoral Simulator: Vocabulary & Phraseology</p>
-                <p style="font-size: 0.8rem; margin-top: 5px;">Authored by Carlos Mario Navarro</p>
+        <div class="header-container">
+            <div class="title-group">
+                <h1><span class="title-blue">English</span><span class="title-red">Plus+</span></h1>
+                <p class="subtitle">Doctoral Vocabulary Simulator by Carlos Mario Navarro</p>
             </div>
             
-            <div class="search-area">
-                <input type="text" id="termInput" placeholder="Enter a word or phrase in American English...">
-                <button onclick="executeAnalysis()">Analyze</button>
+            <div class="search-box">
+                <input type="text" id="masterInput" placeholder="Enter a word or phrase in American English...">
+                <button onclick="runSimulation()">Go</button>
             </div>
         </div>
     </header>
 
     <nav>
-        <button class="tab-btn active" onclick="switchTab('sim-view', this)">Simulator</button>
-        <button class="tab-btn" onclick="switchTab('hist-view', this)">History Search</button>
-        <button class="tab-btn" onclick="switchTab('az-view', this)">AZ-List</button>
+        <button class="tab-link active" onclick="openTab('simulator', this)">Simulator</button>
+        <button class="tab-link" onclick="openTab('history', this)">History Search</button>
+        <button class="tab-link" onclick="openTab('azlist', this)">AZ-List</button>
     </nav>
 
     <main>
-        <section id="sim-view" class="view active">
-            <div id="displayArea">
-                <div style="text-align:center; padding: 100px 0; color: #a0aec0;">
-                    <p><i>System ready. Please input a lexical unit for morphological and semantic deconstruction.</i></p>
+        <section id="simulator" class="tab-pane active">
+            <div id="simulationOutput">
+                <div style="text-align: center; padding: 80px 0; color: #94a3b8;">
+                    <p><i>Ready for doctoral-level linguistic deconstruction.</i></p>
                 </div>
             </div>
         </section>
 
-        <section id="hist-view" class="view">
-            <h3 style="margin-bottom: 20px; color: var(--us-blue);">Chronological Record</h3>
-            <div id="historyOutput" class="analysis-card"></div>
+        <section id="history" class="tab-pane">
+            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">Search History (Oldest to Newest)</h3>
+            <div id="historyContainer" class="analysis-card"></div>
         </section>
 
-        <section id="az-view" class="view">
-            <h3 style="margin-bottom: 20px; color: var(--us-blue);">Lexical Index (A-Z)</h3>
-            <div id="azOutput" class="analysis-card"></div>
+        <section id="azlist" class="tab-pane">
+            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">A-Z Lexical Index</h3>
+            <div id="azContainer" class="analysis-card"></div>
         </section>
     </main>
 
     <script>
-        const searchHistory = [];
-        const azDictionary = new Set();
+        const historyLog = [];
+        const azEntries = new Set();
 
         function speak(text) {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.85;
+            window.speechSynthesis.speak(msg);
         }
 
-        function switchTab(viewId, btn) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
 
-            if(viewId === 'hist-view') renderHistory();
-            if(viewId === 'az-view') renderAZ();
+            if(tabId === 'history') renderHistory();
+            if(tabId === 'azlist') renderAZ();
         }
 
-        function executeAnalysis() {
-            const input = document.getElementById('termInput').value.trim();
-            if (!input) return;
+        function runSimulation() {
+            const val = document.getElementById('masterInput').value.trim();
+            if (!val) return;
 
-            const isPhrase = input.split(/\s+/).length > 1;
+            const isPhrase = val.split(/\s+/).length > 1;
             const type = isPhrase ? 'Phrase' : 'Word';
 
-            // Save state
-            searchHistory.push({ term: input, type: type, time: new Date().toLocaleTimeString() });
-            azDictionary.add(JSON.stringify({ term: input, type: type }));
+            historyLog.push({ term: val, type: type });
+            azEntries.add(JSON.stringify({ term: val, type: type }));
 
-            // Generate Content
-            const container = document.getElementById('displayArea');
-            container.innerHTML = isPhrase ? generatePhraseDoc(input) : generateWordDoc(input);
+            const output = document.getElementById('simulationOutput');
+            output.innerHTML = isPhrase ? getPhraseMasterclass(val) : getWordMasterclass(val);
 
-            speak(input);
-            document.getElementById('termInput').value = '';
+            speak(val);
+            document.getElementById('masterInput').value = '';
         }
 
-        function generateWordDoc(word) {
+        /**
+         * DOCTORAL WORD ENGINE
+         */
+        function getWordMasterclass(word) {
             return `
                 <div class="analysis-card">
-                    <div class="card-header">
-                        <h2>Word Analysis: ${word} 🔊</h2>
-                        <span class="audio-btn" onclick="speak('${word}')">🔊</span>
+                    <div class="analysis-header">
+                        <h2>Word Analysis: ${word}</h2>
+                        <span class="speaker-icon" onclick="speak('${word}')">🔊</span>
                     </div>
+                    
                     <div class="analysis-section">
                         <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">A sophisticated lexical unit denoting high-level professional execution, unwavering persistence, or a specific morphological state within a specialized framework.</div>
+                        <div class="value">A high-precision lexical unit signifying a profound level of professional execution or a state of persistent resolve within a specific morphological context.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Connotation & Professional Tone</span>
-                        <div class="content">In American professional discourse, this term carries an <strong>authoritative and high-energy</strong> weight. It is typically employed in executive summaries to signal a superior work ethic or a rigorous methodological approach.</div>
+                        <div class="value">In American corporate and academic spheres, this term carries an <strong>authoritative and high-energy</strong> weight. It is typically utilized to denote excellence and a proactive methodology.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Phonetics & Pronunciation 🗣️</span>
-                        <div class="content">Transcribed in General American IPA. The stress is placed strategically on the root syllable to ensure clear articulation in persuasive speaking.</div>
+                        <div class="value">
+                            <strong>[${word.toLowerCase()}]</strong> — <em>Explanatory: Focus on the aspirated onset and the clear, unvoiced release. The primary stress falls on the initial root to ensure acoustic clarity in persuasive discourse.</em>
+                        </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">
-                            • <strong>Tenacious:</strong> Highly precise for persistence in the face of adversity.<br>
-                            • <strong>Steadfast:</strong> Denotes an unwavering commitment to a specific principle.<br>
-                            • <strong>Unyielding:</strong> Emphasizes the refusal to compromise structural or moral integrity.
+                        <div class="value">
+                            • <strong>Tenacious:</strong> Focuses on the "bulldog" grip on objectives.<br>
+                            • <strong>Resolute:</strong> Emphasizes the psychological decision to remain firm.<br>
+                            • <strong>Persistent:</strong> Highlights the repetitive nature of the effort over time.
                         </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Antonyms 🚫</span>
-                        <div class="content">
-                            • <strong>Vacillating:</strong> Describing a state of indecision or inconsistency.<br>
-                            • <strong>Complacent:</strong> Indicating a lack of rigor or critical self-evaluation.<br>
-                            • <strong>Capitulating:</strong> The act of surrendering a position under pressure.
+                        <div class="value">
+                            • <strong>Irresolute:</strong> Demonstrating hesitation or lack of purpose.<br>
+                            • <strong>Yielding:</strong> Giving way under pressure or lacking structural integrity.<br>
+                            • <strong>Complacent:</strong> Uncritical satisfaction with oneself or one's achievements.
                         </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Word Family 👨‍👩‍👧‍👦</span>
-                        <div class="content">Substantive (Noun), Adverbial (Adverb), and Verbal (Verb) variations support a diverse syntactic application across professional registers.</div>
+                        <div class="value">Includes the adverbial form for manner, the substantive noun for the abstract concept, and the adjectival root for character description.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Conceptual / Grit Scale ⚖️</span>
-                        <div class="content">Occupies the highest tier of the "Grit Hierarchy," surpassing mere persistence to reach a state of professional "Refuse to Lose" mentality.</div>
+                        <div class="value">Positioned at the apex of professional endurance; it represents the transition from simple effort to "Refuse to Lose" execution.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Idioms & Collocations</span>
-                        <div class="content">"Relentless pursuit of innovation," "Unyielding commitment to excellence," "Operational rigor."</div>
+                        <div class="value">"The pursuit of excellence," "Moving the needle," "Unwavering commitment."</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"Our <strong>${word}</strong> focus on data-driven optimization has facilitated a paradigm shift in our scalability metrics."</div>
+                        <div class="value">"Our <strong>${word}</strong> approach to R&D has positioned us as the market leader in innovative solutions."</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Friendly Practice (American Workplace) 🇺🇸</span>
-                        <div class="content">Use this term during performance reviews to highlight your results-oriented mindset: "I bring a <strong>${word}</strong> approach to troubleshooting system bottlenecks."</div>
+                        <div class="value">"I pride myself on being <strong>${word}</strong> when it comes to hitting my quarterly KPIs."</div>
                     </div>
+
                     <div class="analysis-section">
                         <div class="pro-tip-box">
                             <span class="label">Pro Tip 💡</span>
-                            <div class="content">In the United States, utilizing this level of vocabulary signals high-potential leadership. Ensure your tone remains empathetic while your vocabulary remains rigorous.</div>
+                            <div class="value">In the U.S., using this word in an interview signals a high-potential leadership profile. Balance its intensity with a collaborative tone to sound like an empathetic leader.</div>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function generatePhraseDoc(phrase) {
+        /**
+         * DOCTORAL PHRASE ENGINE
+         */
+        function getPhraseMasterclass(phrase) {
             return `
-                <div class="analysis-container">
-                    <div class="analysis-card">
-                    <div class="card-header" style="border-top: 8px solid var(--us-red);">
-                        <h2>Phrase Analysis: ${phrase} 🔊</h2>
-                        <span class="audio-btn" onclick="speak('${phrase}')">🔊</span>
+                <div class="analysis-card">
+                    <div class="analysis-header" style="border-top: 6px solid var(--us-red);">
+                        <h2>Phrase Analysis: ${phrase}</h2>
+                        <span class="speaker-icon" onclick="speak('${phrase}')">🔊</span>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">A complex phrasal construction designed to facilitate the deconstruction of multifaceted concepts into manageable, actionable fragments.</div>
+                        <div class="value">A complex idiomatic or phrasal construction used to deconstruct multifaceted operational data into manageable, actionable components.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Action Perspective</span>
-                        <div class="content">This phrase functions as a catalyst for tactical execution, moving from abstract strategy to granular implementation.</div>
+                        <div class="value">Focuses on the tactical deconstruction of a workflow. It is the process of moving from a "Big Picture" vision to "Nitty-Gritty" execution.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Explanation Perspective</span>
-                        <div class="content">Used by leaders to ensure total alignment across cross-functional teams, removing ambiguity through step-by-step clarification.</div>
+                        <div class="value">Used to streamline complex information, ensuring that all cross-functional team members are aligned with the core objectives.</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Phonetics & Pronunciation 🗣️</span>
-                        <div class="content">Features natural American vowel reduction and linking. In fluid speech, final consonants often bridge into the following vowel sounds.</div>
+                        <div class="value">
+                            <strong>[${phrase.toLowerCase()}]</strong> — <em>Explanatory: Observe the 'linking' between word endings and beginnings. In American speech, these segments flow together to create a single acoustic unit.</em>
+                        </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">
-                            • <strong>Deconstruct:</strong> Systematic disassembly of a theory or machine.<br>
-                            • <strong>Itemize:</strong> Focuses on the creation of a detailed list of components.<br>
-                            • <strong>Dissect:</strong> Implies a minute, scientific examination of the parts.
+                        <div class="value">
+                            • <strong>Deconstruct:</strong> Systematic disassembly for analysis.<br>
+                            • <strong>Dissect:</strong> Minute, detailed examination of parts.<br>
+                            • <strong>Itemize:</strong> Listing individual components for budgetary or task clarity.
                         </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Antonyms 🚫</span>
-                        <div class="content">
-                            • <strong>Amalgamate:</strong> Combining diverse elements into a singular mass.<br>
-                            • <strong>Obfuscate:</strong> Intentionally making a concept more complex or unclear.<br>
-                            • <strong>Conflate:</strong> Erroneously merging two distinct ideas into one.
+                        <div class="value">
+                            • <strong>Amalgamate:</strong> Combining distinct parts into a whole.<br>
+                            • <strong>Conflate:</strong> Mixing two different ideas, often causing confusion.<br>
+                            • <strong>Obfuscate:</strong> Intentionally making the meaning unclear.
                         </div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Cognitive Process ⚖️</span>
-                        <div class="content">Mitigates "Analysis Paralysis" by reducing cognitive load, allowing for increased operational efficiency.</div>
+                        <div class="value">Reduces "Analysis Paralysis" by fragmenting high-density information into low-density, executable tasks.</div>
                     </div>
+
+                    <div class="analysis-section">
+                        <span class="label">Idioms & Collocations</span>
+                        <div class="value">"Let's talk brass tacks," "Get down to business," "Crunch the numbers."</div>
+                    </div>
+
                     <div class="analysis-section">
                         <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"If we <strong>${phrase}</strong> the quarterly KPIs, we can identify exactly where our conversion funnel is failing."</div>
+                        <div class="value">"We need to <strong>${phrase}</strong> the quarterly report to identify the specific touchpoints of customer churn."</div>
                     </div>
+
                     <div class="analysis-section">
                         <span class="label">Friendly Practice (Leadership) 🇺🇸</span>
-                        <div class="content">In a high-stakes meeting: "I'd be delighted to <strong>${phrase}</strong> for the stakeholders to ensure absolute transparency regarding our roadmap."</div>
+                        <div class="value">"I'll <strong>${phrase}</strong> for the executive board so they can see the ROI of this initiative clearly."</div>
                     </div>
+
                     <div class="analysis-section">
                         <div class="pro-tip-box">
                             <span class="label">Pro Tip 💡</span>
-                            <div class="content">In American executive circles, the ability to <strong>${phrase}</strong> is considered a "Core Competency." Use it to demonstrate that you possess both a "Big Picture" vision and a "Nitty-Gritty" execution skill set.</div>
+                            <div class="value">In the U.S., the ability to <strong>${phrase}</strong> is a highly valued trait. It shows you aren't just a "dreamer" but a "doer" who understands the mechanics of success.</div>
                         </div>
                     </div>
                 </div>
@@ -428,32 +453,31 @@
         }
 
         function renderHistory() {
-            const out = document.getElementById('historyOutput');
-            if (searchHistory.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
-            out.innerHTML = searchHistory.map(h => `
-                <div class="list-row">
-                    <span><strong>${h.term}</strong> <small>(${h.time})</small></span>
-                    <span class="tag">${h.type}</span>
+            const container = document.getElementById('historyContainer');
+            if(historyLog.length === 0) { container.innerHTML = "<p style='padding:20px'>No data available.</p>"; return; }
+            container.innerHTML = historyLog.map(item => `
+                <div class="list-item">
+                    <strong>${item.term}</strong>
+                    <span class="type-pill">${item.type}</span>
                 </div>
             `).join('');
         }
 
         function renderAZ() {
-            const out = document.getElementById('azOutput');
-            const items = Array.from(azDictionary).map(i => JSON.parse(i));
-            if (items.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
+            const container = document.getElementById('azContainer');
+            const items = Array.from(azEntries).map(i => JSON.parse(i));
+            if(items.length === 0) { container.innerHTML = "<p style='padding:20px'>No data available.</p>"; return; }
             items.sort((a,b) => a.term.localeCompare(b.term));
-            out.innerHTML = items.map(h => `
-                <div class="list-row">
-                    <span><strong>${h.term}</strong></span>
-                    <span class="tag" style="background:var(--us-red)">${h.type}</span>
+            container.innerHTML = items.map(item => `
+                <div class="list-item">
+                    <strong>${item.term}</strong>
+                    <span class="type-pill" style="background:var(--us-red)">${item.type}</span>
                 </div>
             `).join('');
         }
 
-        // Support for Enter Key
-        document.getElementById('termInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') executeAnalysis();
+        document.getElementById('masterInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') runSimulation();
         });
     </script>
 </body>
