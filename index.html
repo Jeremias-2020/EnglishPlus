@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | American English Simulator</title>
+    <title>EnglishPlus | Elite American Simulator</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Black+Ops+One&display=swap" rel="stylesheet">
 
@@ -75,7 +75,7 @@
         }
         .audio-btn { 
             background: var(--primary); color: white; border: none; width: 65px; height: 65px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.8rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer; font-size: 1.8rem; transition: 0.3s;
         }
 
         .grit-scale { width: 100%; border-collapse: collapse; margin: 25px 0; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
@@ -111,9 +111,9 @@
 <div class="container">
     <div class="app-card">
         <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
+            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
                 <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">ELITE VOCABULARY ENGINE 🇺🇸</h1>
-                <p style="font-size: 1.2rem; color: #64748b;">Enter a word for a robust breakdown or a phrase for a conceptual deconstruction.</p>
+                <p style="font-size: 1.2rem; color: #64748b;">Análisis robusto para profesionales que no se conforman con lo básico.</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
         </div>
@@ -140,10 +140,8 @@
         container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>BUILDING ROBUST ANALYSIS... 🚀</h2></div>`;
         window.scrollTo(0, 0);
 
-        const isPhrase = inputVal.split(' ').length > 1;
-
         try {
-            const searchWord = isPhrase ? inputVal.split(' ')[0] : inputVal;
+            const searchWord = inputVal.split(' ')[0];
             const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`);
             const data = await response.json();
             
@@ -152,89 +150,100 @@
                 localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
             }
 
-            renderRobustAnalysis(inputVal, data[0] || null, isPhrase);
+            renderRobustAnalysis(inputVal, data[0] || null);
         } catch (err) {
-            renderRobustAnalysis(inputVal, null, isPhrase);
+            renderRobustAnalysis(inputVal, null);
         }
         document.getElementById('word-input').value = '';
     }
 
-    function renderRobustAnalysis(query, apiData, isPhrase) {
+    function renderRobustAnalysis(query, apiData) {
         const upper = query.toUpperCase();
-        const partOfSpeech = apiData ? apiData.meanings[0].partOfSpeech : (isPhrase ? "PHRASAL VERB / IDIOM" : "NOUN/ADJ");
+        const isPhrase = query.split(' ').length > 1;
+        const partOfSpeech = apiData ? apiData.meanings[0].partOfSpeech : (isPhrase ? "PHRASAL VERB / IDIOM" : "VOCABULARY");
         const definition = apiData ? apiData.meanings[0].definitions[0].definition : "To process or analyze a complex situation into smaller, actionable parts.";
         const phonetic = apiData ? (apiData.phonetics.find(p => p.text)?.text || "/.../") : `/${query}/`;
 
-        // Generación dinámica de Sinónimos y Antónimos robustos
-        const rawSyns = apiData ? apiData.meanings[0].synonyms : [];
-        const rawAnts = apiData ? apiData.meanings[0].antonyms : [];
+        // Lógica de Sinónimos/Antónimos Dinámicos y Robustos
+        const getSyns = () => {
+            let base = apiData ? apiData.meanings[0].synonyms : [];
+            if (isPhrase || base.length < 3) return ["Deconstruct", "Simplify", "Dissect", "Itemize", "Fragment"];
+            return base.slice(0, 5);
+        };
 
-        const robustSyns = isPhrase ? ["Deconstruct", "Simplify", "Dissect", "Itemize"] : (rawSyns.length > 2 ? rawSyns.slice(0, 5) : ["Tenacious", "Persistent", "Unstoppable", "Driven", "Determined"]);
-        const robustAnts = isPhrase ? ["Amalgamate", "Obfuscate", "Conflate", "Generalize"] : (rawAnts.length > 2 ? rawAnts.slice(0, 5) : ["Irresolute", "Yielding", "Lazy", "Lackadaisical", "Merciful"]);
+        const getAnts = () => {
+            let base = apiData ? apiData.meanings[0].antonyms : [];
+            if (isPhrase || base.length < 3) return ["Amalgamate", "Obfuscate", "Conflate", "Generalize", "Complicate"];
+            return base.slice(0, 5);
+        };
+
+        const robustSyns = getSyns();
+        const robustAnts = getAnts();
 
         let content = `
             <div class="main-title">Word Analysis: ${upper}</div>
             
             <div class="section-h">English Meaning 🇺🇸</div>
             <p class="body-text"><b>${partOfSpeech.toUpperCase()}:</b> ${definition}</p>
-            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-impact" term. In professional settings, it signals a proactive mindset and a focus on clarity and results.</p>
+            <p class="body-text"><b>Connotation:</b> En el inglés americano profesional, este término denota una mentalidad de alto impacto. No es solo una descripción, es una declaración de competencia y claridad mental.</p>
 
             <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
                     <span style="font-family:monospace; font-size:2rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
-                    <p style="margin-top:10px; color: #64748b; font-weight:700;"><b>Sound Check:</b> Pay attention to the syllable stress. American English relies on fluid linking between sounds.</p>
+                    <p style="margin-top:10px; color: #64748b; font-weight:700;"><b>Sound Check:</b> En los EE. UU., la clave es el "linking". Los sonidos deben fluir sin interrupciones bruscas.</p>
                 </div>
                 <button class="audio-btn" onclick="playAudio('${query}')">🔊</button>
             </div>
 
             <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
             <p class="body-text">
-                ${robustSyns.map(s => `• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Professional-grade alternative for high-level communication.`).join('<br>')}
+                ${robustSyns.map(s => `• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Alternativa de alto nivel para precisión técnica.`).join('<br>')}
             </p>
 
             <div class="section-h">Antonyms 🚫</div>
             <p class="body-text">
-                ${robustAnts.map(a => `• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Terms representing the opposite of this core concept.`).join('<br>')}
+                ${robustAnts.map(a => `• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Conceptos opuestos que indican falta de claridad o integración forzada.`).join('<br>')}
             </p>
 
             <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
             <p class="body-text">
-                • <b>${query}ly (Adverb):</b> Describing the manner of action. ("They executed the plan ${query}ly.")<br>
-                • <b>${query}ness (Noun):</b> The state or quality of being. ("The team's ${query}ness was impressive.")<br>
-                • <b>To ${query.split(' ')[0]} (Verb):</b> The root action within a professional context.
+                • <b>${query}ly (Adverb):</b> Describe la ejecución constante. ("He analyzed the data ${query}ly.")<br>
+                • <b>${query}ness (Noun):</b> La cualidad intrínseca. ("The ${query}ness of the report was key.")<br>
+                • <b>To ${query.split(' ')[0]} (Verb):</b> La acción raíz de deconstrucción.
             </p>
 
             <div class="section-h">The "Grit" Scale ⚖️</div>
             <table class="grit-scale">
-                <tr><td>Interest</td><td>You like the concept or goal.</td></tr>
-                <tr><td>Effort</td><td>You are actively engaged in the process.</td></tr>
-                <tr><td>Persistence</td><td>You continue despite obstacles or complexity.</td></tr>
-                <tr><td><b>${upper}</b></td><td>The ultimate stage of mastery and unwavering focus.</td></tr>
+                <tr><td>Interest</td><td>Te gusta la idea o el concepto.</td></tr>
+                <tr><td>Plan</td><td>Tienes un mapa general de los pasos.</td></tr>
+                <tr><td>Persistence</td><td>Sigues adelante a pesar de la complejidad.</td></tr>
+                <tr><td><b>${upper}</b></td><td>La mentalidad de "negarse a perder". Encuentras el camino o lo creas.</td></tr>
             </table>
 
             <div class="section-h">Idioms & Collocations 🗣️</div>
             <p class="body-text">
-                • "<b>${upper} pursuit of excellence</b>": Standard for top-tier corporate performance.<br>
-                • "<b>Let's talk brass tacks</b>": To simplify a situation to its basic facts.<br>
-                • "<b>Keep your foot on the gas</b>": Maintaining a high-intensity pace.
+                • "<b>${upper} pursuit of excellence</b>": Frase estándar en misiones corporativas de élite.<br>
+                • "<b>Let's talk brass tacks</b>": Ir directamente a los hechos básicos y prácticos.<br>
+                • "<b>Get down to the nitty-gritty</b>": Enfocarse en los detalles más pequeños pero vitales.
             </p>
 
             <div class="section-h">Real-World Examples 📝</div>
             <p class="body-text">
-                • "The company's <b>${query}</b> focus on efficiency made them a market leader."<br>
-                • "If we <b>${query}</b> the problem, we can solve it step-by-step."<br>
-                • "Success requires <b>${query}</b> preparation and perfect timing."
+                1. "If we <b>${query}</b> the QuickBooks error, we can see it's a browser cache issue, not a payment failure."<br>
+                2. "The CEO requested a full <b>${query}</b> of our quarterly goals to identify bottlenecks."<br>
+                3. "Success is not a miracle; it's the result of <b>${query}</b> preparation meeting opportunity."
             </p>
 
             <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>Cover Letter:</b> "I bring a <b>${query}</b> problem-solving attitude to every challenge, ensuring results are optimized."</p>
-                <p class="body-text"><b>Interview:</b> "I’m <b>${query}</b> when it comes to hitting targets. I don't stop until the job is done."</p>
+                <p class="body-text"><b>Cover Letter:</b> "I bring a <b>${query}</b> problem-solving attitude to every challenge, ensuring projects are not just finished, but optimized."</p>
+                <p class="body-text"><b>During an Interview:</b> "I specialize in taking complex technical data and <b>${query}</b> it into "appealing" insights for the executive board."</p>
+                <p class="body-text"><b>Team Meeting:</b> "Okay team, let's <b>${query}</b> this massive launch into three manageable phases so we don't burn out."</p>
             </div>
 
             <div class="pro-tip">
-                <b>Tip Pro 💡</b>: In the U.S., using terms like <b>${upper}</b> shows confidence. However, always balance your "relentless" side with emotional intelligence (EQ) to be a respected leader.
+                <b>Tip Pro 💡</b>: En EE. UU., usar <b>${upper}</b> demuestra gran seguridad. Sin embargo, si lo dices muy lento puede sonar condescendiente. ¡Dilo con entusiasmo profesional para sonar como un líder!
             </div>
         `;
         document.getElementById('full-analysis').innerHTML = content;
@@ -245,7 +254,7 @@
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(w);
         utter.lang = 'en-US';
-        utter.rate = 0.85;
+        utter.rate = 0.8;
         window.speechSynthesis.speak(utter);
     }
 
