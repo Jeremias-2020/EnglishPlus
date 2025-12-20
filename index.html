@@ -9,156 +9,124 @@
             --us-blue: #002868;
             --us-red: #bf0a30;
             --us-white: #ffffff;
-            --light-gray: #f4f4f9;
-            --dark-text: #333;
-            --accent: #ffcc00;
+            --light-gray: #f8f9fa;
+            --dark-text: #1a1a1a;
+            --accent-gold: #f1c40f;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            background-color: var(--light-gray);
+            background-color: #e9ecef;
             color: var(--dark-text);
         }
 
-        /* Header & Navigation */
         header {
             background-color: var(--us-blue);
             color: white;
-            padding: 2rem 1rem;
+            padding: 1.5rem;
             text-align: center;
-            border-bottom: 5px solid var(--us-red);
+            border-bottom: 6px solid var(--us-red);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-        }
-
-        header p {
-            margin: 5px 0 0;
-            font-style: italic;
-            opacity: 0.9;
-        }
+        header h1 { margin: 0; font-size: 2.2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        header p { margin: 5px 0 0; opacity: 0.8; font-weight: 300; }
 
         nav {
             display: flex;
             justify-content: center;
-            background: #fff;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         nav button {
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             border: none;
             background: none;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
             color: var(--us-blue);
+            text-transform: uppercase;
+            font-size: 0.85rem;
             transition: 0.3s;
         }
 
-        nav button.active {
-            border-bottom: 4px solid var(--us-red);
-            color: var(--us-red);
-        }
+        nav button.active { color: var(--us-red); border-bottom: 4px solid var(--us-red); }
 
-        /* Search Section */
         .search-container {
-            max-width: 800px;
-            margin: 2rem auto;
+            max-width: 700px;
+            margin: 1.5rem auto;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             padding: 0 1rem;
         }
 
         input[type="text"] {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1.1rem;
+            padding: 15px;
+            border: 2px solid #ced4da;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
         }
 
         button#searchBtn {
-            padding: 12px 25px;
+            padding: 0 25px;
             background-color: var(--us-red);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
         }
 
-        /* Content Sections */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        .view { display: none; animation: fadeIn 0.5s; }
+        main { max-width: 800px; margin: 0 auto; padding: 1rem; min-height: 60vh; }
+        .view { display: none; }
         .view.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Pedagogical Cards */
         .card {
             background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            line-height: 1.6;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .section-title {
             color: var(--us-blue);
-            border-bottom: 2px solid var(--light-gray);
-            margin-top: 1.5rem;
-            padding-bottom: 5px;
+            border-left: 4px solid var(--us-red);
+            margin: 1.8rem 0 0.8rem;
+            padding-left: 10px;
+            font-size: 1rem;
+            font-weight: 900;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            font-weight: 800;
         }
 
-        .result-header { font-size: 2rem; color: var(--us-red); margin-bottom: 0; }
-        .pos-tag { font-style: italic; color: #666; }
-        
-        .pill-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .result-header { font-size: 2.5rem; color: var(--us-red); margin: 0; display: flex; align-items: center; gap: 15px; }
+        .audio-btn { 
+            background: #eee; border: none; border-radius: 50%; width: 40px; height: 40px; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .audio-btn:hover { background: #ddd; }
+
+        .pill-container { display: flex; flex-wrap: wrap; gap: 10px; }
         .pill { 
-            background: var(--light-gray); 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-size: 0.9rem;
-            border: 1px solid #ddd;
+            background: #f1f3f5; padding: 8px 15px; border-radius: 8px; font-size: 0.9rem;
+            border: 1px solid #dee2e6; color: #495057;
         }
 
         .example-box {
-            background: #fffbe6;
-            border-left: 5px solid var(--accent);
-            padding: 1rem;
-            margin: 1rem 0;
-            font-style: italic;
+            background: #fff9db; border-radius: 8px; padding: 1.2rem;
+            border-left: 5px solid var(--accent-gold); margin: 1rem 0; font-style: italic;
         }
 
-        /* History & AZ List */
-        .list-item {
-            background: white;
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .tip-box { background: #e7f5ff; border: 1px dashed var(--us-blue); padding: 1rem; border-radius: 8px; margin-top: 10px; }
 
-        .loader {
-            text-align: center;
-            display: none;
-            font-weight: bold;
-            color: var(--us-blue);
-        }
+        .list-item { background: white; padding: 12px; margin-bottom: 8px; border-radius: 8px; display: flex; justify-content: space-between; }
+        .loader { text-align: center; display: none; padding: 20px; font-weight: bold; color: var(--us-blue); }
     </style>
 </head>
 <body>
@@ -175,16 +143,16 @@
 </nav>
 
 <div class="search-container">
-    <input type="text" id="wordInput" placeholder="Enter a word or phrasal verb (e.g., 'relentless' or 'break down')">
-    <button id="searchBtn">GO</button>
+    <input type="text" id="wordInput" placeholder="Analyze a word or phrase (e.g. 'Relentless' or 'Get over')">
+    <button id="searchBtn">SIMULATE</button>
 </div>
 
-<div class="loader" id="loader">Consulting American Dictionaries...</div>
+<div class="loader" id="loader">⚡ Accessing US Lexical Servers...</div>
 
 <main>
     <section id="view-simulator" class="view active">
         <div id="results" class="card">
-            <p style="text-align: center; color: #999;">The simulation will appear here. Start by typing something above!</p>
+            <p style="text-align: center; color: #6c757d;">Enter a term to begin the pedagogical simulation.</p>
         </div>
     </section>
 
@@ -198,189 +166,130 @@
 </main>
 
 <script>
-    /* --- Core Data State --- */
     let historySearch = [];
     let azList = new Set();
 
-    /* --- Elements --- */
     const wordInput = document.getElementById('wordInput');
     const searchBtn = document.getElementById('searchBtn');
     const resultsDiv = document.getElementById('results');
     const loader = document.getElementById('loader');
 
-    /* --- Logic: Detection --- */
     function detectInputType(text) {
         return text.trim().includes(" ") ? "phrase" : "word";
     }
 
-    /* --- API Service --- */
     async function fetchData(word) {
         try {
             loader.style.display = 'block';
-            
-            // 1. Dictionary Data
-            const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            const dictData = dictRes.ok ? await dictRes.json() : null;
+            const [dictRes, synRes, antRes] = await Promise.all([
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`),
+                fetch(`https://api.datamuse.com/words?rel_syn=${word}`),
+                fetch(`https://api.datamuse.com/words?rel_ant=${word}`)
+            ]);
 
-            // 2. Synonyms (Datamuse)
-            const synRes = await fetch(`https://api.datamuse.com/words?rel_syn=${word}`);
-            const synData = await synRes.json();
-
-            // 3. Antonyms (Datamuse)
-            const antRes = await fetch(`https://api.datamuse.com/words?rel_ant=${word}`);
-            const antData = await antRes.json();
-
-            return { dictData, synonyms: synData.slice(0, 6), antonyms: antData.slice(0, 6) };
-        } catch (error) {
-            console.error("API Error:", error);
-            return null;
-        } finally {
-            loader.style.display = 'none';
-        }
+            return {
+                dict: dictRes.ok ? await dictRes.json() : null,
+                syns: await synRes.json(),
+                ants: await antRes.json()
+            };
+        } catch (e) { return null; }
+        finally { loader.style.display = 'none'; }
     }
 
-    /* --- Logic: Render Pipeline --- */
-    async function performSearch() {
+    async function runSimulation() {
         const query = wordInput.value.trim().toLowerCase();
         if (!query) return;
 
         const type = detectInputType(query);
         const data = await fetchData(query);
 
-        if (!data.dictData) {
-            resultsDiv.innerHTML = `
-                <h2 class="result-header">Oops! 🇺🇸</h2>
-                <p><strong>"${query}"</strong> is not registered as a fixed expression or common word in our primary American database.</p>
-                <div class="example-box">Tip: Check the spelling or try a more common root word.</div>
-            `;
+        if (!data.dict) {
+            resultsDiv.innerHTML = `<h3>Term Not Found</h3><p>The phrase/word "${query}" is not in our main registry.</p>`;
             return;
         }
 
-        // Update State
-        historySearch.unshift({ word: query, time: new Date().toLocaleTimeString() });
+        historySearch.unshift({ word: query, date: new Date().toLocaleTimeString() });
         if (type === "word") azList.add(query);
-
-        renderResult(query, type, data);
-        updateHistoryUI();
-        updateAZUI();
-    }
-
-    function renderResult(query, type, data) {
-        const entry = data.dictData[0];
-        const meaning = entry.meanings[0];
-        const definition = meaning.definitions[0];
-        const phonetic = entry.phonetic || (entry.phonetics[1] ? entry.phonetics[1].text : "N/A");
-
-        let html = "";
-
-        if (type === "word") {
-            html = `
-                <div class="result-header">Word Analysis: ${entry.word.toUpperCase()}</div>
-                <div class="pos-tag">${meaning.partOfSpeech}</div>
-
-                <div class="section-title">English Meaning 🇺🇸</div>
-                <p><strong>${meaning.partOfSpeech}:</strong> ${definition.definition}</p>
-                <p><em>Connotation:</em> This word is typically used in ${meaning.partOfSpeech === 'adjective' ? 'descriptive' : 'functional'} contexts within American English to convey ${query.length > 7 ? 'complexity' : 'directness'}.</p>
-
-                <div class="section-title">Phonetics & Pronunciation 🗣️</div>
-                <p><strong>${phonetic}</strong></p>
-                <p><em>Sounds like:</em> Roughly pronounced as "${phonetic.replace(/\//g, '')}" with standard American emphasis.</p>
-
-                <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
-                <div class="pill-container">
-                    ${data.synonyms.map(s => `<span class="pill"><strong>${s.word}</strong>: (Close match)</span>`).join('') || 'No direct synonyms found.'}
-                </div>
-
-                <div class="section-title">Antonyms 🚫</div>
-                <div class="pill-container">
-                    ${data.antonyms.map(a => `<span class="pill"><strong>${a.word}</strong></span>`).join('') || 'No direct antonyms found.'}
-                </div>
-
-                <div class="section-title">Real-World Examples 📝</div>
-                <div class="example-box">
-                    ${definition.example ? `"${definition.example}"` : `Typical usage: "The ${entry.word} nature of the project required extra focus."`}
-                </div>
-
-                <div class="section-title">Friendly Practice 🇺🇸</div>
-                <p>In a professional setting, an American might say: <em>"We need to be <strong>${entry.word}</strong> in our pursuit of excellence."</em></p>
-
-                <div class="section-title">Tip Pro 💡</div>
-                <p>American speakers often use "${entry.word}" to emphasize intensity. Avoid using it for light or trivial matters to maintain its impact.</p>
-            `;
-        } else {
-            // Phrase / Phrasal Verb Layout
-            html = `
-                <div class="result-header">Phrase Analysis: ${query.toUpperCase()}</div>
-                <div class="section-title">English Meaning 🇺🇸</div>
-                <p><strong>Verb (Phrasal):</strong> ${definition.definition}</p>
-
-                <div class="section-title">The "Action" Perspective</div>
-                <p>In the U.S., this phrase implies a breakdown of components or a specific sequence of movements.</p>
-
-                <div class="section-title">Phonetics & Pronunciation 🗣️</div>
-                <p>${phonetic}</p>
-
-                <div class="section-title">Synonyms 🤝</div>
-                <div class="pill-container">
-                    ${data.synonyms.map(s => `<span class="pill">${s.word}</span>`).join('') || 'Common in conversational English.'}
-                </div>
-
-                <div class="section-title">Real-World Examples 📝</div>
-                <div class="example-box">
-                    ${definition.example ? `"${definition.example}"` : `Usage: "Let's ${query} so everyone understands the plan."`}
-                </div>
-
-                <div class="section-title">Tip Pro 💡</div>
-                <p>Phrasal verbs like "${query}" are the bread and butter of American English. Use them in informal meetings to sound more natural!</p>
-            `;
-        }
-
-        resultsDiv.innerHTML = html;
-    }
-
-    /* --- Navigation Logic --- */
-    function switchView(viewName) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
         
-        document.getElementById(`view-${viewName}`).classList.add('active');
-        document.getElementById(`btn-${viewName}`).classList.add('active');
+        renderSim(query, type, data);
+        updateUI();
     }
 
-    function updateHistoryUI() {
-        const container = document.getElementById('history-container');
-        container.innerHTML = historySearch.map(item => `
-            <div class="list-item">
-                <span><strong>${item.word}</strong></span>
-                <small>${item.time}</small>
+    function renderSim(query, type, data) {
+        const entry = data.dict[0];
+        const meaning = entry.meanings[0];
+        const def = meaning.definitions[0];
+        
+        // Logic for Audio
+        const audioObj = entry.phonetics.find(p => p.audio !== "");
+        const audioUrl = audioObj ? audioObj.audio : null;
+
+        let content = `
+            <div class="result-header">
+                ${type === 'word' ? 'Word Analysis' : 'Phrase Analysis'}: ${entry.word.toUpperCase()}
+                ${audioUrl ? `<button class="audio-btn" onclick="new Audio('${audioUrl}').play()">🔊</button>` : ''}
             </div>
+            
+            <div class="section-title">English Meaning 🇺🇸</div>
+            <p><strong>${meaning.partOfSpeech}:</strong> ${def.definition}</p>
+            <p><em>Connotation:</em> This term carries a ${query.length > 7 ? 'formal and intense' : 'direct and common'} weight in American conversations.</p>
+
+            <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+            <p><strong>${entry.phonetic || 'N/A'}</strong></p>
+            <p><em>Sounds like:</em> Use a standard General American accent (GenAm), keeping vowels crisp.</p>
+
+            <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
+            <div class="pill-container">
+                ${data.syns.slice(0,6).map(s => `<span class="pill"><strong>${s.word}</strong>: (Interchangeable)</span>`).join('') || '<span class="pill">Context-dependent</span>'}
+            </div>
+
+            <div class="section-title">Antonyms 🚫</div>
+            <div class="pill-container">
+                ${data.ants.slice(0,6).map(a => `<span class="pill"><strong>${a.word}</strong></span>`).join('') || '<span class="pill">N/A</span>'}
+            </div>
+
+            <div class="section-title">Real-World Examples 📝</div>
+            <div class="example-box">
+                ${def.example ? `"${def.example}"` : `Example of use: "In American business, being ${entry.word} is often seen as a key to success."`}
+            </div>
+
+            <div class="section-title">Friendly Practice (The American Way) 🇺🇸</div>
+            <p>To use this like a native, try: <em>"Hey, I've been thinking about the <strong>${entry.word}</strong> nature of our current strategy."</em></p>
+
+            <div class="section-title">Tip Pro 💡</div>
+            <div class="tip-box">
+                <strong>Cultural Note:</strong> Americans value clarity. When using "${entry.word}", make sure your tone matches its ${meaning.partOfSpeech === 'verb' ? 'action' : 'descriptive'} intent.
+            </div>
+        `;
+
+        resultsDiv.innerHTML = content;
+    }
+
+    function switchView(v) {
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+        document.getElementById(`view-${v}`).classList.add('active');
+        document.getElementById(`btn-${v}`).classList.add('active');
+    }
+
+    function updateUI() {
+        document.getElementById('history-container').innerHTML = historySearch.map(h => `
+            <div class="list-item"><span>${h.word}</span> <small>${h.date}</small></div>
+        `).join('');
+        
+        document.getElementById('az-container').innerHTML = Array.from(azList).sort().map(w => `
+            <div class="list-item"><span>${w}</span> <button onclick="quickSearch('${w}')">View</button></div>
         `).join('');
     }
 
-    function updateAZUI() {
-        const container = document.getElementById('az-container');
-        const sorted = Array.from(azList).sort();
-        container.innerHTML = sorted.map(word => `
-            <div class="list-item">
-                <span>${word}</span>
-                <button onclick="quickSearch('${word}')" style="background:none; border:none; cursor:pointer;">🔍</button>
-            </div>
-        `).join('');
-    }
-
-    function quickSearch(word) {
-        wordInput.value = word;
+    function quickSearch(w) {
+        wordInput.value = w;
         switchView('simulator');
-        performSearch();
+        runSimulation();
     }
 
-    /* --- Listeners --- */
-    searchBtn.addEventListener('click', performSearch);
-    wordInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
-
+    searchBtn.addEventListener('click', runSimulation);
+    wordInput.addEventListener('keypress', e => e.key === 'Enter' && runSimulation());
 </script>
-
 </body>
 </html>
