@@ -9,36 +9,32 @@
             --us-blue: #002868;
             --us-red: #bf0a30;
             --us-white: #ffffff;
-            --bg-gray: #f4f7f6;
-            --text-dark: #222;
+            --bg-gray: #f2f2f2;
+            --text-dark: #121212;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             background-color: var(--bg-gray);
             color: var(--text-dark);
         }
 
-        /* ENCABEZADO ESTILO USA */
+        /* HEADER & BRANDING */
         header {
             background-color: var(--us-white);
             padding: 20px 5%;
-            border-bottom: 5px solid var(--us-blue);
+            border-bottom: 6px solid var(--us-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
-        .branding h1 {
+        .logo-box h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            letter-spacing: -1px;
         }
 
         .logo-plus {
@@ -50,32 +46,31 @@
 
         .logo-plus::after {
             content: '★ ★ ★';
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             position: absolute;
             top: -5px;
             right: -35px;
             -webkit-text-fill-color: var(--us-blue);
         }
 
-        .author {
-            font-size: 0.9rem;
+        .subtitle {
+            font-size: 0.95rem;
             font-weight: bold;
             color: #000;
             margin-top: 5px;
-            text-align: left;
         }
 
-        /* BARRA DE BÚSQUEDA */
-        .search-area {
+        /* SEARCH BAR */
+        .search-container {
             display: flex;
             gap: 10px;
         }
 
-        #user-input {
+        #term-input {
             padding: 12px 15px;
-            width: 320px;
+            width: 350px;
             border: 2px solid #ccc;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 1rem;
         }
 
@@ -83,350 +78,369 @@
             background-color: var(--us-blue);
             color: white;
             border: none;
-            padding: 0 25px;
-            border-radius: 6px;
+            padding: 0 30px;
+            border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
             text-transform: uppercase;
         }
 
         #go-btn:hover { background-color: var(--us-red); }
 
-        /* PESTAÑAS (TABS) */
+        /* TABS */
         .tabs {
             display: flex;
-            background: #e0e0e0;
+            background: #ddd;
             padding: 15px 5% 0;
             gap: 5px;
         }
 
-        .tab-link {
+        .tab-btn {
             padding: 12px 25px;
             border: none;
-            background: #d0d0d0;
+            background: #ccc;
             cursor: pointer;
             font-weight: bold;
             border-radius: 8px 8px 0 0;
-            transition: 0.3s;
         }
 
-        .tab-link.active {
-            background: var(--us-white);
+        .tab-btn.active {
+            background: white;
             color: var(--us-blue);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
-        /* CONTENIDO */
-        .content-container {
-            padding: 40px 5%;
-            min-height: 70vh;
+        /* MAIN CONTENT */
+        .main-content {
+            padding: 30px 5%;
         }
 
-        .tab-pane {
+        .panel {
             display: none;
             background: white;
             padding: 40px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            max-width: 900px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            max-width: 1000px;
             margin: auto;
-            line-height: 1.6;
         }
 
-        .tab-pane.active { display: block; }
+        .panel.active { display: block; }
 
-        /* ESTILOS DE LA PLANTILLA */
-        .analysis-header { color: var(--us-blue); border-bottom: 2px solid #eee; margin-top: 0; padding-bottom: 10px; }
-        .section-label { font-weight: 800; color: var(--us-red); text-transform: uppercase; font-size: 0.85rem; display: block; margin-top: 25px; }
-        .data-content { margin: 5px 0 15px 0; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
+        /* TEMPLATE STYLING */
+        .analysis-title { 
+            color: var(--us-blue); 
+            border-bottom: 2px solid #eee; 
+            margin-top: 0; 
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
 
-        /* LISTAS DE HISTORIAL Y AZ */
-        .list-item {
+        .section-header { 
+            color: var(--us-red); 
+            font-weight: 800; 
+            display: block; 
+            margin-top: 25px; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .data-box { margin: 8px 0 15px 0; line-height: 1.6; }
+        
+        .grit-scale {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid var(--us-blue);
+            font-family: monospace;
+        }
+
+        /* LISTS */
+        .list-row {
             padding: 15px;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
-        .list-item:hover { background: #f9f9f9; }
-        .word-tag { font-weight: bold; color: var(--us-blue); text-transform: capitalize; }
-        .meta-tag { font-size: 0.8rem; color: #888; }
-
     </style>
 </head>
 <body>
 
 <header>
-    <div class="branding">
+    <div class="logo-box">
         <h1 class="logo-plus">EnglishPlus+</h1>
-        <div class="author">American English Vocabulary Simulator by Carlos Mario Navarro</div>
+        <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
     </div>
-    <div class="search-area">
-        <input type="text" id="user-input" placeholder="Enter a word or phrase in American English...">
+    <div class="search-container">
+        <input type="text" id="term-input" placeholder="Enter a word or phrase in American English...">
         <button id="go-btn">Go</button>
     </div>
 </header>
 
 <div class="tabs">
-    <button class="tab-link active" onclick="showTab('simulator')">Simulator</button>
-    <button class="tab-link" onclick="showTab('history')">History Search</button>
-    <button class="tab-link" onclick="showTab('azlist')">AZ-List</button>
+    <button class="tab-btn active" onclick="switchTab('simulator')">Simulator</button>
+    <button class="tab-btn" onclick="switchTab('history')">History Search</button>
+    <button class="tab-btn" onclick="switchTab('azlist')">AZ-List</button>
 </div>
 
-<div class="content-container">
-    <div id="simulator" class="tab-pane active">
-        <div id="analysis-output">
-            <p style="text-align: center; color: #999; margin-top: 50px;">Welcome, Educator. Enter a word like "Relentless" or a phrase like "Break it down" to begin the expert analysis.</p>
+<div class="main-content">
+    <div id="simulator" class="panel active">
+        <div id="result-area">
+            <p style="text-align:center; color:#999;">The simulator is ready. Please enter a term to begin the linguistic deconstruction.</p>
         </div>
     </div>
 
-    <div id="history" class="tab-pane">
-        <div id="history-content"></div>
+    <div id="history" class="panel">
+        <div id="history-items"></div>
     </div>
 
-    <div id="azlist" class="tab-pane">
-        <div id="az-content"></div>
+    <div id="azlist" class="panel">
+        <div id="az-items"></div>
     </div>
 </div>
 
 <script>
-    // BASE DE DATOS LINGÜÍSTICA REAL (Knowledge Base)
-    const KNOWLEDGE_BASE = {
+    // BASE DE DATOS PARA DEMOSTRACIÓN (Contiene tus ejemplos exactos)
+    const DB = {
         "relentless": {
             type: "word",
-            meaning: "Adjective: Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop.",
-            connotation: "In American English, this is a 'high-energy' word. In business, it is almost always a huge compliment meaning you have an unstoppable work ethic.",
+            meaning: "Adjective: Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.",
+            connotation: "In American English, this is a 'high-energy' word. It can be negative (like 'relentless rain'), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.",
             phonetics: "/rɪˈlent.ləs/",
             soundsLike: "re-LENT-less. (The stress is on the middle syllable).",
             synonyms: [
-                "Persistent: Focuses on trying again and again.",
-                "Unstoppable: Focuses on the fact that nothing can get in your way.",
-                "Tenacious: A fancy professional word for being like a bulldog.",
-                "Incessant: Usually negative, like a noise that won't stop."
+                "Persistent: (Focuses on trying again and again).",
+                "Unstoppable: (Focuses on the fact that nothing can get in your way).",
+                "Tenacious: (A very 'fancy' professional word for being like a bulldog—not letting go).",
+                "Incessant: (Usually negative, like a noise that won't stop)."
             ],
             antonyms: [
-                "Irresolute: Hesitant, not sure of oneself.",
-                "Yielding: Giving up easily.",
-                "Lazy: Lacking enthusiasm.",
-                "Merciful: Showing pity."
+                "Irresolute: (Hesitant, not sure of oneself).",
+                "Yielding: (Giving up easily).",
+                "Lazy / Lackadaisical: (Lacking enthusiasm or effort).",
+                "Merciful: (Showing pity—sometimes 'relentless' means being harsh)."
             ],
             family: [
-                "Relentlessly (Adverb): He practiced English relentlessly until he was fluent.",
-                "Relentlessness (Noun): Her relentlessness is the reason she got the promotion.",
-                "To relent (Verb/Antonym): The rain finally relented after three days."
+                "Relentlessly (Adverb): How you do something. ('He practiced English relentlessly until he was fluent.')",
+                "Relentlessness (Noun): The state of being relentless. ('Her relentlessness is the reason she got the promotion.')",
+                "To relent (Verb/Antonym): To finally give in or become less severe. ('The rain finally relented after three days.')"
             ],
-            grit: { interest: "●○○○", effort: "●●●○", persistence: "●●●●", word: "Refuse to lose mentality." },
+            grit: "Interest: You like the idea.<br>Effort: You are working on it.<br>Persistence: You keep going despite mistakes.<br>Relentlessness: You have a 'refuse to lose' mentality. You find a way or make one.",
             idioms: ["Relentless pursuit of excellence", "No rest for the wicked", "Keep your foot on the gas"],
-            examples: ["The company's relentless focus on service made them #1.", "I had to be relentless with the support team.", "Success is the result of relentless preparation."],
-            pro: { cover: "I bring a relentless problem-solving attitude to every challenge.", interview: "I don't just stop when I'm tired; I stop when the job is done." },
-            tip: "Be careful! While being relentless is great for goals, being a relentless boss can lead to 'burnout'. Respect leaders who are relentless with results but empathetic with people."
+            examples: [
+                "The company's relentless focus on customer service made them #1 in the market.",
+                "To fix the QuickBooks error, I had to be relentless with the support team until they answered.",
+                "Success is the result of relentless preparation meeting opportunity."
+            ],
+            pro_letter: "I bring a relentless problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized.",
+            pro_interview: "I’m relentless when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done.",
+            tip: "Be careful! While being relentless is great for goals, being a relentless boss can lead to 'burnout' in your team. In the U.S., the most respected leaders are those who are relentless with results but empathetic with people."
         },
         "break it down": {
             type: "phrase",
-            meaning: "Verb (Phrasal): To divide a complex problem, data, or a difficult concept into smaller, simpler, and more manageable components.",
-            action: "It is the process of deconstruction. If a project is a wall, 'breaking it down' is looking at the individual bricks.",
-            explaining: "It means to explain something step-by-step so that the listener doesn't feel overwhelmed.",
+            meaning: "Verb (Phrasal): To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.",
+            action_perspective: "It is the process of deconstruction. If a project is a wall, 'breaking it down' is looking at the individual bricks.",
+            explaining_perspective: "It means to explain something step-by-step so that the listener doesn't feel overwhelmed.",
             phonetics: "/breɪk ɪt daʊn/",
             soundsLike: "bray-kit-DOWN.",
-            note: "In American English, the 'k' in break and the 'i' in it undergo linking (breakit).",
+            pron_note: "In American English, the 'k' in break and the 'i' in it undergo linking. It sounds like one fluid word (breakit).",
             synonyms: [
-                "Deconstruct: To take apart a theory.",
-                "Fragment: To break into small pieces.",
-                "Dissect: To examine in minute detail.",
-                "Itemize: To create a list of individual items.",
-                "Simplify: The ultimate goal."
+                "Deconstruct: To take apart a theory or structure to reveal its internal works.",
+                "Fragment: To break into small pieces (often used in data or task management).",
+                "Dissect: To examine something in minute detail (like a scientist).",
+                "Itemize: To create a list of individual items (usually for costs or tasks).",
+                "Simplify: The ultimate goal—removing the 'noise' to find the signal."
             ],
             antonyms: [
-                "Amalgamate: To combine many into one.",
-                "Conflate: To mix ideas together causing confusion.",
-                "Obfuscate: To make intentionally difficult.",
-                "Generalize: To talk about the big picture only."
+                "Amalgamate: To combine many things into one large whole.",
+                "Conflate: To mix two or more ideas together (often causing confusion).",
+                "Obfuscate: To make intentionally difficult to understand.",
+                "Generalize: To talk about the 'big picture' without looking at the details."
             ],
             family: [
-                "Breakdown (Noun - Analytical): A detailed analysis.",
+                "Breakdown (Noun - Analytical): A detailed analysis. ('The budget breakdown shows we spent too much on ads.')",
                 "Breakdown (Noun - Mechanical): A failure of a machine.",
-                "Breakdown (Noun - Health): Mental collapse due to stress.",
+                "Breakdown (Noun - Health): A period of mental collapse due to stress.",
                 "Breakable (Adjective): Something that can be broken."
             ],
-            cognitive: { goal: "The 'Big Rock' (e.g., Learning English).", breakdown: "Milestones (e.g., Master 500 words).", fragments: "Daily habits (e.g., 15 mins of chat)." },
+            cognitive: {
+                goal: "The 'Big Rock' (e.g., Learning English).",
+                breakdown: "Milestones (e.g., Master 500 words, Understand Phrasal Verbs).",
+                fragments: "Daily habits (e.g., 15 minutes of chat every morning)."
+            },
             idioms: ["Break it down for me", "Let's talk brass tacks", "Get down to the nitty-gritty", "Crunch the numbers"],
-            examples: ["Let's break down the QuickBooks error.", "The CEO asked for a breakdown of goals.", "Don't look at the mountain; break it down into steps."],
-            pro: { project: "Okay team, let's break this launch down into three phases.", interview: "I specialize in taking complex data and breaking it down for the board." },
-            tip: "If you tell someone 'I'll break it down for you,' watch your tone. If too slow, it sounds condescending. Say it with enthusiasm to stay friendly!"
+            examples: [
+                "If we break down the QuickBooks error, we can see it's actually a browser cache issue, not a payment failure.",
+                "The CEO asked for a breakdown of our quarterly goals by department.",
+                "Don't look at the whole mountain; just break it down into the next ten steps."
+            ],
+            pro_lead: "Okay team, this is a massive launch. Let's break it down into three phases so we don't burn out.",
+            pro_interview: "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board.",
+            tip: "In the U.S., if you tell someone 'I'll break it down for you,' be careful with your tone. If said too slowly, it can sound condescending. To stay friendly and professional, say it with enthusiasm!"
         }
     };
 
-    let history = [];
+    let historyLog = [];
     let azList = [];
 
-    // LÓGICA DE BÚSQUEDA
-    function runSimulation() {
-        const input = document.getElementById('user-input').value.trim();
+    function handleSearch() {
+        const input = document.getElementById('term-input').value.trim();
         if (!input) return;
 
-        const term = input.toLowerCase();
-        let data = KNOWLEDGE_BASE[term];
+        const isPhrase = input.includes(' ');
+        const key = input.toLowerCase();
+        
+        // Simulación de búsqueda en base de datos profesional
+        const data = DB[key] || generateDynamicAnalysis(input, isPhrase);
 
-        // Si no está en DB, generamos una respuesta educada basada en la estructura
-        if (!data) {
-            const isPhrase = input.includes(" ");
-            data = generateMockData(input, isPhrase);
-        }
-
-        renderAnalysis(data, input);
-        addToHistory(input);
-        document.getElementById('user-input').value = "";
-        showTab('simulator');
+        renderContent(data, input);
+        updateStorage(input);
+        document.getElementById('term-input').value = '';
+        switchTab('simulator');
     }
 
-    function renderAnalysis(data, original) {
-        const output = document.getElementById('analysis-output');
+    function renderContent(data, original) {
+        const area = document.getElementById('result-area');
         const CAPS = original.toUpperCase();
 
-        if (data.type === "word") {
-            output.innerHTML = `
-                <h2 class="analysis-header">Word Analysis: ${CAPS}</h2>
-                <span class="section-label">English Meaning 🇺🇸</span>
-                <p class="data-content">${data.meaning}</p>
-                
-                <span class="section-label">Connotation:</span>
-                <p class="data-content">${data.connotation}</p>
+        if (data.type === 'word') {
+            area.innerHTML = `
+                <h2 class="analysis-title">Word Analysis: ${CAPS}</h2>
+                <span class="section-header">English Meaning 🇺🇸</span>
+                <div class="data-box">${data.meaning}</div>
 
-                <span class="section-label">Phonetics & Pronunciation 🗣️</span>
-                <p class="data-content">${data.phonetics}</p>
+                <span class="section-header">Connotation:</span>
+                <div class="data-box">${data.connotation}</div>
 
-                <span class="section-label">Sounds like:</span>
-                <p class="data-content">${data.soundsLike}</p>
+                <span class="section-header">Phonetics & Pronunciation 🗣️</span>
+                <div class="data-box">${data.phonetics}</div>
 
-                <span class="section-label">Synonyms 🤝 (The Nuance Map)</span>
+                <span class="section-header">Sounds like:</span>
+                <div class="data-box">${data.soundsLike}</div>
+
+                <span class="section-header">Synonyms 🤝 (The Nuance Map)</span>
                 <ul>${data.synonyms.map(s => `<li>${s}</li>`).join('')}</ul>
 
-                <span class="section-label">Antonyms 🚫</span>
+                <span class="section-header">Antonyms 🚫</span>
                 <ul>${data.antonyms.map(a => `<li>${a}</li>`).join('')}</ul>
 
-                <span class="section-label">Word Family 👨‍👩‍👧‍👦</span>
+                <span class="section-header">Word Family 👨‍👩‍👧‍👦</span>
                 <ul>${data.family.map(f => `<li>${f}</li>`).join('')}</ul>
 
-                <span class="section-label">The "Grit" Scale ⚖️</span>
-                <p class="data-content">
-                    Interest: ${data.grit.interest}<br>
-                    Effort: ${data.grit.effort}<br>
-                    Persistence: ${data.grit.persistence}<br>
-                    <strong>${CAPS}</strong>: ${data.grit.word}
-                </p>
+                <span class="section-header">The "Grit" Scale ⚖️</span>
+                <div class="data-box grit-scale">
+                    Understanding where "${CAPS}" sits compared to similar traits:<br><br>
+                    ${data.grit}
+                </div>
 
-                <span class="section-label">Idioms & Collocations 🗣️</span>
+                <span class="section-header">Idioms & Collocations 🗣️</span>
                 <ul>${data.idioms.map(i => `<li>"${i}"</li>`).join('')}</ul>
 
-                <span class="section-label">Real-World Examples 📝</span>
+                <span class="section-header">Real-World Examples 📝</span>
                 <ul>${data.examples.map(e => `<li>"${e}"</li>`).join('')}</ul>
 
-                <span class="section-label">Friendly Practice (The American Way) 🇺🇸</span>
-                <p><strong>In a Cover Letter:</strong><br>"${data.pro.cover}"</p>
-                <p><strong>During an Interview:</strong><br>"${data.pro.interview}"</p>
+                <span class="section-header">Friendly Practice (The American Way) 🇺🇸</span>
+                <p><strong>In a Cover Letter:</strong><br>"${data.pro_letter}"</p>
+                <p><strong>During an Interview:</strong><br>"${data.pro_interview}"</p>
 
-                <span class="section-label">Tip Pro 💡</span>
-                <p class="data-content">${data.tip}</p>
+                <span class="section-header">Tip Pro 💡</span>
+                <div class="data-box">${data.tip}</div>
 
                 <p><strong>Closing Question:</strong><br>Is this the level of "Complete Explanation" you were looking for? Give me your next word, and I will give it the ${CAPS} Analysis treatment! 🚀</p>
             `;
         } else {
-            output.innerHTML = `
-                <h2 class="analysis-header">Phrase Analysis: ${CAPS}</h2>
-                <span class="section-label">English Meaning 🇺🇸</span>
-                <p class="data-content">${data.meaning}</p>
+            area.innerHTML = `
+                <h2 class="analysis-title">Phrase Analysis: ${CAPS}</h2>
+                <span class="section-header">English Meaning 🇺🇸</span>
+                <div class="data-box">${data.meaning}</div>
 
-                <span class="section-label">The "Action" Perspective:</span>
-                <p class="data-content">${data.action}</p>
+                <span class="section-header">The "Action" Perspective:</span>
+                <div class="data-box">${data.action_perspective}</div>
 
-                <span class="section-label">The "Explaining" Perspective:</span>
-                <p class="data-content">${data.explaining}</p>
+                <span class="section-header">The "Explaining" Perspective:</span>
+                <div class="data-box">${data.explaining_perspective}</div>
 
-                <span class="section-label">Phonetics & Pronunciation 🗣️</span>
-                <p class="data-content">${data.phonetics}</p>
+                <span class="section-header">Phonetics & Pronunciation 🗣️</span>
+                <div class="data-box">${data.phonetics}</div>
 
-                <span class="section-label">Sounds like:</span>
-                <p class="data-content">${data.soundsLike}</p>
+                <span class="section-header">Sounds like:</span>
+                <div class="data-box">${data.soundsLike}</div>
 
-                <span class="section-label">Note:</span>
-                <p class="data-content">${data.note}</p>
+                <span class="section-header">Note:</span>
+                <div class="data-box">${data.pron_note}</div>
 
-                <span class="section-label">Synonyms 🤝 (The Nuance Map)</span>
+                <span class="section-header">Synonyms 🤝 (The Nuance Map)</span>
                 <ul>${data.synonyms.map(s => `<li>${s}</li>`).join('')}</ul>
 
-                <span class="section-label">Antonyms 🚫</span>
+                <span class="section-header">Antonyms 🚫</span>
                 <ul>${data.antonyms.map(a => `<li>${a}</li>`).join('')}</ul>
 
-                <span class="section-label">Word Family 👨‍👩‍👧‍👦</span>
+                <span class="section-header">Word Family 👨‍👩‍👧‍👦</span>
                 <ul>${data.family.map(f => `<li>${f}</li>`).join('')}</ul>
 
-                <span class="section-label">The Cognitive Process ⚖️</span>
+                <span class="section-header">The Cognitive Process ⚖️</span>
                 <p><strong>The Goal:</strong> ${data.cognitive.goal}</p>
                 <p><strong>The Breakdown:</strong> ${data.cognitive.breakdown}</p>
                 <p><strong>The Fragments:</strong> ${data.cognitive.fragments}</p>
 
-                <span class="section-label">Idioms & Collocations 🗣️</span>
+                <span class="section-header">Idioms & Collocations 🗣️</span>
                 <ul>${data.idioms.map(i => `<li>"${i}"</li>`).join('')}</ul>
 
-                <span class="section-label">Real-World Examples 📝</span>
+                <span class="section-header">Real-World Examples 📝</span>
                 <ul>${data.examples.map(e => `<li>"${e}"</li>`).join('')}</ul>
 
-                <span class="section-label">Friendly Practice (The American Way) 🇺🇸</span>
-                <p><strong>When leading a project:</strong><br>"${data.pro.project}"</p>
-                <p><strong>In an interview:</strong><br>"${data.pro.interview}"</p>
+                <span class="section-header">Friendly Practice (The American Way) 🇺🇸</span>
+                <p><strong>When leading a project:</strong><br>"${data.pro_lead}"</p>
+                <p><strong>In an interview:</strong><br>"${data.pro_interview}"</p>
 
-                <span class="section-label">Tip Pro 💡</span>
-                <p class="data-content">${data.tip}</p>
+                <span class="section-header">Tip Pro 💡</span>
+                <div class="data-box">${data.tip}</div>
 
                 <p><strong>Closing Question:</strong><br>Would you like me to break down the difference between this phrase and a similar one so you can choose the perfect option for professional English? 🚀</p>
             `;
         }
     }
 
-    // GENERADOR PARA PALABRAS NO EN BASE DE DATOS
-    function generateMockData(word, isPhrase) {
-        if (!isPhrase) {
+    function generateDynamicAnalysis(term, isPhrase) {
+        // Esta función simula la generación de contenido experto en tiempo real
+        // para términos que no están en la pre-carga inicial.
+        if(!isPhrase) {
             return {
-                type: "word",
-                meaning: `[Dynamic Analysis] To embody or perform the action of ${word}.`,
-                connotation: "Commonly used in professional American English to denote specific action.",
-                phonetics: "/.../", soundsLike: "Standard American inflection.",
-                synonyms: ["Term A: Formal", "Term B: Casual"],
-                antonyms: ["Term C: Opposite", "Term D: Neutral"],
-                family: [`${word}ly (Adverb)`, `${word}ness (Noun)`],
-                grit: { interest: "●●○○", effort: "●●●○", persistence: "●●●●", word: "Professional focus." },
-                idioms: [`To be ${word}-oriented`, `The ${word} factor`],
-                examples: [`We need a ${word} approach.`, `They handled it with ${word}.`],
-                pro: { cover: `I am highly ${word} in my workflow.`, interview: `I value ${word} in every project.` },
-                tip: "Always check the context before using this in a formal meeting."
+                type: 'word',
+                meaning: `Adjective/Noun: A professional American English term describing the essence of ${term}.`,
+                connotation: "In the US workplace, this term carries a standard professional weight.",
+                phonetics: "/.../", soundsLike: "Natural American pronunciation.",
+                synonyms: ["Option A: Formal", "Option B: Casual", "Option C: Technical", "Option D: Nuanced"],
+                antonyms: ["Opposite A", "Opposite B", "Opposite C", "Opposite D"],
+                family: [`${term}ly (Adverb)`, `${term}ness (Noun)`, `Re-${term} (Verb)`],
+                grit: "Interest: Low<br>Effort: Moderate<br>Persistence: High<br>"+term.toUpperCase()+": Peak Efficiency.",
+                idioms: [`The ${term} strategy`, `At the ${term} level`],
+                examples: [`We need more ${term} in this project.`],
+                pro_letter: `I will apply my ${term} skills to your company.`,
+                pro_interview: `I have a track record of ${term}.`,
+                tip: "Always use this term with confidence in professional settings."
             };
         } else {
             return {
-                type: "phrase",
-                meaning: `To execute the action of ${word} in a specific context.`,
-                action: "Moving from plan to execution.",
-                explaining: "Simplifying the process for others.",
-                phonetics: "/.../", soundsLike: "Natural linked speech.",
-                note: "Standard American idiom.",
-                synonyms: ["Option 1", "Option 2"], antonyms: ["Reverse", "Stop"],
-                family: ["Gerund form", "Past participle"],
-                cognitive: { goal: "Final result", breakdown: "Phase 1", fragments: "Daily tasks" },
-                idioms: ["Related idiom A", "Related idiom B"],
-                examples: [`Let's ${word} today.`],
-                pro: { project: `I will ${word} for the team.`, interview: `I have experience in how to ${word}.` },
-                tip: "Use this phrase to show proactivity."
+                type: 'phrase',
+                meaning: `To execute the action of ${term} effectively.`,
+                action_perspective: "A step-by-step movement toward success.",
+                explaining_perspective: "Clarifying the process for the whole team.",
+                phonetics: "/.../", soundsLike: "Fluent connection.",
+                pron_note: "Standard American linking applies.",
+                synonyms: ["Alternative 1", "Alternative 2", "Alternative 3", "Alternative 4", "Alternative 5"],
+                antonyms: ["Reverse 1", "Reverse 2", "Reverse 3", "Reverse 4"],
+                family: ["Gerund form", "Past form", "Agent noun"],
+                cognitive: { goal: "Final Target", breakdown: "Milestone", fragments: "Daily task" },
+                idioms: ["Related idiom 1", "Related idiom 2"],
+                examples: [`Let's ${term} right now.`],
+                pro_lead: `My plan is to ${term}.`,
+                pro_interview: `I know how to ${term} under pressure.`,
+                tip: "Avoid over-explaining when you use this phrase; be direct."
             };
         }
     }
 
-    function addToHistory(term) {
-        const now = new Date();
-        const timeStr = now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0');
-        history.push({ term, time: timeStr });
-        
+    function updateStorage(term) {
+        historyLog.push({ term, date: new Date().toLocaleTimeString() });
         if (!azList.includes(term.toLowerCase())) {
             azList.push(term.toLowerCase());
             azList.sort();
@@ -435,37 +449,19 @@
     }
 
     function renderLists() {
-        const hContent = document.getElementById('history-content');
-        const azContent = document.getElementById('az-content');
-
-        hContent.innerHTML = history.map(item => `
-            <div class="list-item">
-                <span class="word-tag">${item.term}</span>
-                <span class="meta-tag">Search at ${item.time}</span>
-            </div>
-        `).join('');
-
-        azContent.innerHTML = azList.map(item => `
-            <div class="list-item">
-                <span class="word-tag">${item}</span>
-                <span class="meta-tag">A-Z Sorted</span>
-            </div>
-        `).join('');
+        document.getElementById('history-items').innerHTML = historyLog.map(i => `<div class="list-row"><span>${i.term}</span><span style="color:#888">${i.date}</span></div>`).join('');
+        document.getElementById('az-items').innerHTML = azList.map(i => `<div class="list-row"><span style="text-transform:capitalize">${i}</span></div>`).join('');
     }
 
-    function showTab(tabId) {
-        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
+    function switchTab(id) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
         event.currentTarget.classList.add('active');
     }
 
-    // LISTENERS
-    document.getElementById('go-btn').addEventListener('click', runSimulation);
-    document.getElementById('user-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') runSimulation();
-    });
-
+    document.getElementById('go-btn').addEventListener('click', handleSearch);
+    document.getElementById('term-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
 </script>
 
 </body>
