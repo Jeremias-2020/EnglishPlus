@@ -94,6 +94,7 @@
 
         .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden; }
         .grit-scale td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+        .grit-scale tr.highlight { background: #fff1f2; font-weight: 800; color: var(--secondary); font-size: 1.1rem; }
 
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; margin-top: 25px; border-left: 8px solid var(--primary); }
         .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
@@ -148,8 +149,9 @@
     document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
 
     async function handleSearch(clicked = null) {
-        const word = (clicked || document.getElementById('word-input').value).trim();
-        if(!word) return;
+        const inputVal = (clicked || document.getElementById('word-input').value).trim();
+        if(!inputVal) return;
+        const word = inputVal.toLowerCase();
         
         showTab('home');
         const container = document.getElementById('full-analysis');
@@ -159,22 +161,24 @@
 
         window.scrollTo(0, 0);
 
-        // Lógica para detectar frases personalizadas
-        if(word.toLowerCase() === "break it down") {
-            renderElitePhraseAnalysis(word);
-            saveToHistory(word);
-            return;
-        }
-
-        try {
-            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            const data = await response.json();
-            if (data.title) throw new Error();
-
-            saveToHistory(word);
-            renderFullAnalysis(data[0]);
-        } catch (err) {
-            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2><p>Try "Tenacious" or "Break it down".</p></div>`;
+        // LÓGICA DE DETECCIÓN DE CONTENIDO ELITE
+        if(word === "break it down") {
+            renderEliteBreakDown();
+            saveToHistory(inputVal);
+        } else if(word === "relentless") {
+            renderEliteRelentless();
+            saveToHistory(inputVal);
+        } else {
+            // Busqueda en API para otras palabras
+            try {
+                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+                const data = await response.json();
+                if (data.title) throw new Error();
+                saveToHistory(inputVal);
+                renderBasicAnalysis(data[0]);
+            } catch (err) {
+                container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2><p>Try "Relentless" or "Break it down".</p></div>`;
+            }
         }
         document.getElementById('word-input').value = '';
     }
@@ -186,104 +190,79 @@
         }
     }
 
-    // Renderizado para frases especiales (NUEVO FORMATO)
-    function renderElitePhraseAnalysis(word) {
-        const container = document.getElementById('full-analysis');
-        container.innerHTML = `
+    // --- RENDERIZADO: BREAK IT DOWN ---
+    function renderEliteBreakDown() {
+        document.getElementById('full-analysis').innerHTML = `
             <div class="main-title">Word Analysis: BREAK IT DOWN</div>
-            
             <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>VERB (Phrasal):</b> To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.</p>
-            <p class="body-text"><b>The "Action" Perspective:</b> It is the process of deconstruction. If a project is a wall, "breaking it down" is looking at the individual bricks.</p>
-            <p class="body-text"><b>The "Explaining" Perspective:</b> It means to explain something step-by-step so that the listener doesn't feel overwhelmed.</p>
+            <p class="body-text"><b>Verb (Phrasal):</b> To divide a complex problem, data, or concept into smaller, more manageable components.</p>
+            <p class="body-text"><b>The "Action" Perspective:</b> Process of deconstruction. Looking at individual bricks instead of the whole wall.</p>
 
             <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
                     <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/breɪk ɪt daʊn/</span><br>
-                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sounds like:</b> bray-kit-DOWN.</p>
-                    <p style="font-size:0.9rem; color: #64748b;"><i>Note: Linking "break" + "it" = "breakit".</i></p>
+                    <p style="margin:10px 0; color:#64748b;"><b>Sounds like:</b> bray-kit-DOWN.</p>
                 </div>
                 <button class="audio-btn" onclick="playAudio('break it down')">🔊</button>
             </div>
 
-            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
-            <p class="body-text">
-                • <b>Deconstruct:</b> To take apart a theory or structure.<br>
-                • <b>Fragment:</b> To break into small pieces.<br>
-                • <b>Dissect:</b> To examine in minute detail.<br>
-                • <b>Itemize:</b> To create a list of individual items.<br>
-                • <b>Simplify:</b> The ultimate goal.
-            </p>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <p class="body-text">
-                • <b>Amalgamate:</b> Combine many things into one.<br>
-                • <b>Conflate:</b> Mix two or more ideas (causing confusion).<br>
-                • <b>Obfuscate:</b> To make something intentionally difficult.
-            </p>
-
             <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>Breakdown (Noun):</b> A detailed analysis or a mechanical failure.<br>
-                • <b>Breakable (Adj):</b> Something that can be broken.
-            </p>
+            <p class="body-text">• <b>Breakdown (Noun):</b> Analysis or failure.<br>• <b>Breakable (Adj):</b> Capable of being broken.</p>
 
-            <div class="section-h">The Cognitive Process ⚖️</div>
-            <div class="practice-box" style="background: #f8fafc; border-left: 8px solid #64748b;">
-                <p class="body-text"><b>The Goal:</b> The "Big Rock" (Learning English).<br>
-                <b>The Breakdown:</b> Milestones (Master 500 words).<br>
-                <b>The Fragments:</b> Daily habits (15 mins of practice).</p>
-            </div>
-
-            <div class="section-h">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-                • "Break it down for me"<br>
-                • "Let's talk brass tacks"<br>
-                • "Get down to the nitty-gritty"
-            </p>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="section-h">Friendly Practice 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>Leadership:</b> "Let's break this down into three phases so we don't burn out."</p>
-                <p class="body-text"><b>Interview:</b> "I specialize in breaking down technical data into appealing insights."</p>
+                <p class="body-text">"Let's break this down into three phases so we don't burn out."</p>
             </div>
-
-            <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Be careful! If said too slowly, it can sound condescending. Say it with enthusiasm to stay professional!
-            </div>
-            
-            <p style="margin-top:20px; font-weight:bold; color:var(--primary);">Would you like me to "break down" the specific differences between "Break it down" and "Analyze"? 🚀</p>
+            <div class="pro-tip"><b>Tip Pro 💡</b>: Say it with enthusiasm to avoid sounding condescending!</div>
         `;
-        playAudio(word);
+        playAudio('break it down');
     }
 
-    // Renderizado original para palabras de la API
-    function renderFullAnalysis(data) {
-        const word = data.word;
-        const upper = word.toUpperCase();
-        const phonetic = data.phonetics.find(p => p.text)?.text || "/.../";
-        const meaning = data.meanings[0];
-        const def = meaning.definitions[0].definition;
-        
-        const syns = meaning.synonyms.length > 0 ? meaning.synonyms.slice(0, 4) : ["Persistent", "Unstoppable", "Tenacious", "Determined"];
-        const ants = meaning.antonyms.length > 0 ? meaning.antonyms.slice(0, 4) : ["Yielding", "Lazy", "Irresolute", "Merciful"];
-
+    // --- RENDERIZADO: RELENTLESS ---
+    function renderEliteRelentless() {
         document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: ${upper}</div>
+            <div class="main-title">Word Analysis: RELENTLESS</div>
             <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>${meaning.partOfSpeech.toUpperCase()}:</b> ${def}</p>
+            <p class="body-text"><b>Adjective:</b> Remaining strict or determined; never-ceasing. Describing someone who refuses to give up.</p>
+            <p class="body-text"><b>Connotation:</b> High-energy. In business, it's a huge compliment regarding work ethic.</p>
+
+            <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
-                <div><span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span></div>
-                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
+                <div>
+                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/rɪˈlent.ləs/</span><br>
+                    <p style="margin:10px 0; color:#64748b;"><b>Sounds like:</b> re-LENT-less.</p>
+                </div>
+                <button class="audio-btn" onclick="playAudio('relentless')">🔊</button>
             </div>
-            <div class="section-h">Synonyms 🤝</div>
-            <p class="body-text">• ${syns.join(', ')}</p>
+
             <div class="section-h">The "Grit" Scale ⚖️</div>
             <table class="grit-scale">
                 <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td><b>${upper}</b></td><td>A "refuse to lose" mentality.</td></tr>
+                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
+                <tr class="highlight"><td>RELENTLESS</td><td>A "refuse to lose" mentality.</td></tr>
             </table>
+
+            <div class="section-h">Friendly Practice 🇺🇸</div>
+            <div class="practice-box">
+                <p class="body-text">"I’m <b>relentless</b> when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+            </div>
+            <div class="pro-tip"><b>Tip Pro 💡</b>: Be relentless with results, but empathetic with people to avoid team burnout.</div>
+        `;
+        playAudio('relentless');
+    }
+
+    // --- RENDERIZADO BÁSICO (API) ---
+    function renderBasicAnalysis(data) {
+        const word = data.word;
+        document.getElementById('full-analysis').innerHTML = `
+            <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
+            <div class="section-h">English Meaning 🇺🇸</div>
+            <p class="body-text"><b>${data.meanings[0].partOfSpeech.toUpperCase()}:</b> ${data.meanings[0].definitions[0].definition}</p>
+            <div class="pronunciation-box">
+                <span style="font-family:monospace; font-size:1.5rem; color:var(--primary);">${data.phonetic || '/.../'}</span>
+                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
+            </div>
         `;
         playAudio(word);
     }
