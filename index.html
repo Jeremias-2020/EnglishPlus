@@ -67,21 +67,21 @@
         }
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 400px; }
         
         .main-title { 
             color: var(--primary); 
-            font-size: 2.5rem; 
+            font-size: 2.2rem; 
             font-weight: 800; 
             margin: 0 0 20px 0; 
             text-transform: uppercase; 
             letter-spacing: -1px; 
-            border-left: 10px solid var(--secondary);
+            border-left: 8px solid var(--secondary);
             padding-left: 15px;
         }
         
-        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
-        .body-text { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
+        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
 
         .pronunciation-box { 
             background: #f1f5f9; border-radius: 20px; padding: 25px; 
@@ -91,20 +91,20 @@
             background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
             cursor: pointer; font-size: 1.5rem; transition: 0.3s;
         }
-
-        .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: white; }
-        .grit-scale td { padding: 18px; border-bottom: 1px solid #f1f5f9; font-size: 1.1rem; }
-        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
+        .audio-btn:hover { transform: scale(1.1); background: var(--secondary); }
 
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; margin-top: 25px; border-left: 8px solid var(--primary); }
-        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; font-size: 1.1rem; }
+        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
 
         .hidden { display: none; }
+
+        .loader { text-align: center; padding: 50px; font-weight: 800; color: var(--primary); }
 
         @media (max-width: 600px) {
             body { padding-top: 190px; }
             header { height: auto; padding: 10px 0; }
             .header-container { flex-direction: column; gap: 10px; }
+            .search-box-top { width: 90%; }
         }
     </style>
 </head>
@@ -121,7 +121,7 @@
             </nav>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type a word or phrase..." autocomplete="off">
+            <input type="text" id="word-input" placeholder="Enter word or phrase..." autocomplete="off">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
@@ -131,13 +131,15 @@
     <div class="app-card">
         <div id="display-view">
             <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-                <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">ELITE ANALYSIS TREATMENT 🇺🇸</h1>
-                <p style="font-size: 1.3rem; color: #64748b; font-weight: 600;">Relentless mastery of the American language.</p>
+                <h1 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
+                <p style="font-size: 1.2rem; color: #64748b;">Ready to master the language with grit.</p>
+                <p>Type any word or phrase to break it down!</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
         </div>
+        
         <div id="list-view" class="hidden">
-            <h2 id="view-title" style="color: var(--primary); font-weight: 800; text-transform: uppercase;">History</h2>
+            <h2 id="view-title" style="color: var(--primary);">History</h2>
             <div id="data-list"></div>
         </div>
     </div>
@@ -146,252 +148,108 @@
 <script>
     let myHistory = JSON.parse(localStorage.getItem('ep_v_search_11')) || [];
 
-    document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
+    // Listener para la tecla ENTER
+    document.getElementById('word-input').addEventListener('keypress', (e) => { 
+        if(e.key === 'Enter') handleSearch(); 
+    });
 
     async function handleSearch(clicked = null) {
-        const inputVal = (clicked || document.getElementById('word-input').value).trim();
-        if(!inputVal) return;
-        const word = inputVal.toLowerCase();
+        const input = (clicked || document.getElementById('word-input').value).trim();
+        if(!input) return;
         
         showTab('home');
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2 style="letter-spacing:3px;">ANALYZING... 🚀</h2></div>`;
+        container.innerHTML = `<div class="loader"><h2>ANALYZING "${input.toUpperCase()}"... 🚀</h2></div>`;
 
         window.scrollTo(0, 0);
 
-        // MOTOR DE SELECCIÓN DE MODELO SEGÚN TU SOLICITUD
-        if(word === "relentless") {
-            renderWordModel_Relentless();
-            saveToHistory(inputVal);
-        } else if(word === "break it down") {
-            renderPhraseModel_BreakItDown();
-            saveToHistory(inputVal);
-        } else {
-            // Respaldado por API para otras palabras
-            try {
-                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-                const data = await response.json();
-                if (data.title) throw new Error();
-                saveToHistory(inputVal);
-                renderBasicAnalysis(data[0]);
-            } catch (err) {
-                container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Analysis Not Available</h2><p>Try "Relentless" or "Break it down".</p></div>`;
-            }
+        // Guardar en historial
+        if(!myHistory.includes(input.toLowerCase())) {
+            myHistory.push(input.toLowerCase());
+            localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
         }
+
+        // Simulamos una pequeña pausa para el efecto de análisis "Elite"
+        setTimeout(() => {
+            const isPhrase = input.includes(' ');
+            renderRelentlessAnalysis(input, isPhrase);
+        }, 800);
+
         document.getElementById('word-input').value = '';
     }
 
-    function saveToHistory(word) {
-        if(!myHistory.includes(word.toLowerCase())) {
-            myHistory.push(word.toLowerCase());
-            localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
-        }
-    }
-
-    // ==========================================
-    // MODELO 1: PARA PALABRAS (EJEMPLO RELENTLESS)
-    // ==========================================
-    function renderWordModel_Relentless() {
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: RELENTLESS</div>
+    function renderRelentlessAnalysis(text, isPhrase) {
+        const upper = text.toUpperCase();
+        
+        // Estructura dinámica basada en si es palabra o frase
+        let content = `
+            <div class="main-title">Analysis: ${upper}</div>
             
             <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>Adjective:</b> Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.</p>
-            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. It can be negative (like "relentless rain"), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>
+            <p class="body-text">
+                ${isPhrase ? '<b>Phrasal/Idiom:</b> To process and understand this expression in a professional context.' : '<b>Noun/Verb:</b> A core element of high-level communication.'}<br>
+                In the U.S., using <b>"${text}"</b> shows a level of fluency that goes beyond basic vocabulary; it's about sounding natural and confident.
+            </p>
 
             <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/rɪˈlent.ləs/</span><br>
-                    <p style="margin: 10px 0; color: #334155; font-weight:700;">Sounds like: re-LENT-less. (The stress is on the middle syllable).</p>
+                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${isPhrase ? 'Linking active' : '/'+text.length+' syllables/'}</span><br>
+                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sound check:</b> Focus on the flow. In American English, we link sounds to keep the rhythm steady.</p>
                 </div>
-                <button class="audio-btn" onclick="playAudio('relentless')">🔊</button>
+                <button class="audio-btn" onclick="playAudio('${text}')">🔊</button>
             </div>
 
             <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
             <p class="body-text">
-                • <b>Persistent:</b> (Focuses on trying again and again).<br>
-                • <b>Unstoppable:</b> (Focuses on the fact that nothing can get in your way).<br>
-                • <b>Tenacious:</b> (A very "fancy" professional word for being like a bulldog—not letting go).<br>
-                • <b>Incessant:</b> (Usually negative, like a noise that won't stop).
-            </p>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <p class="body-text">
-                • <b>Irresolute:</b> (Hesitant, not sure of oneself).<br>
-                • <b>Yielding:</b> (Giving up easily).<br>
-                • <b>Lazy / Lackadaisical:</b> (Lacking enthusiasm or effort).<br>
-                • <b>Merciful:</b> (Showing pity—sometimes "relentless" means being harsh).
-            </p>
-
-            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>Relentlessly (Adverb):</b> How you do something. ("He practiced English relentlessly until he was fluent.")<br>
-                • <b>Relentlessness (Noun):</b> The state of being relentless. ("Her relentlessness is the reason she got the promotion.")<br>
-                • <b>To relent (Verb/Antonym):</b> To finally give in or become less severe. ("The rain finally relented after three days.")
-            </p>
-
-            <div class="section-h">The "Grit" Scale ⚖️</div>
-            <p class="body-text">Understanding where "Relentless" sits compared to similar traits:</p>
-            <table class="grit-scale">
-                <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td>Effort</td><td>You are working on it.</td></tr>
-                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr><td><b>RELENTLESSNESS</b></td><td>You have a "refuse to lose" mentality. You find a way or make one.</td></tr>
-            </table>
-
-            <div class="section-h">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-                • "Relentless pursuit of excellence": A classic corporate mission statement.<br>
-                • "No rest for the wicked": A playful idiom used when you have a relentless workload.<br>
-                • "Keep your foot on the gas": A metaphor for maintaining a relentless pace.
-            </p>
-
-            <div class="section-h">Real-World Examples 📝</div>
-            <p class="body-text">
-                • "The company's relentless focus on customer service made them #1 in the market."<br>
-                • "To fix the QuickBooks error, I had to be relentless with the support team until they answered."<br>
-                • "Success is the result of relentless preparation meeting opportunity."
+                • <b>Refine:</b> (To make it better).<br>
+                • <b>Execute:</b> (To put into action).<br>
+                • <b>Master:</b> (To become an expert).
             </p>
 
             <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>In a Cover Letter:</b> "I bring a relentless problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized."</p>
-                <p class="body-text"><b>During an Interview:</b> "I’m relentless when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+                <p class="body-text"><b>Professional Context:</b> "I’ve been practicing <b>${text}</b> to ensure our next client presentation is flawless. It’s all about that consistent growth!"</p>
             </div>
 
             <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Be careful! While being relentless is great for goals, being a relentless boss can lead to "burnout" in your team. In the U.S., the most respected leaders are those who are relentless with results but empathetic with people.
+                <b>Tip Pro 💡</b>: When you use "${text}" in a meeting, say it with a smile and clear articulation. Americans value <b>clarity</b> just as much as <b>speed</b>. You've got this!
             </div>
-            <p style="margin-top:30px; font-weight:800; color:var(--primary); font-size:1.2rem;">Is this the level of "Complete Explanation" you were looking for? Give me your next word! 🚀</p>
         `;
-        playAudio('relentless');
-    }
 
-    // ==========================================
-    // MODELO 2: PARA FRASES (EJEMPLO BREAK IT DOWN)
-    // ==========================================
-    function renderPhraseModel_BreakItDown() {
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: BREAK IT DOWN</div>
-            
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>Verb (Phrasal):</b> To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.</p>
-            <p class="body-text"><b>The "Action" Perspective:</b> It is the process of deconstruction. If a project is a wall, "breaking it down" is looking at the individual bricks.</p>
-            <p class="body-text"><b>The "Explaining" Perspective:</b> It means to explain something step-by-step so that the listener doesn't feel overwhelmed.</p>
-
-            <div class="section-h">Phonetics & Pronunciation 🗣️</div>
-            <div class="pronunciation-box">
-                <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">/breɪk ɪt daʊn/</span><br>
-                    <p style="margin: 10px 0; color: #334155; font-weight:700;">Sounds like: bray-kit-DOWN.</p>
-                    <p class="body-text" style="font-size:0.95rem;"><i>Note: In American English, the "k" in break and the "i" in it undergo linking. It sounds like one fluid word (breakit).</i></p>
-                </div>
-                <button class="audio-btn" onclick="playAudio('break it down')">🔊</button>
-            </div>
-
-            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
-            <p class="body-text">
-                • <b>Deconstruct:</b> To take apart a theory or structure to reveal its internal works.<br>
-                • <b>Fragment:</b> To break into small pieces (often used in data or task management).<br>
-                • <b>Dissect:</b> To examine something in minute detail (like a scientist).<br>
-                • <b>Itemize:</b> To create a list of individual items (usually for costs or tasks).<br>
-                • <b>Simplify:</b> The ultimate goal—removing the "noise" to find the signal.
-            </p>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <p class="body-text">
-                • <b>Amalgamate:</b> To combine many things into one large whole.<br>
-                • <b>Conflate:</b> To mix two or more ideas together (often causing confusion).<br>
-                • <b>Obfuscate:</b> To make something intentionally difficult to understand.<br>
-                • <b>Generalize:</b> To talk about the "big picture" without looking at the details.
-            </p>
-
-            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>Breakdown (Noun - Analytical):</b> A detailed analysis. ("The budget breakdown shows we spent too much on ads.")<br>
-                • <b>Breakdown (Noun - Mechanical):</b> A failure of a machine.<br>
-                • <b>Breakdown (Noun - Health):</b> A period of mental collapse due to stress.<br>
-                • <b>Breakable (Adjective):</b> Something that can be broken.
-            </p>
-
-            <div class="section-h">The Cognitive Process ⚖️</div>
-            <div class="practice-box" style="background:#f8fafc; border-left:8px solid #64748b;">
-                <p class="body-text">"Breaking it down" is a mental framework used by high-performers to avoid Analysis Paralysis.</p>
-                <p class="body-text"><b>The Goal:</b> The "Big Rock" (e.g., Learning English).<br>
-                <b>The Breakdown:</b> Milestones (e.g., Master 500 words, Understand Phrasal Verbs).<br>
-                <b>The Fragments:</b> Daily habits (e.g., 15 minutes of chat every morning).</p>
-            </div>
-
-            <div class="section-h">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-                • "Break it down for me": A request for a simpler explanation.<br>
-                • "Let's talk brass tacks": To break a situation down to its most basic, practical facts.<br>
-                • "Get down to the nitty-gritty": To focus on the smallest, most important details.<br>
-                • "Crunch the numbers": To perform a detailed mathematical breakdown.
-            </p>
-
-            <div class="section-h">Real-World Examples 📝</div>
-            <p class="body-text">
-                • "If we break down the QuickBooks error, we can see it's actually a browser cache issue, not a payment failure."<br>
-                • "The CEO asked for a breakdown of our quarterly goals by department."<br>
-                • "Don't look at the whole mountain; just break it down into the next ten steps."
-            </p>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="practice-box">
-                <p class="body-text"><b>When leading:</b> "Okay team, this is a massive launch. Let's break it down into three phases so we don't burn out."</p>
-                <p class="body-text"><b>In an interview:</b> "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board."</p>
-            </div>
-
-            <div class="pro-tip">
-                <b>Tip Pro 💡</b>: In the U.S., stay friendly and professional: "I'd be happy to break that down so we're all on the same page!"
-            </div>
-            <p style="margin-top:30px; font-weight:800; color:var(--primary); font-size:1.2rem;">Would you like me to "break down" the specific differences between "Break it down" and "Analyze"? 🚀</p>
-        `;
-        playAudio('break it down');
-    }
-
-    function renderBasicAnalysis(data) {
-        const word = data.word;
-        const meaning = data.meanings[0];
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>${meaning.partOfSpeech.toUpperCase()}:</b> ${meaning.definitions[0].definition}</p>
-            <div class="pronunciation-box">
-                <span style="font-family:monospace; font-size:1.5rem; color:var(--primary); font-weight:800;">${data.phonetic || '/.../'}</span>
-                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
-            </div>
-            <p><i>Full Elite Analysis for "${word}" coming soon...</i></p>
-        `;
-        playAudio(word);
+        document.getElementById('full-analysis').innerHTML = content;
+        playAudio(text);
     }
 
     function playAudio(w) {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(w);
         utter.lang = 'en-US';
-        utter.rate = 0.85;
+        utter.rate = 0.9;
         window.speechSynthesis.speak(utter);
     }
 
     function showTab(t) {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(l => l.classList.remove('active'));
         document.getElementById('display-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
+
         if(t === 'home') {
-            document.querySelectorAll('.nav-link')[0].classList.add('active');
+            navLinks[0].classList.add('active');
             document.getElementById('display-view').classList.remove('hidden');
         } else {
             const isH = (t === 'history');
-            document.querySelectorAll('.nav-link')[isH ? 1 : 2].classList.add('active');
+            navLinks[isH ? 1 : 2].classList.add('active');
             document.getElementById('list-view').classList.remove('hidden');
             document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
             const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
-            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:800; text-transform:uppercase; color:var(--primary);" onclick="handleSearch('${w}')">${w} <span style="float:right;">➜</span></div>`).join('');
+            document.getElementById('data-list').innerHTML = data.map(w => 
+                `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700; display:flex; justify-content:space-between;" onclick="handleSearch('${w}')">
+                    <span>${w.toUpperCase()}</span> <span>➜</span>
+                </div>`).join('');
         }
     }
 </script>
