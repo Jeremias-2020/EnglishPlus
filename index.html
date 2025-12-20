@@ -1,156 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>EnglishPlus | Relentless Analysis</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishPlus | Elite Relentless Analysis</title>
+    
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-body{
-    font-family:Inter,sans-serif;
-    background:#f1f5f9;
-    margin:0;
-    padding:120px 20px;
-    color:#1e293b
-}
-.container{
-    max-width:900px;
-    margin:auto;
-    background:#fff;
-    padding:50px;
-    border-radius:24px;
-    box-shadow:0 10px 40px rgba(0,0,0,.08)
-}
-h1{
-    color:#002868;
-    font-size:2.4rem;
-    border-left:10px solid #bf0a30;
-    padding-left:20px
-}
-.section{
-    margin-top:40px
-}
-.section h2{
-    color:#002868;
-    font-size:1.4rem;
-    border-bottom:3px solid #e5e7eb;
-    padding-bottom:10px;
-    text-transform:uppercase
-}
-p,li{
-    font-size:1.15rem;
-    line-height:1.8
-}
-.highlight{
-    color:#bf0a30;
-    font-weight:700
-}
-.box{
-    background:#f8fafc;
-    border-left:8px solid #002868;
-    padding:25px;
-    border-radius:16px;
-    margin-top:20px
-}
-.tip{
-    background:#fffbeb;
-    border-left:8px solid #fbbf24
-}
-audio{
-    margin-top:15px
-}
-</style>
+    <style>
+        :root { 
+            --primary: #002868; 
+            --secondary: #bf0a30; 
+            --card: #ffffff; 
+            --accent: #f8fafc;
+            --bg-color: #f1f5f9;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color);
+            margin: 0; 
+            padding-top: 140px; 
+            color: #1e293b; 
+            scroll-behavior: smooth;
+        }
+        
+        header { 
+            background: var(--card); 
+            border-bottom: 4px solid var(--primary); 
+            position: fixed; top: 0; left: 0; width: 100%; 
+            z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            height: 110px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-container { 
+            max-width: 1200px; margin: 0 auto; padding: 0 25px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            width: 100%;
+        }
+
+        .logo-section { display: flex; flex-direction: column; }
+        .logo-header { width: 130px; height: auto; }
+
+        nav { display: flex; gap: 15px; margin-top: 5px; }
+        .nav-link { 
+            border: none; background: none; font-weight: 800; color: #94a3b8; 
+            cursor: pointer; font-size: 0.7rem; text-transform: uppercase;
+            padding: 5px; transition: 0.3s;
+        }
+        .nav-link.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+        .search-box-top {
+            display: flex; background: #f1f5f9; padding: 5px;
+            border-radius: 12px; border: 2px solid #e2e8f0; width: 320px;
+        }
+        #word-input { 
+            flex: 1; border: none; background: transparent; padding: 10px; 
+            font-size: 1rem; outline: none; font-weight: 600;
+        }
+        .btn-search { 
+            background: var(--primary); color: white; border: none; padding: 0 20px; 
+            border-radius: 8px; font-weight: 800; cursor: pointer;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+        
+        .main-title { 
+            color: var(--primary); 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            margin: 0 0 20px 0; 
+            text-transform: uppercase; 
+            letter-spacing: -1px; 
+            border-left: 8px solid var(--secondary);
+            padding-left: 15px;
+        }
+        
+        .section-h { 
+            color: var(--primary); 
+            font-size: 1.3rem; 
+            font-weight: 800; 
+            margin-top: 40px; 
+            border-bottom: 3px solid #f1f5f9; 
+            padding-bottom: 8px; 
+            margin-bottom: 15px; 
+        }
+        
+        .body-text { 
+            font-size: 1.05rem; 
+            line-height: 1.8; 
+            color: #334155; 
+            margin-bottom: 12px; 
+        }
+
+        .pronunciation-box { 
+            background: #f1f5f9; 
+            border-radius: 20px; 
+            padding: 25px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 30px;
+        }
+        
+        .audio-btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            font-size: 1.5rem; 
+            transition: 0.3s;
+        }
+
+        .grit-scale { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 15px; 
+            overflow: hidden; 
+        }
+        
+        .grit-scale td { 
+            padding: 15px; 
+            border-bottom: 1px solid #f1f5f9; 
+        }
+        
+        .grit-scale tr:last-child { 
+            background: #fff1f2; 
+            font-weight: 800; 
+            color: var(--secondary); 
+            font-size: 1.2rem; 
+        }
+
+        .practice-box { 
+            background: #eff6ff; 
+            border-radius: 20px; 
+            padding: 30px; 
+            margin-top: 25px; 
+            border-left: 8px solid var(--primary); 
+        }
+        
+        .pro-tip { 
+            background: #fffbeb; 
+            border-left: 8px solid #fbbf24; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-top: 30px; 
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 600px) {
+            body { padding-top: 190px; }
+            header { height: auto; padding: 10px 0; }
+            .header-container { flex-direction: column; gap: 10px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container" id="analysis"></div>
+<header>
+    <div class="header-container">
+        <div class="logo-section">
+            <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
+            <nav>
+                <button class="nav-link active" onclick="showTab('home')">Simulator</button>
+                <button class="nav-link" onclick="showTab('history')">History</button>
+                <button class="nav-link" onclick="showTab('alpha')">A-Z List</button>
+            </nav>
+        </div>
+        <div class="search-box-top">
+            <input type="text" id="word-input" placeholder="Type a word..." autocomplete="off">
+            <button class="btn-search" onclick="handleSearch()">GO</button>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="main-container">
+    <div class="app-card">
+        <div id="display-view">
+            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
+                <h1 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
+                <p style="font-size: 1.2rem; color: #64748b;">Ready to master the language with grit.</p>
+            </div>
+            <div id="full-analysis" class="hidden"></div>
+        </div>
+        <div id="list-view" class="hidden">
+            <h2 id="view-title" style="color: var(--primary);">History</h2>
+            <div id="data-list"></div>
+        </div>
+    </div>
+</div>
 
 <script>
-async function analyze(word){
-    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-    const data = await res.json();
-    const d = data[0];
+    let myHistory = JSON.parse(localStorage.getItem('ep_v_search_11')) || [];
 
-    const def = d.meanings[0].definitions[0].definition;
-    const pos = d.meanings[0].partOfSpeech;
-    const phon = d.phonetics.find(p=>p.text)?.text || "/—/";
-    const syns = d.meanings[0].synonyms || [];
-    const ants = d.meanings[0].antonyms || [];
+    document.getElementById('word-input').addEventListener('keypress', (e) => { 
+        if(e.key === 'Enter') handleSearch(); 
+    });
 
-    document.getElementById("analysis").innerHTML = `
-    <h1>Word Analysis: ${word.toUpperCase()}</h1>
+    async function handleSearch(clicked = null) {
+        const word = (clicked || document.getElementById('word-input').value).trim();
+        if(!word) return;
+        
+        showTab('home');
+        const container = document.getElementById('full-analysis');
+        document.getElementById('welcome-msg').classList.add('hidden');
+        container.classList.remove('hidden');
+        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>ANALYZING... 🚀</h2></div>`;
 
-    <div class="section">
-        <h2>English Meaning 🇺🇸</h2>
-        <p><span class="highlight">${pos}:</span> ${def}</p>
-        <p><b>Connotation:</b> In American English, this word carries strong emotional force. 
-        In professional contexts, it often signals discipline, resilience, and high personal standards.</p>
-    </div>
+        window.scrollTo(0, 0);
 
-    <div class="section">
-        <h2>Phonetics & Pronunciation 🗣️</h2>
-        <p style="font-size:1.8rem;font-family:monospace">${phon}</p>
-        <p><b>Sounds like:</b> ${word.split("").join("-")}.  
-        Stress follows standard American patterns.</p>
-        <audio controls src="${d.phonetics.find(p=>p.audio)?.audio || ""}"></audio>
-    </div>
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            const data = await response.json();
+            if (data.title) throw new Error();
 
-    <div class="section">
-        <h2>Synonyms 🤝 (The Nuance Map)</h2>
-        <ul>
-            ${syns.slice(0,4).map(s=>`<li><b>${s}:</b> Similar meaning, but with a different emotional emphasis.</li>`).join("") || "<li>No close synonyms available.</li>"}
-        </ul>
-    </div>
+            if(!myHistory.includes(word.toLowerCase())) {
+                myHistory.push(word.toLowerCase());
+                localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
+            }
 
-    <div class="section">
-        <h2>Antonyms 🚫</h2>
-        <ul>
-            ${ants.slice(0,4).map(a=>`<li>${a}: Represents the opposite behavioral tendency.</li>`).join("") || "<li>No clear antonyms listed.</li>"}
-        </ul>
-    </div>
+            renderFullAnalysis(data[0]);
+        } catch (err) {
+            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2><p>Try "Relentless" or "Outcome".</p></div>`;
+        }
+        document.getElementById('word-input').value = '';
+    }
 
-    <div class="section">
-        <h2>Word Family 👨‍👩‍👧‍👦</h2>
-        <p><b>${word}ly</b> (Adverb): Describes how an action is performed.</p>
-        <p><b>${word}ness</b> (Noun): The quality or state of being ${word}.</p>
-        <p><b>To ${word === "relentless" ? "relent" : "—"}</b>: A related verb form when applicable.</p>
-    </div>
+    function simplifyPhonetic(ipa, word) {
+        let simple = ipa
+            .replace(/ˈ/g, '')
+            .replace(/ˌ/g, '')
+            .replace(/ɪ/g, 'i')
+            .replace(/iː/g, 'ee')
+            .replace(/ɛ/g, 'e')
+            .replace(/æ/g, 'a')
+            .replace(/ɑː/g, 'ah')
+            .replace(/ɒ/g, 'o')
+            .replace(/ɔː/g, 'aw')
+            .replace(/ʊ/g, 'oo')
+            .replace(/uː/g, 'oo')
+            .replace(/ʌ/g, 'uh')
+            .replace(/ə/g, 'uh')
+            .replace(/ɜː/g, 'ur')
+            .replace(/aɪ/g, 'eye')
+            .replace(/eɪ/g, 'ay')
+            .replace(/ɔɪ/g, 'oy')
+            .replace(/aʊ/g, 'ow')
+            .replace(/oʊ/g, 'oh')
+            .replace(/ɪə/g, 'eer')
+            .replace(/eə/g, 'air')
+            .replace(/ʊə/g, 'oor')
+            .replace(/θ/g, 'th')
+            .replace(/ð/g, 'th')
+            .replace(/ʃ/g, 'sh')
+            .replace(/ʒ/g, 'zh')
+            .replace(/tʃ/g, 'ch')
+            .replace(/dʒ/g, 'j')
+            .replace(/ŋ/g, 'ng')
+            .replace(/j/g, 'y')
+            .replace(/[\.]/g, '·');
+        
+        simple = simple.replace(/[\/\(\)\[\]]/g, '');
+        return simple || word.toLowerCase().split('').join('·');
+    }
 
-    <div class="section">
-        <h2>The "Grit" Scale ⚖️</h2>
-        <p>Interest → Effort → Persistence → <b>${word}</b></p>
-        <p><b>${word}</b> represents a refusal-to-quit mindset common in elite American performance culture.</p>
-    </div>
+    function renderFullAnalysis(data) {
+        const word = data.word;
+        const upper = word.toUpperCase();
+        const phonetic = data.phonetics.find(p => p.text)?.text || "/.../";
+        const meanings = data.meanings;
+        const isPhrase = word.includes(' ');
+        
+        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
+        
+        // 1. English Meaning
+        html += `<div class="section-h">English Meaning 🇺🇸</div>`;
+        meanings.forEach(meaning => {
+            const pos = meaning.partOfSpeech.charAt(0).toUpperCase() + meaning.partOfSpeech.slice(1);
+            meaning.definitions.slice(0, 2).forEach((def, idx) => {
+                html += `<p class="body-text">• <b>${pos}:</b> ${def.definition}</p>`;
+                if(def.example) {
+                    html += `<p class="body-text" style="margin-left:20px; color:#64748b; font-style:italic;">("${def.example}")</p>`;
+                }
+            });
+        });
+        
+        html += `<p class="body-text">• <b>Connotation:</b> In American English, this is a "high-energy" word. It can be negative (like "relentless rain"), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>`;
 
-    <div class="section">
-        <h2>Idioms & Collocations 🗣️</h2>
-        <p>"Relentless pursuit of excellence"</p>
-        <p>"Keep your foot on the gas"</p>
-        <p>"No rest for the wicked"</p>
-    </div>
+        // 2. Phonetics & Pronunciation
+        const soundGuide = simplifyPhonetic(phonetic, word);
+        const stressInfo = phonetic.includes('ˈ') ? phonetic.split('ˈ')[1]?.charAt(0) || 'first' : 'first';
+        
+        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
+            <div class="pronunciation-box">
+                <div>
+                    <span style="font-family:monospace; font-size:1.3rem; color:#64748b;">• ${phonetic}</span><br>
+                    <span style="font-family:monospace; font-size:1.5rem; color:var(--secondary); font-weight:800;">• Sounds like: ${soundGuide.replace(/·/g, '-')}. (The stress is on the middle syllable).</span>
+                </div>
+                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
+            </div>`;
 
-    <div class="section box">
-        <h2>Friendly Practice (The American Way) 🇺🇸</h2>
-        <p><b>Interview Example:</b><br>
-        "I take a <b>${word}</b> approach to problem-solving. I don't stop when it's difficult — I stop when it's done."</p>
-    </div>
+        // 3. Synonyms
+        const allSyns = meanings.flatMap(m => m.synonyms || []);
+        if(allSyns.length > 0) {
+            html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
+            allSyns.slice(0, 4).forEach(syn => {
+                const capSyn = syn.charAt(0).toUpperCase() + syn.slice(1);
+                html += `<p class="body-text">• <b>${capSyn}:</b> (Focuses on a specific aspect of the concept).</p>`;
+            });
+        }
 
-    <div class="section box tip">
-        <h2>Tip Pro 💡</h2>
-        <p>In the U.S., being <b>${word}</b> with goals is respected, but being empathetic with people is essential. 
-        The strongest leaders balance intensity with emotional intelligence.</p>
-    </div>
+        // 4. Antonyms
+        const allAnts = meanings.flatMap(m => m.antonyms || []);
+        if(allAnts.length > 0) {
+            html += `<div class="section-h">Antonyms 🚫</div>`;
+            allAnts.slice(0, 4).forEach(ant => {
+                const capAnt = ant.charAt(0).toUpperCase() + ant.slice(1);
+                html += `<p class="body-text">• <b>${capAnt}:</b> (Represents the opposite concept).</p>`;
+            });
+        }
 
-    <p style="text-align:center;margin-top:50px;font-weight:800;color:#002868">
-    Ready for your next Relentless Analysis? 🚀
-    </p>
-    `;
-}
+        // 5. Word Family (solo para palabras)
+        if(!isPhrase) {
+            html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
+            html += `<p class="body-text">• <b>${word.charAt(0).toUpperCase() + word.slice(1)}ly</b> (Adverb): How you do something. ("He practiced English relentlessly until he was fluent.")</p>`;
+            html += `<p class="body-text">• <b>${word.charAt(0).toUpperCase() + word.slice(1)}ness</b> (Noun): The state of being ${word}. ("Her relentlessness is the reason she got the promotion.")</p>`;
+            
+            const baseVerb = word.replace(/less$/, '').replace(/ful$/, '');
+            if(baseVerb !== word && baseVerb.length > 2) {
+                html += `<p class="body-text">• <b>To ${baseVerb}</b> (Verb/Antonym): To finally give in or become less severe. ("The rain finally relented after three days.")</p>`;
+            }
+        }
 
-analyze("relentless");
+        // 6. The "Grit" Scale
+        html += `<div class="section-h">The "Grit" Scale ⚖️</div>`;
+        html += `<p class="body-text">Understanding where "${upper}" sits compared to similar traits:</p>`;
+        html += `<table class="grit-scale">
+            <tr><td>• Interest</td><td>You like the idea.</td></tr>
+            <tr><td>• Effort</td><td>You are working on it.</td></tr>
+            <tr><td>• Persistence</td><td>You keep going despite mistakes.</td></tr>
+            <tr><td>• <b>${upper}</b></td><td>You have a "refuse to lose" mentality. You find a way or make one.</td></tr>
+        </table>`;
+
+        // 7. Idioms & Collocations
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
+        html += `<p class="body-text">• <b>"${upper} pursuit of excellence"</b>: A classic corporate mission statement.</p>`;
+        html += `<p class="body-text">• <b>"No rest for the wicked"</b>: A playful idiom used when you have a relentless workload.</p>`;
+        html += `<p class="body-text">• <b>"Keep your foot on the gas"</b>: A metaphor for maintaining a relentless pace.</p>`;
+
+        // 8. Real-World Examples
+        html += `<div class="section-h">Real-World Examples 📝</div>`;
+        html += `<p class="body-text">• "The company's ${word} focus on customer service made them #1 in the market."</p>`;
+        html += `<p class="body-text">• "To fix the QuickBooks error, I had to be ${word} with the support team until they answered."</p>`;
+        html += `<p class="body-text">• "Success is the result of ${word} preparation meeting opportunity."</p>`;
+
+        // 9. Friendly Practice
+        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>`;
+        html += `<p class="body-text">How to use this to "sell yourself" in a professional environment:</p>`;
+        html += `<div class="practice-box">`;
+        html += `<p class="body-text"><b>1. In a Cover Letter:</b></p>`;
+        html += `<p class="body-text">"I bring a ${word} problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized."</p>`;
+        html += `<p class="body-text"><b>2. During an Interview:</b></p>`;
+        html += `<p class="body-text">"I'm ${word} when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done."</p>`;
+        html += `</div>`;
+
+        // 10. Pro Tip
+        html += `<div class="pro-tip">`;
+        html += `<p class="body-text"><b>Tip Pro 💡</b></p>`;
+        html += `<p class="body-text">Be careful! While being ${word} is great for goals, being a ${word} boss can lead to "burnout" in your team. In the U.S., the most respected leaders are those who are ${word} with results but empathetic with people.</p>`;
+        html += `</div>`;
+
+        // 11. Closing
+        html += `<p style="text-align:center; margin-top:50px; font-size:1.1rem; color:var(--primary); font-weight:700;">Is this the level of "Complete Explanation" you were looking for? Give me your next word, and I will give it the Relentless Analysis treatment! 🚀</p>`;
+
+        document.getElementById('full-analysis').innerHTML = html;
+        playAudio(word);
+    }
+
+    function playAudio(w) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(w);
+        utter.lang = 'en-US';
+        utter.rate = 0.85;
+        window.speechSynthesis.speak(utter);
+    }
+
+    function showTab(t) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById('display-view').classList.add('hidden');
+        document.getElementById('list-view').classList.add('hidden');
+        if(t === 'home') {
+            document.querySelectorAll('.nav-link')[0].classList.add('active');
+            document.getElementById('display-view').classList.remove('hidden');
+        } else {
+            const isH = (t === 'history');
+            document.querySelectorAll('.nav-link')[isH ? 1 : 2].classList.add('active');
+            document.getElementById('list-view').classList.remove('hidden');
+            document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
+            const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
+            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700;" onclick="handleSearch('${w}')">${w} ➜</div>`).join('');
+        }
+    }
 </script>
-
 </body>
 </html>
