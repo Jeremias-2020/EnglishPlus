@@ -3,30 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Pro American Simulator</title>
+    <title>EnglishPlus | Elite Semantic Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Black+Ops+One&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; --text: #1e293b; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-top: 180px; color: var(--text); }
-        header { background: #fff; border-bottom: 6px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; padding: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 30px; display: flex; align-items: center; justify-content: space-between; }
-        .logo-text { font-family: 'Black Ops One', cursive; font-size: 3.5rem; margin: 0; background: linear-gradient(to right, #002868 45%, #bf0a30 45%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
-        .author-tag { font-weight: 800; color: #000; font-size: 0.9rem; text-transform: uppercase; margin-top: 8px; display: block; letter-spacing: 2px; }
-        .search-box { display: flex; background: #f8fafc; padding: 8px; border-radius: 15px; border: 3px solid #e2e8f0; width: 450px; }
-        #word-input { flex: 1; border: none; background: transparent; padding: 12px; font-size: 1.2rem; outline: none; font-weight: 700; color: var(--primary); }
-        .btn-search { background: var(--primary); color: white; border: none; padding: 0 35px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
-        .app-card { background: #fff; border-radius: 35px; padding: 70px; box-shadow: 0 30px 70px rgba(0,0,0,0.07); }
-        .main-title { color: var(--primary); font-size: 3.8rem; font-weight: 900; margin-bottom: 30px; border-left: 18px solid var(--secondary); padding-left: 25px; text-transform: uppercase; line-height: 0.9; }
-        .section-h { color: var(--primary); font-size: 1.7rem; font-weight: 800; margin-top: 50px; border-bottom: 5px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 25px; text-transform: uppercase; }
-        .body-text { font-size: 1.25rem; line-height: 1.8; margin-bottom: 20px; color: #334155; }
-        .box-audio { background: #f8fafc; border-radius: 25px; padding: 40px; display: flex; align-items: center; justify-content: space-between; margin: 35px 0; border: 2px solid #e2e8f0; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 80px; height: 80px; border-radius: 50%; cursor: pointer; font-size: 2rem; }
-        .practice-box { background: #f0f7ff; border-left: 15px solid var(--primary); padding: 40px; border-radius: 20px; margin-top: 30px; }
-        .scale-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .scale-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 1.1rem; }
-        .scale-table tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
-        .pro-tip { background: #fffbeb; border-left: 15px solid #fbbf24; padding: 40px; border-radius: 20px; margin-top: 50px; font-style: italic; color: #92400e; }
+        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --text: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-top: 160px; color: var(--text); }
+        header { background: #fff; border-bottom: 6px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; padding: 15px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header-container { max-width: 1100px; margin: 0 auto; padding: 0 25px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-group { display: flex; flex-direction: column; }
+        .logo-text { font-family: 'Black Ops One', cursive; font-size: 3rem; margin: 0; background: linear-gradient(to right, #002868 45%, #bf0a30 45%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .search-area { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; width: 450px; }
+        #word-input { flex: 1; border: none; background: transparent; padding: 12px; font-size: 1.1rem; outline: none; font-weight: 600; }
+        .btn-go { background: var(--primary); color: white; border: none; padding: 0 30px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+        .card { background: #fff; border-radius: 25px; padding: 55px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .main-h { color: var(--primary); font-size: 3.5rem; font-weight: 900; margin-bottom: 25px; border-left: 15px solid var(--secondary); padding-left: 20px; text-transform: uppercase; line-height: 0.9; }
+        .sec-h { color: var(--primary); font-size: 1.6rem; font-weight: 800; margin-top: 45px; border-bottom: 4px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 25px; text-transform: uppercase; }
+        .p-text { font-size: 1.2rem; line-height: 1.8; margin-bottom: 15px; }
+        .grid-map { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 25px 0; }
+        .map-box { background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; }
+        .pill { background: #e2e8f0; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.9rem; font-weight: 800; vertical-align: middle; margin-left: 10px; }
+        .practice-card { background: #f0f7ff; border-left: 10px solid var(--primary); padding: 35px; border-radius: 15px; margin-top: 30px; }
+        .tip-box { background: #fffbeb; border-left: 10px solid #fbbf24; padding: 30px; border-radius: 15px; margin-top: 40px; color: #92400e; font-style: italic; }
         .hidden { display: none; }
     </style>
 </head>
@@ -34,137 +32,128 @@
 
 <header>
     <div class="header-container">
-        <div>
+        <div class="logo-group">
             <h1 class="logo-text">EnglishPlus</h1>
-            <span class="author-tag">American English Simulator by Carlos Mario Navarro</span>
+            <span style="font-weight:800; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase;">Semantic Accuracy Engine</span>
         </div>
-        <div class="search-box">
+        <div class="search-area">
             <input type="text" id="word-input" placeholder="Analyze word or phrase..." autocomplete="off">
-            <button class="btn-search" id="go-btn">GO</button>
+            <button class="btn-go" id="btn-search">ANALYZE</button>
         </div>
     </div>
 </header>
 
 <div class="container">
-    <div class="app-card">
-        <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
-            <h1 style="color: var(--primary); font-size: 4rem; font-weight: 900; letter-spacing: -3px;">ELITE ANALYSIS 🇺🇸</h1>
-            <p style="font-size: 1.5rem; color: #64748b;">The most robust American professional vocabulary deconstruction.</p>
+    <div class="card" id="output-card">
+        <div id="welcome" style="text-align:center; padding: 60px 0;">
+            <h1 style="font-size: 3.5rem; color: var(--primary); margin-bottom: 10px;">ROBUST ANALYSIS 🇺🇸</h1>
+            <p style="font-size: 1.3rem; color: #64748b;">Technical deconstruction without artificial fillers.</p>
         </div>
-        <div id="full-analysis" class="hidden"></div>
+        <div id="content" class="hidden"></div>
     </div>
 </div>
 
 <script>
-    const inputField = document.getElementById('word-input');
-    const goBtn = document.getElementById('go-btn');
+    const input = document.getElementById('word-input');
+    const btn = document.getElementById('btn-search');
 
-    inputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
-    goBtn.addEventListener('click', handleSearch);
-
-    // DYNAMIC SEMANTIC ENGINE (No más datos estáticos)
-    const database = {
-        "relentless": {
-            type: "Adjective",
-            meaning: "Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop.",
-            nuance: "In American English, this is a 'high-energy' word. In business, it's a huge compliment for unstoppable work ethic.",
-            phonetic: "/rɪˈlent.ləs/",
-            sounds: "re-LENT-less",
-            syns: ["Persistent (Try again & again)", "Unstoppable (Nothing in your way)", "Tenacious (Bulldog mentality)", "Incessant (Non-stop)"],
-            ants: ["Irresolute (Hesitant)", "Yielding (Giving up)", "Lackadaisical (No effort)", "Merciful (Showing pity)"],
-            family: ["Relentlessly (Adverb)", "Relentlessness (Noun)", "To relent (Verb/Opposite)"],
-            scale: [["Interest", "You like the idea"], ["Effort", "You are working"], ["Persistence", "You keep going"], ["Relentlessness", "Refuse to lose"]],
-            idioms: ["Relentless pursuit of excellence", "No rest for the wicked", "Keep your foot on the gas"],
-            examples: ["Fixing the QuickBooks error required relentless focus.", "The company is #1 due to relentless customer service.", "Success comes from relentless preparation."],
-            practice: { interview: "I’m relentless when it comes to hitting my KPIs. I stop when the job is done.", boss: "I'll be relentless with the vendors until we get a fix." },
-            tip: "In the U.S., be relentless with results but empathetic with people to avoid burnout."
-        },
-        "break it down": {
-            type: "Verb (Phrasal)",
-            meaning: "To separate something into smaller, simpler, or more manageable parts to understand it easily.",
-            nuance: "Signals you are moving from a 'big problem' to a 'clear plan'. It's highly strategic.",
-            phonetic: "/breɪk ɪt daʊn/",
-            sounds: "bray-kit-DOWN",
-            syns: ["Deconstruct (Take apart)", "Analyze (Think through)", "Dissect (Examine details)", "Simplify (Make easier)"],
-            ants: ["Assemble (Put together)", "Complicate (Make harder)", "Synthesize (Mix ideas)", "Obscure (Make unclear)"],
-            family: ["Breakdown (Noun - Analysis)", "Breakdown (Noun - Mechanical)", "Breakdown (Noun - Emotional)"],
-            scale: [["Identify", "Recognize problem"], ["Break down", "Fragment tasks"], ["Prioritize", "Organize parts"], ["Execute", "Solve step-by-step"]],
-            idioms: ["Break it down Barney-style", "Give me the play-by-play", "Crunch the numbers"],
-            examples: ["Let's break down the new requirements.", "Break it down into 5-minute tasks.", "I'll break down the budget for you."],
-            practice: { interview: "I break down large projects into actionable items immediately.", boss: "Could you break down the transaction history for me?" },
-            tip: "American bosses love 'Actionable Breakdowns'. It signals you are a doer, not just a thinker."
-        }
-    };
+    input.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
+    btn.addEventListener('click', handleSearch);
 
     async function handleSearch() {
-        const query = inputField.value.trim().toLowerCase();
+        const query = input.value.trim();
         if(!query) return;
         
-        const container = document.getElementById('full-analysis');
-        document.getElementById('welcome-msg').classList.add('hidden');
-        container.classList.remove('hidden');
-        container.innerHTML = "<h2>Analyzing...</h2>";
+        const content = document.getElementById('content');
+        document.getElementById('welcome').classList.add('hidden');
+        content.classList.remove('hidden');
+        content.innerHTML = "<h2>Analyzing semantic integrity...</h2>";
 
-        const data = database[query] || await fetchFallback(query);
-        render(query.toUpperCase(), data);
-    }
-
-    async function fetchFallback(q) {
-        // Fallback robusto para palabras no mapeadas
         try {
-            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${q}`);
-            const api = await res.json();
-            const d = api[0];
-            return {
-                type: d.meanings[0].partOfSpeech,
-                meaning: d.meanings[0].definitions[0].definition,
-                nuance: "A professional American term used for clarity and impact.",
-                phonetic: d.phonetic || "/"+q+"/",
-                sounds: q,
-                syns: ["Advanced", "Key", "Strategic", "Focused"],
-                ants: ["Generic", "Passive", "Vague", "Weak"],
-                family: [q+"ly", q+"ness"],
-                scale: [["Basic", "Entry level"], ["Professional", "Standard"], ["Expert", "High level"], ["Elite", "American Standard"]],
-                idioms: ["Hit the ground running", "Level up"],
-                examples: ["We need a " + q + " approach.", "That's a very " + q + " strategy."],
-                practice: { interview: "I use a " + q + " mindset.", boss: "I'll handle this with " + q + " precision." },
-                tip: "Accuracy is authority. Use this word to show you are in command of the language."
-            };
-        } catch(e) { return database["relentless"]; }
+            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query.split(' ')[0]}`);
+            const data = await res.json();
+            render(query, Array.isArray(data) ? data[0] : null);
+        } catch (e) {
+            content.innerHTML = "<h2>Error connecting to linguistic database.</h2>";
+        }
     }
 
-    function render(title, data) {
-        document.getElementById('full-analysis').innerHTML = `
-            <div class="main-title">Word Analysis: ${title}</div>
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text"><b>${data.type}:</b> ${data.meaning}</p>
-            <p class="body-text"><b>Nuance:</b> ${data.nuance}</p>
-            <div class="section-h">Phonetics 🗣️</div>
-            <div class="box-audio">
-                <div><span style="font-size:2.5rem; font-weight:800;">${data.phonetic}</span><br>Sounds like: ${data.sounds}</div>
-                <button class="audio-btn" onclick="speechSynthesis.speak(new SpeechSynthesisUtterance('${title}'))">🔊</button>
+    function render(query, api) {
+        const word = query.toUpperCase();
+        const definition = api ? api.meanings[0].definitions[0].definition : "Information not available in the current technical dictionary.";
+        const pos = api ? api.meanings[0].partOfSpeech : "Noun/Entity";
+        const phon = api ? (api.phonetic || api.phonetics.find(p => p.text)?.text || `/${query}/`) : `/${query}/`;
+
+        // Accurate Semantic Logic
+        let syns = api ? api.meanings[0].synonyms : [];
+        let ants = api ? api.meanings[0].antonyms : [];
+
+        // Protection for concrete nouns (Apple, Table, etc.)
+        const isConcrete = ["apple", "car", "table", "chair", "pen", "phone"].includes(query.toLowerCase());
+        
+        const synHTML = isConcrete ? "N/A (Proper Noun / Specific Entity)" : (syns.length > 0 ? syns.slice(0, 5).map(s => `• <b>${s}</b>`).join('<br>') : "No direct synonyms found in a professional context.");
+        const antHTML = isConcrete ? "N/A (Entities lack logical opposites)" : (ants.length > 0 ? ants.slice(0, 5).map(a => `• <b>${a}</b>`).join('<br>') : "No binary opposite exists for this term.");
+
+        document.getElementById('content').innerHTML = `
+            <div class="main-h">Analysis: ${word} <span class="pill">${pos}</span></div>
+            
+            <div class="sec-h">Professional Meaning 🇺🇸</div>
+            <p class="p-text">${definition}</p>
+            <p class="p-text"><b>Connotation:</b> ${getNuance(query, pos)}</p>
+
+            <div class="sec-h">Phonetics & Pronunciation 🗣️</div>
+            <div style="background:#f1f5f9; padding:30px; border-radius:15px; display:flex; align-items:center; justify-content:space-between; border: 1px solid #e2e8f0;">
+                <span style="font-size:2.5rem; font-weight:800; color:var(--primary); font-family:monospace;">${phon}</span>
+                <button style="background:var(--primary); color:white; border:none; width:65px; height:65px; border-radius:50%; cursor:pointer; font-size:1.8rem;" onclick="speechSynthesis.speak(new SpeechSynthesisUtterance('${query}'))">🔊</button>
             </div>
-            <div class="section-h">Synonyms 🤝</div>
-            <div class="body-text">${data.syns.map(s => `• <b>${s}</b>`).join('<br>')}</div>
-            <div class="section-h">Antonyms 🚫</div>
-            <div class="body-text">${data.ants.map(a => `• <b>${a}</b>`).join('<br>')}</div>
-            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-            <div class="body-text">${data.family.map(f => `• ${f}`).join('<br>')}</div>
-            <div class="section-h">Scale ⚖️</div>
-            <table class="scale-table">${data.scale.map(i => `<tr><td>${i[0]}</td><td>${i[1]}</td></tr>`).join('')}</table>
-            <div class="section-h">Idioms 🗣️</div>
-            <div class="body-text">${data.idioms.map(i => `• "${i}"`).join('<br>')}</div>
-            <div class="section-h">Examples 📝</div>
-            <div class="body-text">${data.examples.map(e => `• "${e}"`).join('<br>')}</div>
-            <div class="section-h">Practice 🇺🇸</div>
-            <div class="practice-box">
-                <p><b>Interview:</b> "${data.practice.interview}"</p>
-                <p><b>Professional:</b> "${data.practice.boss}"</p>
+
+            <div class="grid-map">
+                <div class="map-box">
+                    <div style="font-weight:800; color:var(--primary); margin-bottom:15px; text-transform:uppercase;">Synonyms (Nuance Map)</div>
+                    <div class="p-text">${synHTML}</div>
+                </div>
+                <div class="map-box">
+                    <div style="font-weight:800; color:var(--primary); margin-bottom:15px; text-transform:uppercase;">Antonyms (Logical Opposites)</div>
+                    <div class="p-text">${antHTML}</div>
+                </div>
             </div>
-            <div class="pro-tip"><b>Tip Pro 💡</b>: ${data.tip}</div>
+
+            <div class="sec-h">Corporate Usage & Collocations 📝</div>
+            <div class="p-text">
+                ${getExamples(query).map(e => `• "${e}"`).join('<br>')}
+            </div>
+
+            <div class="sec-h">Professional Practice Lab 🇺🇸</div>
+            <div class="practice-card">
+                <p class="p-text"><b>High-Level Context:</b> "${getLab(query)}"</p>
+            </div>
+
+            <div class="tip-box">
+                <b>Carlos's Pro Tip 💡:</b> ${getTip(query)}
+            </div>
         `;
         window.scrollTo(0,0);
-        inputField.value = '';
+        input.value = '';
+    }
+
+    function getNuance(q, pos) {
+        if(pos.includes("verb") || q.includes(" ")) return "Action-oriented. Used to define workflows or strategic execution.";
+        if(pos.includes("adjective")) return "Character-based. Used to describe professional traits or market conditions.";
+        return "Object-oriented. Used as a direct reference to a specific entity or tool.";
+    }
+
+    function getExamples(q) {
+        if(q.toLowerCase() === "apple") return ["We need to analyze Apple's market strategy.", "She took a bite of the red apple.", "The apple ecosystem is highly integrated."];
+        if(q.toLowerCase() === "relentless") return ["The CEO was relentless in pursuing the merger.", "Relentless focus on quality is our priority.", "The rain was relentless throughout the week."];
+        return ["This term is essential for clear communication.", "Always verify the context before using this word.", "Professionalism relies on precise vocabulary."];
+    }
+
+    function getLab(q) {
+        return `In my experience, having a clear understanding of ${q.toLowerCase()} allows for more efficient project management and team alignment.`;
+    }
+
+    function getTip(q) {
+        return `Accuracy beats complexity. In American business, if you use a word like ${q.toUpperCase()} correctly, you build instant credibility. If the word is a simple object, keep it simple. If it's a concept, own it.`;
     }
 </script>
 </body>
