@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Elite Relentless Analysis</title>
+    <title>EnglishPlus | American English Simulator</title>
     
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Black+Ops+One&display=swap" rel="stylesheet">
 
     <style>
         :root { 
@@ -21,92 +20,100 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-color);
             margin: 0; 
-            /* Aumentamos el padding superior para evitar que el header tape el inicio */
-            padding-top: 140px; 
+            padding-top: 180px; 
             color: #1e293b; 
             scroll-behavior: smooth;
         }
         
         header { 
             background: var(--card); 
-            border-bottom: 4px solid var(--primary); 
+            border-bottom: 5px solid var(--primary); 
             position: fixed; top: 0; left: 0; width: 100%; 
-            z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            height: 110px; /* Altura fija para consistencia */
-            display: flex;
-            align-items: center;
+            z-index: 2000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 15px 0;
         }
 
         .header-container { 
             max-width: 1200px; margin: 0 auto; padding: 0 25px; 
             display: flex; align-items: center; justify-content: space-between; 
-            width: 100%;
         }
 
-        .logo-section { display: flex; flex-direction: column; }
-        .logo-header { width: 130px; height: auto; }
+        /* ESTILO BANDERA EE.UU. PARA EL LOGO */
+        .brand-section { display: flex; flex-direction: column; }
+        .logo-text { 
+            font-family: 'Black Ops One', cursive;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(to right, #002868 40%, #bf0a30 40%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+        .author-tag { 
+            font-weight: 700; color: black; font-size: 0.85rem; margin-top: 5px; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
 
-        nav { display: flex; gap: 15px; margin-top: 5px; }
+        nav { display: flex; gap: 20px; margin-top: 15px; }
         .nav-link { 
             border: none; background: none; font-weight: 800; color: #94a3b8; 
-            cursor: pointer; font-size: 0.7rem; text-transform: uppercase;
+            cursor: pointer; font-size: 0.8rem; text-transform: uppercase;
             padding: 5px; transition: 0.3s;
         }
-        .nav-link.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
 
         .search-box-top {
-            display: flex; background: #f1f5f9; padding: 5px;
-            border-radius: 12px; border: 2px solid #e2e8f0; width: 320px;
+            display: flex; background: #f1f5f9; padding: 6px;
+            border-radius: 12px; border: 3px solid #e2e8f0; width: 350px;
         }
         #word-input { 
             flex: 1; border: none; background: transparent; padding: 10px; 
-            font-size: 1rem; outline: none; font-weight: 600;
+            font-size: 1.1rem; outline: none; font-weight: 700; color: var(--primary);
         }
         .btn-search { 
-            background: var(--primary); color: white; border: none; padding: 0 20px; 
-            border-radius: 8px; font-weight: 800; cursor: pointer;
+            background: var(--primary); color: white; border: none; padding: 0 25px; 
+            border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s;
         }
+        .btn-search:hover { background: var(--secondary); }
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+        .app-card { background: #fff; border-radius: 24px; padding: 50px; box-shadow: 0 10px 50px rgba(0,0,0,0.08); }
         
-        /* Título con margen superior extra para que no se pegue al header */
+        /* ANALISIS VISUAL */
         .main-title { 
-            color: var(--primary); 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            margin: 0 0 20px 0; 
-            text-transform: uppercase; 
-            letter-spacing: -1px; 
-            border-left: 8px solid var(--secondary);
-            padding-left: 15px;
+            color: var(--primary); font-size: 2.8rem; font-weight: 800; 
+            margin: 0 0 25px 0; text-transform: uppercase; 
+            border-left: 10px solid var(--secondary); padding-left: 20px;
         }
         
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 45px; border-bottom: 4px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; }
+        .body-text { font-size: 1.15rem; line-height: 1.8; color: #334155; margin-bottom: 20px; }
 
         .pronunciation-box { 
-            background: #f1f5f9; border-radius: 20px; padding: 25px; 
-            display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;
+            background: #f1f5f9; border-radius: 20px; padding: 30px; 
+            display: flex; align-items: center; justify-content: space-between; margin: 30px 0;
+            border: 1px solid #e2e8f0;
         }
         .audio-btn { 
-            background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.5rem; transition: 0.3s;
+            background: var(--primary); color: white; border: none; width: 70px; height: 70px; border-radius: 50%; 
+            cursor: pointer; font-size: 2rem; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
+        .audio-btn:hover { transform: scale(1.15); background: var(--secondary); }
 
-        .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden; }
-        .grit-scale td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
-        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); font-size: 1.2rem; }
+        .grit-scale { width: 100%; border-collapse: collapse; margin: 25px 0; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .grit-scale td { padding: 18px; border-bottom: 1px solid #f1f5f9; font-size: 1.1rem; }
+        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); font-size: 1.3rem; }
 
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; margin-top: 25px; border-left: 8px solid var(--primary); }
-        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 35px; margin-top: 30px; border-left: 10px solid var(--primary); }
+        .pro-tip { background: #fffbeb; border-left: 10px solid #fbbf24; padding: 30px; border-radius: 15px; margin-top: 40px; font-style: italic; font-size: 1.1rem; }
 
         .hidden { display: none; }
 
-        @media (max-width: 600px) {
-            body { padding-top: 190px; }
-            header { height: auto; padding: 10px 0; }
-            .header-container { flex-direction: column; gap: 10px; }
+        @media (max-width: 800px) {
+            body { padding-top: 250px; }
+            .header-container { flex-direction: column; text-align: center; }
+            .search-box-top { width: 100%; margin-top: 15px; }
         }
     </style>
 </head>
@@ -114,8 +121,9 @@
 
 <header>
     <div class="header-container">
-        <div class="logo-section">
-            <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
+        <div class="brand-section">
+            <h1 class="logo-text">EnglishPlus</h1>
+            <span class="author-tag">American English Vocabulary Simulator by Carlos Mario Navarro</span>
             <nav>
                 <button class="nav-link active" onclick="showTab('home')">Simulator</button>
                 <button class="nav-link" onclick="showTab('history')">History</button>
@@ -123,18 +131,18 @@
             </nav>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type a word..." autocomplete="off">
+            <input type="text" id="word-input" placeholder="Type word (e.g. Grit)..." autocomplete="off">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
 </header>
 
-<div class="container" id="main-container">
+<div class="container">
     <div class="app-card">
         <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-                <h1 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
-                <p style="font-size: 1.2rem; color: #64748b;">Ready to master the language with grit.</p>
+            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
+                <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800;">REACH ELITE STATUS 🇺🇸</h1>
+                <p style="font-size: 1.3rem; color: #64748b;">The most robust American vocabulary analysis at your fingertips.</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
         </div>
@@ -158,9 +166,8 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>ANALYZING... 🚀</h2></div>`;
+        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>GENERATING ROBUST ANALYSIS... 🚀</h2></div>`;
 
-        // Scroll automático hacia arriba para asegurar visibilidad
         window.scrollTo(0, 0);
 
         try {
@@ -175,7 +182,7 @@
 
             renderFullAnalysis(data[0]);
         } catch (err) {
-            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2><p>Try "Tenacious" or "Outcome".</p></div>`;
+            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2><p>Try something like "Resilient" or "Drive".</p></div>`;
         }
         document.getElementById('word-input').value = '';
     }
@@ -187,62 +194,76 @@
         const meaning = data.meanings[0];
         const def = meaning.definitions[0].definition;
         
-        // Simulación de datos extra para completar el formato Relentless
-        const syns = meaning.synonyms.length > 0 ? meaning.synonyms.slice(0, 4) : ["Persistent", "Unstoppable", "Tenacious", "Determined"];
-        const ants = meaning.antonyms.length > 0 ? meaning.antonyms.slice(0, 4) : ["Yielding", "Lazy", "Irresolute", "Merciful"];
-
         document.getElementById('full-analysis').innerHTML = `
             <div class="main-title">Word Analysis: ${upper}</div>
             
             <div class="section-h">English Meaning 🇺🇸</div>
             <p class="body-text"><b>${meaning.partOfSpeech.toUpperCase()}:</b> ${def}</p>
-            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. While it can have negative uses, in business it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>
+            <p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. While it can be negative (like "relentless noise"), in business it’s almost always a huge compliment meaning you have an unstoppable work ethic.</p>
 
             <div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
-                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sound check:</b> Stress the middle syllable for the true American impact.</p>
+                    <span style="font-family:monospace; font-size:2rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
+                    <p style="margin-top:10px; color: #64748b; font-weight:700;"><b>Sounds like:</b> Stress the core of the word for maximum American impact.</p>
                 </div>
                 <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             </div>
 
             <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
             <p class="body-text">
-                • <b>${syns[0]}:</b> (Trying again and again).<br>
-                • <b>${syns[1]}:</b> (Nothing gets in your way).<br>
-                • <b>${syns[2]}:</b> (Like a bulldog—not letting go).
+                • <b>Persistent:</b> (Focuses on trying again and again).<br>
+                • <b>Unstoppable:</b> (Focuses on the fact that nothing can get in your way).<br>
+                • <b>Tenacious:</b> (Professional word for being like a bulldog—not letting go).<br>
+                • <b>Incessant:</b> (Usually negative, like a noise that won't stop).
             </p>
 
             <div class="section-h">Antonyms 🚫</div>
             <p class="body-text">
-                • <b>${ants[0]}:</b> (Hesitant, not sure).<br>
-                • <b>${ants[1]}:</b> (Giving up easily).<br>
-                • <b>${ants[2]}:</b> (Lacking enthusiasm).
+                • <b>Irresolute:</b> (Hesitant, not sure of oneself).<br>
+                • <b>Yielding:</b> (Giving up easily).<br>
+                • <b>Lazy / Lackadaisical:</b> (Lacking enthusiasm or effort).<br>
+                • <b>Merciful:</b> (Showing pity—sometimes being too soft).
+            </p>
+
+            <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
+            <p class="body-text">
+                • <b>${word}ly (Adverb):</b> How you do something. ("He practiced English ${word}ly.")<br>
+                • <b>${word}ness (Noun):</b> The state of being. ("Her ${word}ness got her the promotion.")<br>
+                • <b>To relent (Verb):</b> To finally give in (Antonym context).
             </p>
 
             <div class="section-h">The "Grit" Scale ⚖️</div>
+            <p class="body-text">Understanding where <b>${upper}</b> sits compared to similar traits:</p>
             <table class="grit-scale">
                 <tr><td>Interest</td><td>You like the idea.</td></tr>
                 <tr><td>Effort</td><td>You are working on it.</td></tr>
                 <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr><td><b>${upper}</b></td><td>A "refuse to lose" mentality.</td></tr>
+                <tr><td><b>${upper}</b></td><td>A "refuse to lose" mentality. You find a way or make one.</td></tr>
             </table>
 
             <div class="section-h">Idioms & Collocations 🗣️</div>
             <p class="body-text">
-                • "${upper} pursuit of excellence"<br>
-                • "No rest for the wicked"<br>
-                • "Keep your foot on the gas"
+                • "<b>${upper} pursuit of excellence</b>": A classic corporate mission statement.<br>
+                • "<b>No rest for the wicked</b>": Playful idiom for a heavy workload.<br>
+                • "<b>Keep your foot on the gas</b>": Metaphor for maintaining a fast pace.
+            </p>
+
+            <div class="section-h">Real-World Examples 📝</div>
+            <p class="body-text">
+                • "The company's <b>${word}</b> focus on customer service made them #1."<br>
+                • "I had to be <b>${word}</b> with support until they fixed the QuickBooks error."<br>
+                • "Success is the result of <b>${word}</b> preparation meeting opportunity."
             </p>
 
             <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
             <div class="practice-box">
-                <p class="body-text"><b>Interview Tip:</b> "I’m <b>${word}</b> when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+                <p class="body-text"><b>In a Cover Letter:</b> "I bring a ${word} problem-solving attitude to every challenge, ensuring projects are optimized."</p>
+                <p class="body-text"><b>During an Interview:</b> "I’m ${word} when it comes to hitting my KPIs. I stop when the job is done."</p>
             </div>
 
             <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Be careful! While being <b>${word}</b> is great for goals, balance results with empathy to avoid burnout.
+                <b>Tip Pro 💡</b>: Be careful! While being <b>${word}</b> is great for goals, being a <b>${word}</b> boss can lead to burnout. In the U.S., the most respected leaders are those who are <b>${word}</b> with results but empathetic with people.
             </div>
         `;
         playAudio(word);
@@ -269,7 +290,7 @@
             document.getElementById('list-view').classList.remove('hidden');
             document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
             const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
-            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700;" onclick="handleSearch('${w}')">${w} ➜</div>`).join('');
+            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700;" onclick="handleSearch('${w}')">${w.toUpperCase()} ➜</div>`).join('');
         }
     }
 </script>
