@@ -3,280 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>American English Vocabulary Simulator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#002868">
+    <title>EnglishPlus | American English Simulator</title>
+    
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .tab-active {
-            background-color: #4f46e5;
-            color: white;
+        :root { 
+            --primary: #002868; 
+            --secondary: #bf0a30; 
+            --bg: #f8fafc; 
+            --card: #ffffff; 
+            --accent: #eef2ff; 
         }
-        .tab-inactive {
-            background-color: white;
-            color: #374151;
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            transition: all 0.2s ease; 
         }
-        .tab-inactive:hover {
-            background-color: #f9fafb;
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            padding-bottom: 90px; 
+            color: #1e293b; 
         }
-        .hidden {
-            display: none;
+        
+        header { 
+            background: var(--card); 
+            padding: 25px; 
+            text-align: center; 
+            border-bottom: 4px solid var(--primary); 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+        }
+        .logo { 
+            max-width: 240px; 
+            height: auto; 
+        }
+        .subtitle { 
+            font-size: 0.8rem; 
+            color: #64748b; 
+            font-weight: 700; 
+            margin-top: 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+
+        .container { 
+            max-width: 700px; 
+            margin: 25px auto; 
+            padding: 0 20px; 
+        }
+        .search-bar { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+        input { 
+            flex: 1; 
+            padding: 16px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 14px; 
+            font-size: 1.1rem; 
+            outline: none; 
+        }
+        input:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px rgba(0,40,104,0.1); 
+        }
+        .btn-main { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 0 25px; 
+            border-radius: 14px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            font-size: 1rem;
+        }
+        .btn-main:hover {
+            background: #003a8c;
+            transform: translateY(-2px);
+        }
+        .btn-main:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .app-card { 
+            background: var(--card); 
+            border-radius: 24px; 
+            padding: 35px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); 
+            min-height: 400px; 
+        }
+        
+        /* Word Result Styling */
+        .word-result-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 2px solid var(--bg); 
+            padding-bottom: 20px; 
+            margin-bottom: 25px; 
+        }
+        .word-title { 
+            font-size: 2.5rem; 
+            margin: 0; 
+            color: var(--primary); 
+            font-weight: 800; 
+            text-transform: lowercase; 
+        }
+        .ipa { 
+            font-size: 1.3rem; 
+            color: #64748b; 
+            font-family: 'Georgia', serif; 
+            font-style: italic; 
+        }
+        .btn-audio { 
+            font-size: 1.8rem; 
+            background: var(--accent); 
+            border: none; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .btn-audio:hover { 
+            background: #e0e7ff; 
+            transform: scale(1.1); 
+        }
+
+        .section-h { 
+            color: var(--secondary); 
+            font-size: 0.9rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            margin-top: 30px; 
+            margin-bottom: 10px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .content { 
+            font-size: 1.05rem; 
+            line-height: 1.7; 
+            color: #334155; 
+            margin-bottom: 15px; 
+            white-space: pre-wrap;
+        }
+        .content b { 
+            color: var(--primary); 
+        }
+        .pro-tip { 
+            background: #fffbeb; 
+            border: 1px solid #fef3c7; 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-top: 25px; 
+        }
+
+        /* Navigation */
+        nav { 
+            position: fixed; 
+            bottom: 0; 
+            width: 100%; 
+            background: white; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 15px 0; 
+            border-top: 1px solid #e2e8f0; 
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.03); 
+            z-index: 1000; 
+        }
+        .nav-item { 
+            border: none; 
+            background: none; 
+            font-weight: 700; 
+            color: #94a3b8; 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 4px; 
+            padding: 8px 16px;
+        }
+        .nav-item.active { 
+            color: var(--primary); 
+        }
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .hidden { 
+            display: none !important; 
+        }
+        
+        .list-item { 
+            padding: 18px; 
+            border-bottom: 1px solid #f1f5f9; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-weight: 700; 
+            cursor: pointer; 
+            border-radius: 12px; 
+        }
+        .list-item:hover { 
+            background: var(--accent); 
+            color: var(--primary); 
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-input-wrapper input {
+            width: 100%;
+            padding-left: 45px;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #94a3b8;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h1 class="text-3xl font-bold text-indigo-900 mb-2">
-                🇺🇸 American English Vocabulary Simulator
-            </h1>
-            <p class="text-lg text-indigo-700 font-semibold mb-1">
-                By Carlos Mario Navarro
-            </p>
-            <p class="text-gray-600">
-                Master American English vocabulary with comprehensive explanations and pronunciation
-            </p>
-        </div>
+<body>
 
-        <!-- Navigation Tabs -->
-        <div class="bg-white rounded-lg shadow-lg mb-6">
-            <div class="flex border-b">
-                <button onclick="switchTab('input')" id="tab-input" class="flex-1 px-6 py-4 font-semibold transition-colors tab-active">
-                    📚 Learn New Word
-                </button>
-                <button onclick="switchTab('history')" id="tab-history" class="flex-1 px-6 py-4 font-semibold transition-colors tab-inactive">
-                    🕒 Search History
-                </button>
-                <button onclick="switchTab('alphabetical')" id="tab-alphabetical" class="flex-1 px-6 py-4 font-semibold transition-colors tab-inactive">
-                    🔤 Alphabetical List
-                </button>
-            </div>
+<header>
+    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo">
+    <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
+</header>
 
-            <!-- Tab Content -->
-            <div class="p-6">
-                <!-- Input Tab -->
-                <div id="content-input">
-                    <!-- Input Section -->
-                    <div class="mb-8">
-                        <div class="flex gap-3">
-                            <input
-                                type="text"
-                                id="wordInput"
-                                placeholder="Enter an English word..."
-                                class="flex-1 px-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500 text-lg"
-                                onkeypress="if(event.key === 'Enter') handleSubmit()"
-                            />
-                            <button
-                                onclick="handleSubmit()"
-                                id="learnButton"
-                                class="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
-                            >
-                                Learn
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Loading State -->
-                    <div id="loadingState" class="hidden text-center py-12">
-                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-                        <p class="text-xl text-gray-600">Generating explanation...</p>
-                    </div>
-
-                    <!-- Word Display -->
-                    <div id="wordDisplay" class="hidden bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-8 border-2 border-indigo-200">
-                        <!-- Pronunciation Section -->
-                        <div class="mb-6 pb-6 border-b-2 border-indigo-200">
-                            <div class="flex items-center gap-4 flex-wrap">
-                                <h2 id="displayWord" class="text-4xl font-bold text-indigo-900"></h2>
-                                <span id="displayIPA" class="text-2xl text-indigo-600 font-mono"></span>
-                                <button
-                                    onclick="playCurrentAudio()"
-                                    class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
-                                    title="Play pronunciation"
-                                >
-                                    🔊 Play Audio
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Explanation -->
-                        <div class="prose prose-lg max-w-none">
-                            <div id="displayExplanation" class="whitespace-pre-wrap text-gray-800 leading-relaxed"></div>
-                        </div>
-                    </div>
-
-                    <!-- Empty State -->
-                    <div id="emptyState" class="text-center py-12 text-gray-500">
-                        <div class="text-6xl mb-4 opacity-50">📚</div>
-                        <p class="text-xl">Enter a word above to begin learning!</p>
-                    </div>
-                </div>
-
-                <!-- History Tab -->
-                <div id="content-history" class="hidden">
-                    <!-- Search Bar -->
-                    <div class="mb-6">
-                        <div class="relative">
-                            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
-                            <input
-                                type="text"
-                                id="searchHistory"
-                                placeholder="Search your vocabulary..."
-                                oninput="filterHistory()"
-                                class="w-full pl-10 pr-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500"
-                            />
-                        </div>
-                    </div>
-
-                    <!-- History List -->
-                    <div id="historyList" class="space-y-3"></div>
-                    <div id="historyEmpty" class="hidden text-center py-12 text-gray-500">
-                        <p class="text-lg">No words learned yet</p>
-                    </div>
-                </div>
-
-                <!-- Alphabetical Tab -->
-                <div id="content-alphabetical" class="hidden">
-                    <!-- Search Bar -->
-                    <div class="mb-6">
-                        <div class="relative">
-                            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
-                            <input
-                                type="text"
-                                id="searchAlphabetical"
-                                placeholder="Search your vocabulary..."
-                                oninput="filterAlphabetical()"
-                                class="w-full pl-10 pr-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500"
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Alphabetical List -->
-                    <div id="alphabeticalList" class="space-y-3"></div>
-                    <div id="alphabeticalEmpty" class="hidden text-center py-12 text-gray-500">
-                        <p class="text-lg">No words learned yet</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center text-gray-600 text-sm">
-            <p>🎓 Designed for serious learners of American English</p>
-        </div>
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="word-input" placeholder="Ex: Relentless, Thorough, Subtle..." onkeypress="if(event.key==='Enter') handleSubmit()">
+        <button class="btn-main" id="explore-btn" onclick="handleSubmit()">EXPLORE</button>
     </div>
 
-    <script>
-        // Global state
-        let history = [];
-        let currentWord = null;
-        let audioElement = new Audio();
+    <div class="app-card">
+        <!-- Home View -->
+        <div id="view-home" class="empty-state">
+            <div class="empty-state-icon">🇺🇸</div>
+            <h2 style="color: var(--primary);">Ready to level up?</h2>
+            <p>Type any word to get a full pedagogical breakdown with AI-powered explanations.</p>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="view-loading" class="hidden loading">
+            <div class="spinner"></div>
+            <p style="color: var(--primary); font-weight: 700;">Generating explanation...</p>
+        </div>
+        
+        <!-- Result View -->
+        <div id="view-result" class="hidden"></div>
+        
+        <!-- List View -->
+        <div id="view-list" class="hidden">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-filter" placeholder="Search your vocabulary..." oninput="filterList()">
+            </div>
+            <h3 id="list-title" style="color: var(--primary); margin-bottom: 20px;">History</h3>
+            <div id="list-items"></div>
+        </div>
+    </div>
+</div>
 
-        // IPA pronunciation database
-        const ipaDatabase = {
-            'well': 'wɛl',
-            'utmost': 'ˈʌtˌmoʊst',
-            'important': 'ɪmˈpɔːrtənt',
-            'beautiful': 'ˈbjuːtɪfəl',
-            'excellent': 'ˈɛksələnt',
-            'amazing': 'əˈmeɪzɪŋ',
-            'wonderful': 'ˈwʌndərfəl',
-            'fantastic': 'fænˈtæstɪk',
-            'great': 'ɡreɪt',
-            'good': 'ɡʊd',
-            'bad': 'bæd',
-            'terrible': 'ˈtɛrəbəl',
-            'awesome': 'ˈɔːsəm',
-            'incredible': 'ɪnˈkrɛdəbəl',
-            'outstanding': 'aʊtˈstændɪŋ',
-            'remarkable': 'rɪˈmɑːrkəbəl',
-            'enough': 'ɪˈnʌf',
-            'through': 'θruː',
-            'thought': 'θɔːt',
-            'tough': 'tʌf',
-            'though': 'ðoʊ',
-            'thorough': 'ˈθɜːroʊ',
-            'word': 'wɜːrd',
-            'world': 'wɜːrld',
-            'work': 'wɜːrk',
-            'people': 'ˈpiːpəl',
-            'about': 'əˈbaʊt',
-            'because': 'bɪˈkɔːz',
-            'before': 'bɪˈfɔːr',
-            'after': 'ˈæftər',
-            'always': 'ˈɔːlweɪz',
-            'never': 'ˈnɛvər'
-        };
+<nav>
+    <button class="nav-item active" id="nav-home" onclick="showTab('home')">
+        <span>🏠</span>SIMULATOR
+    </button>
+    <button class="nav-item" id="nav-hist" onclick="showTab('hist')">
+        <span>🕒</span>HISTORY
+    </button>
+    <button class="nav-item" id="nav-alpha" onclick="showTab('alpha')">
+        <span>🔤</span>A-Z LIST
+    </button>
+</nav>
 
-        // Load history from memory
-        function loadHistory() {
-            const saved = localStorage.getItem('vocabHistory');
-            if (saved) {
-                history = JSON.parse(saved);
-            }
+<script>
+    // Global state
+    let history = [];
+    let currentWord = null;
+    let audioElement = new Audio();
+    let currentTab = 'home';
+
+    // IPA pronunciation database
+    const ipaDatabase = {
+        'well': 'wɛl',
+        'utmost': 'ˈʌtˌmoʊst',
+        'important': 'ɪmˈpɔːrtənt',
+        'beautiful': 'ˈbjuːtɪfəl',
+        'excellent': 'ˈɛksələnt',
+        'amazing': 'əˈmeɪzɪŋ',
+        'wonderful': 'ˈwʌndərfəl',
+        'fantastic': 'fænˈtæstɪk',
+        'great': 'ɡreɪt',
+        'good': 'ɡʊd',
+        'bad': 'bæd',
+        'terrible': 'ˈtɛrəbəl',
+        'awesome': 'ˈɔːsəm',
+        'incredible': 'ɪnˈkrɛdəbəl',
+        'outstanding': 'aʊtˈstændɪŋ',
+        'remarkable': 'rɪˈmɑːrkəbəl',
+        'enough': 'ɪˈnʌf',
+        'through': 'θruː',
+        'thought': 'θɔːt',
+        'tough': 'tʌf',
+        'though': 'ðoʊ',
+        'thorough': 'ˈθɜːroʊ',
+        'word': 'wɜːrd',
+        'world': 'wɜːrld',
+        'work': 'wɜːrk',
+        'people': 'ˈpiːpəl',
+        'about': 'əˈbaʊt',
+        'because': 'bɪˈkɔːz',
+        'before': 'bɪˈfɔːr',
+        'after': 'ˈæftər',
+        'always': 'ˈɔːlweɪz',
+        'never': 'ˈnɛvər',
+        'relentless': 'rɪˈlɛntləs',
+        'subtle': 'ˈsʌtəl'
+    };
+
+    // Initialize
+    function init() {
+        loadHistory();
+    }
+
+    // Load history
+    function loadHistory() {
+        const saved = localStorage.getItem('ep_vocab_history');
+        if (saved) {
+            history = JSON.parse(saved);
         }
+    }
 
-        // Save history to memory
-        function saveHistory() {
-            localStorage.setItem('vocabHistory', JSON.stringify(history));
-        }
+    // Save history
+    function saveHistory() {
+        localStorage.setItem('ep_vocab_history', JSON.stringify(history));
+    }
 
-        // Get IPA pronunciation
-        function getIPA(word) {
-            return ipaDatabase[word.toLowerCase()] || 'pronunciation varies';
-        }
+    // Get IPA
+    function getIPA(word) {
+        return ipaDatabase[word.toLowerCase()] || 'pronunciation varies';
+    }
 
-        // Play audio
-        function playAudio(text) {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-            
-            // Try ResponsiveVoice API
-            const audioUrl = `https://code.responsivevoice.org/getvoice.php?t=${encodeURIComponent(text)}&tl=en-US&sv=&vn=&pitch=0.5&rate=0.5&vol=1`;
-            audioElement.src = audioUrl;
-            audioElement.load();
-            
-            audioElement.play().catch(() => {
-                // Fallback to Google Translate TTS
-                const fallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&total=1&idx=0&textlen=${text.length}&client=tw-ob`;
-                audioElement.src = fallbackUrl;
-                audioElement.load();
-                
-                audioElement.play().catch(() => {
-                    // Last resort: browser speech synthesis
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'en-US';
-                    utterance.rate = 0.7;
-                    utterance.pitch = 1.0;
-                    utterance.volume = 1.0;
-                    
-                    speechSynthesis.cancel();
-                    setTimeout(() => {
-                        speechSynthesis.speak(utterance);
-                    }, 50);
-                });
-            });
-        }
+    // Play audio
+    function playAudio(text) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.75;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        
+        speechSynthesis.cancel();
+        setTimeout(() => {
+            speechSynthesis.speak(utterance);
+        }, 50);
+    }
 
-        function playCurrentAudio() {
-            if (currentWord) {
-                playAudio(currentWord.word);
-            }
-        }
-
-        // Generate explanation using Claude API
-        async function generateExplanation(word) {
-            try {
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 4000,
-                        messages: [{
-                            role: "user",
-                            content: `You are a Senior Educational Software Designer and American English linguist. 
+    // Generate explanation using Claude API
+    async function generateExplanation(word) {
+        try {
+            const response = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model: "claude-sonnet-4-20250514",
+                    max_tokens: 4000,
+                    messages: [{
+                        role: "user",
+                        content: `You are a Senior Educational Software Designer and American English linguist. 
 
 Provide a comprehensive vocabulary explanation for the word: "${word}"
 
@@ -319,34 +461,34 @@ Start with "That is a fantastic word!" or similar. Then provide a brief, natural
 **End with an engaging practice prompt**
 
 Write everything in American English. Be warm, professional, and pedagogically sound. Use emojis as shown above. Make it educational but friendly.`
-                        }]
-                    })
-                });
+                    }]
+                })
+            });
 
-                const data = await response.json();
-                let explanation = data.content[0].text;
-                
-                // Extract IPA if provided
-                const ipaMatch = explanation.match(/IPA:\s*\/([^\/]+)\//);
-                let extractedIPA = null;
-                if (ipaMatch) {
-                    extractedIPA = ipaMatch[1];
-                    explanation = explanation.replace(/IPA:\s*\/[^\/]+\/\s*\n*/g, '');
-                }
-                
-                return { explanation, ipa: extractedIPA };
-            } catch (error) {
-                console.error('API Error:', error);
-                return { 
-                    explanation: generateFallbackExplanation(word), 
-                    ipa: null 
-                };
+            const data = await response.json();
+            let explanation = data.content[0].text;
+            
+            // Extract IPA if provided
+            const ipaMatch = explanation.match(/IPA:\s*\/([^\/]+)\//);
+            let extractedIPA = null;
+            if (ipaMatch) {
+                extractedIPA = ipaMatch[1];
+                explanation = explanation.replace(/IPA:\s*\/[^\/]+\/\s*\n*/g, '');
             }
+            
+            return { explanation, ipa: extractedIPA };
+        } catch (error) {
+            console.error('API Error:', error);
+            return { 
+                explanation: generateFallbackExplanation(word), 
+                ipa: null 
+            };
         }
+    }
 
-        // Fallback explanation
-        function generateFallbackExplanation(word) {
-            return `That is a fantastic word! "${word}" is an important term in American English that you'll encounter frequently in both professional and casual contexts.
+    // Fallback explanation
+    function generateFallbackExplanation(word) {
+        return `That is a fantastic word! "${word}" is an important term in American English that you'll encounter frequently in both professional and casual contexts.
 
 **Word Analysis: ${word.toUpperCase()}**
 
@@ -377,22 +519,21 @@ Try using this word in your next conversation! Americans appreciate when non-nat
 Remember that context is key in American English. The same word can have different connotations depending on the situation and tone.
 
 Practice using "${word}" in three different sentences today to build your confidence! 🎯`;
-        }
+    }
 
-        // Handle submit
-        async function handleSubmit() {
-            const input = document.getElementById('wordInput');
-            const word = input.value.trim().toLowerCase();
-            
-            if (!word) return;
+    // Handle submit
+    async function handleSubmit() {
+        const input = document.getElementById('word-input');
+        const word = input.value.trim().toLowerCase();
+        
+        if (!word) return;
 
-            // Show loading
-            document.getElementById('loadingState').classList.remove('hidden');
-            document.getElementById('wordDisplay').classList.add('hidden');
-            document.getElementById('emptyState').classList.add('hidden');
-            document.getElementById('learnButton').disabled = true;
-            document.getElementById('learnButton').textContent = 'Loading...';
+        // Show loading
+        showView('loading');
+        document.getElementById('explore-btn').disabled = true;
+        document.getElementById('explore-btn').textContent = 'LOADING...';
 
+        try {
             // Generate explanation
             const result = await generateExplanation(word);
             const finalIPA = result.ipa || getIPA(word);
@@ -407,138 +548,130 @@ Practice using "${word}" in three different sentences today to build your confid
 
             currentWord = wordData;
 
-            // Add to history
+            // Add to history (remove duplicates)
             history = history.filter(item => item.word !== word);
             history.unshift(wordData);
             saveHistory();
 
             // Display word
             displayWord(wordData);
-
-            // Reset input
-            input.value = '';
-            document.getElementById('learnButton').disabled = false;
-            document.getElementById('learnButton').textContent = 'Learn';
-            document.getElementById('loadingState').classList.add('hidden');
+            showView('result');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+            showView('home');
         }
 
-        // Display word
-        function displayWord(wordData) {
-            document.getElementById('displayWord').textContent = wordData.word;
-            document.getElementById('displayIPA').textContent = `/${wordData.ipa}/`;
-            document.getElementById('displayExplanation').textContent = wordData.explanation;
-            document.getElementById('wordDisplay').classList.remove('hidden');
-            document.getElementById('emptyState').classList.add('hidden');
-        }
+        // Reset input
+        input.value = '';
+        document.getElementById('explore-btn').disabled = false;
+        document.getElementById('explore-btn').textContent = 'EXPLORE';
+    }
 
-        // Switch tabs
-        function switchTab(tab) {
-            // Update tab buttons
-            ['input', 'history', 'alphabetical'].forEach(t => {
-                const btn = document.getElementById(`tab-${t}`);
-                const content = document.getElementById(`content-${t}`);
-                if (t === tab) {
-                    btn.classList.add('tab-active');
-                    btn.classList.remove('tab-inactive');
-                    content.classList.remove('hidden');
-                } else {
-                    btn.classList.remove('tab-active');
-                    btn.classList.add('tab-inactive');
-                    content.classList.add('hidden');
-                }
-            });
+    // Display word
+    function displayWord(wordData) {
+        const resultDiv = document.getElementById('view-result');
+        resultDiv.innerHTML = `
+            <div class="word-result-header">
+                <div>
+                    <h1 class="word-title">${wordData.word}</h1>
+                    <span class="ipa">/ ${wordData.ipa} /</span>
+                </div>
+                <button class="btn-audio" onclick="playAudio('${wordData.word}')">🔊</button>
+            </div>
+            <div class="content">${wordData.explanation}</div>
+        `;
+    }
 
-            // Update lists
-            if (tab === 'history') {
-                renderHistory();
-            } else if (tab === 'alphabetical') {
-                renderAlphabetical();
-            }
-        }
+    // Show view
+    function showView(view) {
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-loading').classList.add('hidden');
+        document.getElementById('view-result').classList.add('hidden');
+        document.getElementById('view-list').classList.add('hidden');
+        
+        document.getElementById('view-' + view).classList.remove('hidden');
+    }
 
-        // Render history list
-        function renderHistory() {
-            const list = document.getElementById('historyList');
-            const empty = document.getElementById('historyEmpty');
-            const search = document.getElementById('searchHistory').value.toLowerCase();
-            
-            const filtered = history.filter(item => 
-                item.word.toLowerCase().includes(search)
-            );
+    // Show tab
+    function showTab(tab) {
+        currentTab = tab;
+        
+        // Update nav
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('nav-' + tab).classList.add('active');
 
-            if (filtered.length === 0) {
-                list.innerHTML = '';
-                empty.classList.remove('hidden');
+        if (tab === 'home') {
+            if (currentWord) {
+                showView('result');
             } else {
-                empty.classList.add('hidden');
-                list.innerHTML = filtered.map((item, idx) => `
-                    <button onclick="loadWord(${idx}, false)" class="w-full text-left p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-indigo-400 hover:shadow-md transition-all">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="text-xl font-bold text-indigo-900">${item.word}</span>
-                                <span class="text-gray-600">/${item.ipa}/</span>
-                            </div>
-                            <span class="text-sm text-gray-500">${new Date(item.timestamp).toLocaleDateString()}</span>
-                        </div>
-                    </button>
-                `).join('');
+                showView('home');
             }
+        } else {
+            showView('list');
+            const isHist = tab === 'hist';
+            document.getElementById('list-title').textContent = isHist ? 'Search History' : 'Alphabetical List';
+            document.getElementById('search-filter').value = '';
+            renderList(isHist);
         }
+    }
 
-        // Render alphabetical list
-        function renderAlphabetical() {
-            const list = document.getElementById('alphabeticalList');
-            const empty = document.getElementById('alphabeticalEmpty');
-            const search = document.getElementById('searchAlphabetical').value.toLowerCase();
-            
-            const sorted = [...history].sort((a, b) => a.word.localeCompare(b.word));
-            const filtered = sorted.filter(item => 
-                item.word.toLowerCase().includes(search)
-            );
-
-            if (filtered.length === 0) {
-                list.innerHTML = '';
-                empty.classList.remove('hidden');
-            } else {
-                empty.classList.add('hidden');
-                list.innerHTML = filtered.map((item) => {
-                    const originalIndex = history.findIndex(h => h.word === item.word);
-                    return `
-                        <button onclick="loadWord(${originalIndex}, false)" class="w-full text-left p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-indigo-400 hover:shadow-md transition-all">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <span class="text-xl font-bold text-indigo-900">${item.word}</span>
-                                    <span class="text-gray-600">/${item.ipa}/</span>
-                                </div>
-                                <span class="text-sm text-gray-500">${new Date(item.timestamp).toLocaleDateString()}</span>
-                            </div>
-                        </button>
-                    `;
-                }).join('');
-            }
+    // Render list
+    function renderList(isHistory) {
+        const listDiv = document.getElementById('list-items');
+        const data = isHistory ? [...history] : [...history].sort((a, b) => a.word.localeCompare(b.word));
+        
+        if (data.length === 0) {
+            listDiv.innerHTML = '<div class="empty-state"><p>No words yet! Start exploring.</p></div>';
+        } else {
+            listDiv.innerHTML = data.map(item => `
+                <div class="list-item" onclick="loadWord('${item.word}')">
+                    <div>
+                        <strong>${item.word}</strong>
+                        <span style="color: #94a3b8; margin-left: 10px;">/ ${item.ipa} /</span>
+                    </div>
+                    <span>🇺🇸</span>
+                </div>
+            `).join('');
         }
+    }
 
-        // Filter history
-        function filterHistory() {
-            renderHistory();
+    // Filter list
+    function filterList() {
+        const query = document.getElementById('search-filter').value.toLowerCase();
+        const isHist = currentTab === 'hist';
+        const data = isHist ? [...history] : [...history].sort((a, b) => a.word.localeCompare(b.word));
+        const filtered = data.filter(item => item.word.includes(query));
+        
+        const listDiv = document.getElementById('list-items');
+        if (filtered.length === 0) {
+            listDiv.innerHTML = '<div class="empty-state"><p>No matches found.</p></div>';
+        } else {
+            listDiv.innerHTML = filtered.map(item => `
+                <div class="list-item" onclick="loadWord('${item.word}')">
+                    <div>
+                        <strong>${item.word}</strong>
+                        <span style="color: #94a3b8; margin-left: 10px;">/ ${item.ipa} /</span>
+                    </div>
+                    <span>🇺🇸</span>
+                </div>
+            `).join('');
         }
+    }
 
-        // Filter alphabetical
-        function filterAlphabetical() {
-            renderAlphabetical();
-        }
-
-        // Load word from history
-        function loadWord(index, isAlphabetical) {
-            const wordData = history[index];
+    // Load word from history
+    function loadWord(word) {
+        const wordData = history.find(item => item.word === word);
+        if (wordData) {
             currentWord = wordData;
             displayWord(wordData);
-            switchTab('input');
+            showTab('home');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+    }
 
-        // Initialize
-        loadHistory();
-    </script>
+    // Initialize on load
+    init();
+</script>
 </body>
 </html>
