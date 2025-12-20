@@ -3,202 +3,542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#002868">
-    <title>EnglishPlus | American English Simulator</title>
-    
-    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>American English Vocabulary Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --card: #ffffff; --accent: #eef2ff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: all 0.2s ease; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
-        
-        header { background: var(--card); padding: 25px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .logo { max-width: 240px; height: auto; }
-        .subtitle { font-size: 0.8rem; color: #64748b; font-weight: 700; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-
-        .container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
-        .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; outline: none; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,40,104,0.1); }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; }
-
-        .app-card { background: var(--card); border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); min-height: 400px; }
-        
-        /* Explanation Styling */
-        .word-result-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--bg); padding-bottom: 20px; margin-bottom: 25px; }
-        .word-title { font-size: 2.5rem; margin: 0; color: var(--primary); font-weight: 800; text-transform: lowercase; }
-        .ipa { font-size: 1.3rem; color: #64748b; font-family: 'Georgia', serif; font-style: italic; }
-        .btn-audio { font-size: 1.8rem; background: var(--accent); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .btn-audio:hover { background: #e0e7ff; transform: scale(1.1); }
-
-        .section-h { color: var(--secondary); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-top: 30px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .content { font-size: 1.1rem; line-height: 1.7; color: #334155; margin-bottom: 15px; }
-        .content b { color: var(--primary); }
-        .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 15px; margin-top: 25px; }
-
-        /* Navigation */
-        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); z-index: 1000; }
-        .nav-item { border: none; background: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .nav-item.active { color: var(--primary); }
-
-        .hidden { display: none; }
-        .list-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; border-radius: 12px; }
-        .list-item:hover { background: var(--accent); color: var(--primary); }
+        .tab-active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .tab-inactive {
+            background-color: white;
+            color: #374151;
+        }
+        .tab-inactive:hover {
+            background-color: #f9fafb;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
-<body>
-
-<header>
-    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo">
-    <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
-</header>
-
-<div class="container">
-    <div class="search-bar">
-        <input type="text" id="word-in" placeholder="Ex: Relentless, Thorough, Subtle...">
-        <button class="btn-main" onclick="runSearch()">EXPLORE</button>
-    </div>
-
-    <div class="app-card" id="display">
-        <div id="view-home" style="text-align: center; padding-top: 80px; color: #94a3b8;">
-            <div style="font-size: 4rem; margin-bottom: 20px;">🇺🇸</div>
-            <h2>Ready to level up?</h2>
-            <p>Type any word to get a full pedagogical breakdown.</p>
-        </div>
-        
-        <div id="view-result" class="hidden"></div>
-        
-        <div id="view-list" class="hidden">
-            <h3 id="list-title" style="color: var(--primary);">History</h3>
-            <div id="list-items"></div>
-        </div>
-    </div>
-</div>
-
-<nav>
-    <button class="nav-item active" onclick="showTab('home')"><span>🏠</span>SIMULATOR</button>
-    <button class="nav-item" onclick="showTab('hist')"><span>🕒</span>HISTORY</button>
-    <button class="nav-item" onclick="showTab('alpha')"><span>🔤</span>A-Z LIST</button>
-</nav>
-
-<script>
-    let history = JSON.parse(localStorage.getItem('ep_pro_v1')) || [];
-
-    function runSearch(target = null) {
-        const word = (target || document.getElementById('word-in').value).trim();
-        if(!word) return;
-        
-        const cleanWord = word.toLowerCase();
-        if(!history.includes(cleanWord)) history.push(cleanWord);
-        localStorage.setItem('ep_pro_v1', JSON.stringify(history));
-        
-        document.getElementById('word-in').value = '';
-        renderCompleteExplanation(cleanWord);
-        showTab('home');
-    }
-
-    function renderCompleteExplanation(word) {
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-list').classList.add('hidden');
-        const res = document.getElementById('view-result');
-        res.classList.remove('hidden');
-
-        // El Simulador genera el contenido basado en tu modelo "RELY"
-        res.innerHTML = `
-            <div class="word-result-header">
-                <div>
-                    <h1 class="word-title">${word}</h1>
-                    <span class="ipa">/ ${generateMockIPA(word)} /</span>
-                </div>
-                <button class="btn-audio" onclick="speak('${word}')">🔊</button>
-            </div>
-
-            <div class="content">
-                That is a fantastic word! <b>"${word}"</b> is a high-impact term in American English. Using it shows that you are taking your language skills to the maximum level!
-            </div>
-
-            <div class="section-h">Word Analysis: ${word.toUpperCase()}</div>
-            <div class="content">
-                In the U.S., this word is often used in professional and academic settings to express a high degree of intent or a specific quality of action.
-            </div>
-
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <div class="content">
-                A primary concept used to describe a specific state, action, or quality within the American cultural context.
-            </div>
-
-            <div class="section-h">Synonyms 🤝</div>
-            <div class="content">
-                Principal • Leading • Key • Ultimate.
-            </div>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <div class="content">
-                Negligible • Minor • Secondary.
-            </div>
-
-            <div class="section-h">Real-World Examples 📝</div>
-            <div class="content">
-                "We need to focus on <b>${word}</b> to ensure the success of our American branch."<br>
-                "It's a matter of <b>${word}</b> importance for the whole team."
-            </div>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="content">
-                Try using <b>"${word}"</b> in your next conversation to sound more confident. For example, instead of saying something is "very important," try using this word to add more weight to your statement!
-            </div>
-
-            <div class="pro-tip">
-                <div class="section-h" style="margin-top:0;">Tip Pro 💡</div>
-                <div class="content" style="margin-bottom:0;">
-                    A common phrase in the U.S. is: "You can bank on it!" It shows you are 100% sure. Since you are learning <b>${word}</b>, you are definitely on the right track. Keep going! 🚀
-                </div>
-            </div>
-            
-            <p style="text-align:center; margin-top:30px; font-style:italic; color:#94a3b8;">
-                What's the next word on your list? I'm ready!
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h1 class="text-3xl font-bold text-indigo-900 mb-2">
+                🇺🇸 American English Vocabulary Simulator
+            </h1>
+            <p class="text-lg text-indigo-700 font-semibold mb-1">
+                By Carlos Mario Navarro
             </p>
-        `;
-    }
+            <p class="text-gray-600">
+                Master American English vocabulary with comprehensive explanations and pronunciation
+            </p>
+        </div>
 
-    function generateMockIPA(w) {
-        // Simulación básica de fonética para el simulador
-        return w.replace(/a/g, 'æ').replace(/th/g, 'θ').replace(/u/g, 'ʌ').replace(/o/g, 'oʊ');
-    }
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-lg shadow-lg mb-6">
+            <div class="flex border-b">
+                <button onclick="switchTab('input')" id="tab-input" class="flex-1 px-6 py-4 font-semibold transition-colors tab-active">
+                    📚 Learn New Word
+                </button>
+                <button onclick="switchTab('history')" id="tab-history" class="flex-1 px-6 py-4 font-semibold transition-colors tab-inactive">
+                    🕒 Search History
+                </button>
+                <button onclick="switchTab('alphabetical')" id="tab-alphabetical" class="flex-1 px-6 py-4 font-semibold transition-colors tab-inactive">
+                    🔤 Alphabetical List
+                </button>
+            </div>
 
-    function speak(w) {
-        const u = new SpeechSynthesisUtterance(w);
-        u.lang = 'en-US';
-        u.rate = 0.85;
-        window.speechSynthesis.speak(u);
-    }
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Input Tab -->
+                <div id="content-input">
+                    <!-- Input Section -->
+                    <div class="mb-8">
+                        <div class="flex gap-3">
+                            <input
+                                type="text"
+                                id="wordInput"
+                                placeholder="Enter an English word..."
+                                class="flex-1 px-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500 text-lg"
+                                onkeypress="if(event.key === 'Enter') handleSubmit()"
+                            />
+                            <button
+                                onclick="handleSubmit()"
+                                id="learnButton"
+                                class="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+                            >
+                                Learn
+                            </button>
+                        </div>
+                    </div>
 
-    function showTab(tab) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-result').classList.add('hidden');
-        document.getElementById('view-list').classList.add('hidden');
+                    <!-- Loading State -->
+                    <div id="loadingState" class="hidden text-center py-12">
+                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+                        <p class="text-xl text-gray-600">Generating explanation...</p>
+                    </div>
 
-        if(tab === 'home') {
-            document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(document.getElementById('view-result').innerHTML === "") {
-                document.getElementById('view-home').classList.remove('hidden');
-            } else {
-                document.getElementById('view-result').classList.remove('hidden');
+                    <!-- Word Display -->
+                    <div id="wordDisplay" class="hidden bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-8 border-2 border-indigo-200">
+                        <!-- Pronunciation Section -->
+                        <div class="mb-6 pb-6 border-b-2 border-indigo-200">
+                            <div class="flex items-center gap-4 flex-wrap">
+                                <h2 id="displayWord" class="text-4xl font-bold text-indigo-900"></h2>
+                                <span id="displayIPA" class="text-2xl text-indigo-600 font-mono"></span>
+                                <button
+                                    onclick="playCurrentAudio()"
+                                    class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
+                                    title="Play pronunciation"
+                                >
+                                    🔊 Play Audio
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Explanation -->
+                        <div class="prose prose-lg max-w-none">
+                            <div id="displayExplanation" class="whitespace-pre-wrap text-gray-800 leading-relaxed"></div>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4 opacity-50">📚</div>
+                        <p class="text-xl">Enter a word above to begin learning!</p>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div id="content-history" class="hidden">
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
+                            <input
+                                type="text"
+                                id="searchHistory"
+                                placeholder="Search your vocabulary..."
+                                oninput="filterHistory()"
+                                class="w-full pl-10 pr-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- History List -->
+                    <div id="historyList" class="space-y-3"></div>
+                    <div id="historyEmpty" class="hidden text-center py-12 text-gray-500">
+                        <p class="text-lg">No words learned yet</p>
+                    </div>
+                </div>
+
+                <!-- Alphabetical Tab -->
+                <div id="content-alphabetical" class="hidden">
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <span class="absolute left-3 top-3 text-gray-400">🔍</span>
+                            <input
+                                type="text"
+                                id="searchAlphabetical"
+                                placeholder="Search your vocabulary..."
+                                oninput="filterAlphabetical()"
+                                class="w-full pl-10 pr-4 py-3 border-2 border-indigo-200 rounded-lg focus:outline-none focus:border-indigo-500"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Alphabetical List -->
+                    <div id="alphabeticalList" class="space-y-3"></div>
+                    <div id="alphabeticalEmpty" class="hidden text-center py-12 text-gray-500">
+                        <p class="text-lg">No words learned yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-gray-600 text-sm">
+            <p>🎓 Designed for serious learners of American English</p>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let history = [];
+        let currentWord = null;
+        let audioElement = new Audio();
+
+        // IPA pronunciation database
+        const ipaDatabase = {
+            'well': 'wɛl',
+            'utmost': 'ˈʌtˌmoʊst',
+            'important': 'ɪmˈpɔːrtənt',
+            'beautiful': 'ˈbjuːtɪfəl',
+            'excellent': 'ˈɛksələnt',
+            'amazing': 'əˈmeɪzɪŋ',
+            'wonderful': 'ˈwʌndərfəl',
+            'fantastic': 'fænˈtæstɪk',
+            'great': 'ɡreɪt',
+            'good': 'ɡʊd',
+            'bad': 'bæd',
+            'terrible': 'ˈtɛrəbəl',
+            'awesome': 'ˈɔːsəm',
+            'incredible': 'ɪnˈkrɛdəbəl',
+            'outstanding': 'aʊtˈstændɪŋ',
+            'remarkable': 'rɪˈmɑːrkəbəl',
+            'enough': 'ɪˈnʌf',
+            'through': 'θruː',
+            'thought': 'θɔːt',
+            'tough': 'tʌf',
+            'though': 'ðoʊ',
+            'thorough': 'ˈθɜːroʊ',
+            'word': 'wɜːrd',
+            'world': 'wɜːrld',
+            'work': 'wɜːrk',
+            'people': 'ˈpiːpəl',
+            'about': 'əˈbaʊt',
+            'because': 'bɪˈkɔːz',
+            'before': 'bɪˈfɔːr',
+            'after': 'ˈæftər',
+            'always': 'ˈɔːlweɪz',
+            'never': 'ˈnɛvər'
+        };
+
+        // Load history from memory
+        function loadHistory() {
+            const saved = localStorage.getItem('vocabHistory');
+            if (saved) {
+                history = JSON.parse(saved);
             }
-        } else {
-            const isHist = tab === 'hist';
-            document.querySelectorAll('.nav-item')[isHist?1:2].classList.add('active');
-            document.getElementById('view-list').classList.remove('hidden');
-            document.getElementById('list-title').innerText = isHist ? "Search History" : "Alphabetical List";
-            const data = isHist ? [...history].reverse() : [...history].sort();
-            document.getElementById('list-items').innerHTML = data.length > 0 
-                ? data.map(w => `<div class="list-item" onclick="runSearch('${w}')">${w} <span>🇺🇸</span></div>`).join('')
-                : '<p style="text-align:center; padding:40px;">No words yet!</p>';
         }
-    }
-</script>
+
+        // Save history to memory
+        function saveHistory() {
+            localStorage.setItem('vocabHistory', JSON.stringify(history));
+        }
+
+        // Get IPA pronunciation
+        function getIPA(word) {
+            return ipaDatabase[word.toLowerCase()] || 'pronunciation varies';
+        }
+
+        // Play audio
+        function playAudio(text) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            
+            // Try ResponsiveVoice API
+            const audioUrl = `https://code.responsivevoice.org/getvoice.php?t=${encodeURIComponent(text)}&tl=en-US&sv=&vn=&pitch=0.5&rate=0.5&vol=1`;
+            audioElement.src = audioUrl;
+            audioElement.load();
+            
+            audioElement.play().catch(() => {
+                // Fallback to Google Translate TTS
+                const fallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&total=1&idx=0&textlen=${text.length}&client=tw-ob`;
+                audioElement.src = fallbackUrl;
+                audioElement.load();
+                
+                audioElement.play().catch(() => {
+                    // Last resort: browser speech synthesis
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.7;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 1.0;
+                    
+                    speechSynthesis.cancel();
+                    setTimeout(() => {
+                        speechSynthesis.speak(utterance);
+                    }, 50);
+                });
+            });
+        }
+
+        function playCurrentAudio() {
+            if (currentWord) {
+                playAudio(currentWord.word);
+            }
+        }
+
+        // Generate explanation using Claude API
+        async function generateExplanation(word) {
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 4000,
+                        messages: [{
+                            role: "user",
+                            content: `You are a Senior Educational Software Designer and American English linguist. 
+
+Provide a comprehensive vocabulary explanation for the word: "${word}"
+
+IMPORTANT: At the very beginning, provide ONLY the American English IPA pronunciation in this exact format:
+IPA: /exact-ipa-here/
+
+Then follow this EXACT structure and tone for the rest:
+
+**Opening (warm and engaging)**
+Start with "That is a fantastic word!" or similar. Then provide a brief, natural explanation of what the word means and how it's commonly used in American English.
+
+**Word Analysis: [WORD IN CAPS]**
+
+**English Meaning 🇺🇸**
+- Part of speech with definition
+- Include multiple meanings if applicable
+
+**Synonyms 🤝**
+- List 4-5 synonyms with brief contextual notes in parentheses
+
+**Antonyms 🚫**
+- List 3-4 antonyms with brief explanations
+
+**Common Expressions & Phrases 🗣️**
+- List 3-5 common phrases or collocations with this word in quotes
+
+**Real-World Examples 📝**
+- Provide 3-4 authentic American English examples showing the word in context
+- Use professional and everyday scenarios
+
+**Visualizing [Concept] 📈** (if applicable)
+- Provide a conceptual explanation or framework
+
+**Friendly Practice (The American Way) 🇺🇸**
+- Give a practical professional usage example
+
+**Tip Pro: [Related confusion or usage note] 💡**
+- Address common mistakes or confusions
+
+**End with an engaging practice prompt**
+
+Write everything in American English. Be warm, professional, and pedagogically sound. Use emojis as shown above. Make it educational but friendly.`
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                let explanation = data.content[0].text;
+                
+                // Extract IPA if provided
+                const ipaMatch = explanation.match(/IPA:\s*\/([^\/]+)\//);
+                let extractedIPA = null;
+                if (ipaMatch) {
+                    extractedIPA = ipaMatch[1];
+                    explanation = explanation.replace(/IPA:\s*\/[^\/]+\/\s*\n*/g, '');
+                }
+                
+                return { explanation, ipa: extractedIPA };
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    explanation: generateFallbackExplanation(word), 
+                    ipa: null 
+                };
+            }
+        }
+
+        // Fallback explanation
+        function generateFallbackExplanation(word) {
+            return `That is a fantastic word! "${word}" is an important term in American English that you'll encounter frequently in both professional and casual contexts.
+
+**Word Analysis: ${word.toUpperCase()}**
+
+**English Meaning 🇺🇸**
+This word carries significant meaning in American English communication. Understanding its proper usage will enhance your fluency and help you express yourself more precisely.
+
+**Synonyms 🤝**
+- Related terms (context-dependent)
+- Similar expressions (common usage)
+- Alternative words (formal settings)
+
+**Antonyms 🚫**
+- Opposite meaning (contrast)
+- Contrary terms (different context)
+
+**Common Expressions & Phrases 🗣️**
+This word appears in many everyday expressions that native speakers use regularly.
+
+**Real-World Examples 📝**
+- Professional context: You'll hear this in business meetings and formal communications
+- Everyday usage: Common in casual conversation with friends and colleagues
+- Written form: Frequently appears in emails, reports, and articles
+
+**Friendly Practice (The American Way) 🇺🇸**
+Try using this word in your next conversation! Americans appreciate when non-native speakers use vocabulary with confidence and precision.
+
+**Tip Pro 💡**
+Remember that context is key in American English. The same word can have different connotations depending on the situation and tone.
+
+Practice using "${word}" in three different sentences today to build your confidence! 🎯`;
+        }
+
+        // Handle submit
+        async function handleSubmit() {
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim().toLowerCase();
+            
+            if (!word) return;
+
+            // Show loading
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('wordDisplay').classList.add('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('learnButton').disabled = true;
+            document.getElementById('learnButton').textContent = 'Loading...';
+
+            // Generate explanation
+            const result = await generateExplanation(word);
+            const finalIPA = result.ipa || getIPA(word);
+
+            // Create word data
+            const wordData = {
+                word: word,
+                ipa: finalIPA,
+                explanation: result.explanation,
+                timestamp: new Date().toISOString()
+            };
+
+            currentWord = wordData;
+
+            // Add to history
+            history = history.filter(item => item.word !== word);
+            history.unshift(wordData);
+            saveHistory();
+
+            // Display word
+            displayWord(wordData);
+
+            // Reset input
+            input.value = '';
+            document.getElementById('learnButton').disabled = false;
+            document.getElementById('learnButton').textContent = 'Learn';
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        // Display word
+        function displayWord(wordData) {
+            document.getElementById('displayWord').textContent = wordData.word;
+            document.getElementById('displayIPA').textContent = `/${wordData.ipa}/`;
+            document.getElementById('displayExplanation').textContent = wordData.explanation;
+            document.getElementById('wordDisplay').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            // Update tab buttons
+            ['input', 'history', 'alphabetical'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const content = document.getElementById(`content-${t}`);
+                if (t === tab) {
+                    btn.classList.add('tab-active');
+                    btn.classList.remove('tab-inactive');
+                    content.classList.remove('hidden');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                    content.classList.add('hidden');
+                }
+            });
+
+            // Update lists
+            if (tab === 'history') {
+                renderHistory();
+            } else if (tab === 'alphabetical') {
+                renderAlphabetical();
+            }
+        }
+
+        // Render history list
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const empty = document.getElementById('historyEmpty');
+            const search = document.getElementById('searchHistory').value.toLowerCase();
+            
+            const filtered = history.filter(item => 
+                item.word.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                list.innerHTML = filtered.map((item, idx) => `
+                    <button onclick="loadWord(${idx}, false)" class="w-full text-left p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-indigo-400 hover:shadow-md transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl font-bold text-indigo-900">${item.word}</span>
+                                <span class="text-gray-600">/${item.ipa}/</span>
+                            </div>
+                            <span class="text-sm text-gray-500">${new Date(item.timestamp).toLocaleDateString()}</span>
+                        </div>
+                    </button>
+                `).join('');
+            }
+        }
+
+        // Render alphabetical list
+        function renderAlphabetical() {
+            const list = document.getElementById('alphabeticalList');
+            const empty = document.getElementById('alphabeticalEmpty');
+            const search = document.getElementById('searchAlphabetical').value.toLowerCase();
+            
+            const sorted = [...history].sort((a, b) => a.word.localeCompare(b.word));
+            const filtered = sorted.filter(item => 
+                item.word.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                list.innerHTML = filtered.map((item) => {
+                    const originalIndex = history.findIndex(h => h.word === item.word);
+                    return `
+                        <button onclick="loadWord(${originalIndex}, false)" class="w-full text-left p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-indigo-400 hover:shadow-md transition-all">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xl font-bold text-indigo-900">${item.word}</span>
+                                    <span class="text-gray-600">/${item.ipa}/</span>
+                                </div>
+                                <span class="text-sm text-gray-500">${new Date(item.timestamp).toLocaleDateString()}</span>
+                            </div>
+                        </button>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Filter history
+        function filterHistory() {
+            renderHistory();
+        }
+
+        // Filter alphabetical
+        function filterAlphabetical() {
+            renderAlphabetical();
+        }
+
+        // Load word from history
+        function loadWord(index, isAlphabetical) {
+            const wordData = history[index];
+            currentWord = wordData;
+            displayWord(wordData);
+            switchTab('input');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        loadHistory();
+    </script>
 </body>
 </html>
