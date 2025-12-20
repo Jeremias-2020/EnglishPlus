@@ -1,99 +1,221 @@
-function renderFullAnalysis(data) {
+    // Generadores de contenido enriquecido
+    const synonymData = {
+        relentless: [
+            {word: "Persistent", note: "Focuses on trying again and again"},
+            {word: "Unstoppable", note: "Focuses on the fact that nothing can get in your way"},
+            {word: "Tenacious", note: "A very 'fancy' professional word for being like a bulldog—not letting go"},
+            {word: "Incessant", note: "Usually negative, like a noise that won't stop"},
+            {word: "Determined", note: "Having a firm purpose or resolve"},
+            {word: "Unyielding", note: "Not giving way to pressure or persuasion"}
+        ]
+    };
+
+    const antonymData = {
+        relentless: [
+            {word: "Irresolute", note: "Hesitant, not sure of oneself"},
+            {word: "Yielding", note: "Giving up easily"},
+            {word: "Lazy", note: "Lacking enthusiasm or effort"},
+            {word: "Lackadaisical", note: "Without determination or energy"},
+            {word: "Merciful", note: "Showing pity—sometimes 'relentless' means being harsh"},
+            {word: "Lenient", note: "Being soft or permissive"}
+        ]
+    };
+
+    const idiomData = {
+        relentless: [
+            {phrase: "Relentless pursuit of excellence", meaning: "A classic corporate mission statement"},
+            {phrase: "No rest for the wicked", meaning: "A playful idiom used when you have a relentless workload"},
+            {phrase: "Keep your foot on the gas", meaning: "A metaphor for maintaining a relentless pace"},
+            {phrase: "Never say die", meaning: "Refusing to give up no matter what"},
+            {phrase: "Go the extra mile", meaning: "Doing more than expected consistently"}
+        ]
+    };
+
+    const exampleData = {
+        relentless: [
+            "The company's relentless focus on customer service made them #1 in the market.",
+            "To fix the QuickBooks error, I had to be relentless with the support team until they answered.",
+            "Success is the result of relentless preparation meeting opportunity.",
+            "Her relentless dedication to the project impressed everyone on the team.",
+            "In business, being relentless is what separates good from great."
+        ]
+    };
+
+    function renderFullAnalysis(data) {
         const word = data.word;
         const upper = word.toUpperCase();
         const phonetic = data.phonetics.find(p => p.text)?.text || "/.../";
         const meanings = data.meanings;
-        
-        // Detectar si es frase o palabra
         const isPhrase = word.includes(' ');
         
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        // English Meaning
+        // English Meaning (expandido)
         html += `<div class="section-h">English Meaning 🇺🇸</div>`;
         meanings.forEach(meaning => {
             const pos = meaning.partOfSpeech.toUpperCase();
-            meaning.definitions.slice(0, 2).forEach(def => {
-                html += `<p class="body-text">• <b>${pos}:</b> ${def.definition}</p>`;
-                if(def.example) html += `<p class="body-text" style="margin-left:20px; color:#64748b;"><i>Example: "${def.example}"</i></p>`;
+            meaning.definitions.slice(0, 3).forEach((def, idx) => {
+                html += `<p class="body-text">• <b>${pos}${meaning.definitions.length > 1 ? ' (def. '+(idx+1)+')' : ''}:</b> ${def.definition}</p>`;
+                if(def.example) html += `<p class="body-text" style="margin-left:20px; color:#64748b; font-style:italic;">"${def.example}"</p>`;
             });
         });
         
-        // Connotation
-        html += `<p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. While it can have negative uses, in business it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>`;
+        // Connotation expandida
+        html += `<p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. While it can have negative uses (like "relentless rain" or "relentless criticism"), in business and professional settings it is almost always a huge compliment, meaning you have an unstoppable work ethic and refuse-to-lose mentality.</p>`;
 
-        // Phonetics & Pronunciation
+        // Phonetics con pronunciación simplificada
+        function simplifyPhonetic(ipa, word) {
+            // Mapeo de símbolos IPA a pronunciación simple
+            let simple = ipa
+                .replace(/ˈ/g, '') // quitar marcas de estrés primario
+                .replace(/ˌ/g, '') // quitar marcas de estrés secundario
+                .replace(/ɪ/g, 'i')
+                .replace(/iː/g, 'ee')
+                .replace(/ɛ/g, 'e')
+                .replace(/æ/g, 'a')
+                .replace(/ɑː/g, 'ah')
+                .replace(/ɒ/g, 'o')
+                .replace(/ɔː/g, 'aw')
+                .replace(/ʊ/g, 'oo')
+                .replace(/uː/g, 'oo')
+                .replace(/ʌ/g, 'uh')
+                .replace(/ə/g, 'uh')
+                .replace(/ɜː/g, 'ur')
+                .replace(/aɪ/g, 'eye')
+                .replace(/eɪ/g, 'ay')
+                .replace(/ɔɪ/g, 'oy')
+                .replace(/aʊ/g, 'ow')
+                .replace(/oʊ/g, 'oh')
+                .replace(/ɪə/g, 'eer')
+                .replace(/eə/g, 'air')
+                .replace(/ʊə/g, 'oor')
+                .replace(/θ/g, 'th')
+                .replace(/ð/g, 'th')
+                .replace(/ʃ/g, 'sh')
+                .replace(/ʒ/g, 'zh')
+                .replace(/tʃ/g, 'ch')
+                .replace(/dʒ/g, 'j')
+                .replace(/ŋ/g, 'ng')
+                .replace(/j/g, 'y')
+                .replace(/w/g, 'w')
+                .replace(/r/g, 'r')
+                .replace(/l/g, 'l')
+                .replace(/[\.]/g, '·');
+            
+            // Limpiar caracteres no deseados
+            simple = simple.replace(/[\/\(\)\[\]]/g, '');
+            
+            return simple || word.toLowerCase().split('').join('·');
+        }
+        
+        const soundGuide = simplifyPhonetic(phonetic, word);
+        
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
-                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sounds like:</b> ${word.toLowerCase()}. (Stress on key syllable).</p>
+                    <span style="font-family:monospace; font-size:1.5rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
+                    <span style="font-family:monospace; font-size:1.8rem; color:var(--secondary); font-weight:800;">/${soundGuide}/</span><br>
+                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sounds like:</b> ${soundGuide.replace(/·/g, '-')}. (Stress the bolded syllable).</p>
+                    ${!isPhrase ? `<p style="margin: 5px 0 0 0; color: #64748b;"><b>Note:</b> In American English, pronounce clearly with confidence for professional impact.</p>` : ''}
                 </div>
                 <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             </div>`;
 
-        // Synonyms
+        // Synonyms (enriquecido)
         const allSyns = meanings.flatMap(m => m.synonyms || []);
-        if(allSyns.length > 0) {
+        const synList = synonymData[word.toLowerCase()] || allSyns.slice(0, 6).map(s => ({word: s, note: "Similar meaning with slight nuance"}));
+        
+        if(synList.length > 0 || allSyns.length > 0) {
             html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div><p class="body-text">`;
-            allSyns.slice(0, 4).forEach(syn => {
-                html += `• <b>${syn.charAt(0).toUpperCase() + syn.slice(1)}:</b> (Variation with similar meaning).<br>`;
+            const finalSyns = synList.length > 0 ? synList : allSyns.slice(0, 6).map(s => ({word: s, note: "Variation with similar meaning"}));
+            finalSyns.forEach(syn => {
+                const w = typeof syn === 'string' ? syn : syn.word;
+                const n = typeof syn === 'string' ? "Similar meaning" : syn.note;
+                html += `• <b>${w.charAt(0).toUpperCase() + w.slice(1)}:</b> ${n}.<br>`;
             });
             html += `</p>`;
         }
 
-        // Antonyms
+        // Antonyms (enriquecido)
         const allAnts = meanings.flatMap(m => m.antonyms || []);
-        if(allAnts.length > 0) {
+        const antList = antonymData[word.toLowerCase()] || allSyns.slice(0, 6).map(a => ({word: a, note: "Opposite meaning"}));
+        
+        if(antList.length > 0 || allAnts.length > 0) {
             html += `<div class="section-h">Antonyms 🚫</div><p class="body-text">`;
-            allAnts.slice(0, 4).forEach(ant => {
-                html += `• <b>${ant.charAt(0).toUpperCase() + ant.slice(1)}:</b> (Opposite meaning).<br>`;
+            const finalAnts = antList.length > 0 ? antList : allAnts.slice(0, 6).map(a => ({word: a, note: "Opposite meaning"}));
+            finalAnts.forEach(ant => {
+                const w = typeof ant === 'string' ? ant : ant.word;
+                const n = typeof ant === 'string' ? "Opposite concept" : ant.note;
+                html += `• <b>${w.charAt(0).toUpperCase() + w.slice(1)}:</b> ${n}.<br>`;
             });
             html += `</p>`;
         }
 
-        // Word Family (solo para palabras, no frases)
+        // Word Family (solo palabras)
         if(!isPhrase) {
-            html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-                <p class="body-text">
-                • <b>${word}ly</b> (Adverb): How you do something.<br>
-                • <b>${word}ness</b> (Noun): The state of being ${word}.<br>
-                </p>`;
+            html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div><p class="body-text">`;
+            html += `• <b>${word.charAt(0).toUpperCase() + word.slice(1)}ly</b> (Adverb): How you do something. <i>Example: "He practiced English relentlessly until he was fluent."</i><br>`;
+            html += `• <b>${word.charAt(0).toUpperCase() + word.slice(1)}ness</b> (Noun): The state of being ${word}. <i>Example: "Her relentlessness is the reason she got the promotion."</i><br>`;
+            const baseVerb = word.replace(/less$/, '');
+            if(baseVerb !== word) {
+                html += `• <b>To ${baseVerb}</b> (Verb/Antonym): To finally give in or become less severe. <i>Example: "The rain finally relented after three days."</i><br>`;
+            }
+            html += `</p>`;
         }
 
         // The "Grit" Scale
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
+            <p class="body-text">Understanding where "${upper}" sits compared to similar traits:</p>
             <table class="grit-scale">
-                <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td>Effort</td><td>You are working on it.</td></tr>
-                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr><td><b>${upper}</b></td><td>A "refuse to lose" mentality.</td></tr>
+                <tr><td><b>Interest</b></td><td>You like the idea.</td></tr>
+                <tr><td><b>Effort</b></td><td>You are working on it.</td></tr>
+                <tr><td><b>Persistence</b></td><td>You keep going despite mistakes.</td></tr>
+                <tr><td><b>${upper}</b></td><td>You have a "refuse to lose" mentality. You find a way or make one.</td></tr>
             </table>`;
 
-        // Idioms & Collocations
-        html += `<div class="section-h">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-            • "${upper} pursuit of excellence"<br>
-            • "No rest for the wicked"<br>
-            • "Keep your foot on the gas"
-            </p>`;
+        // Idioms & Collocations (expandido)
+        const idiomList = idiomData[word.toLowerCase()] || [
+            {phrase: `${upper} pursuit of excellence`, meaning: "Common in professional contexts"},
+            {phrase: "Push through obstacles", meaning: "Continue despite difficulties"},
+            {phrase: "Stay the course", meaning: "Maintain direction and effort"},
+            {phrase: "Go all in", meaning: "Commit fully without reservation"}
+        ];
+        
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div><p class="body-text">`;
+        idiomList.forEach(idiom => {
+            html += `• <b>"${idiom.phrase}"</b>: ${idiom.meaning}.<br>`;
+        });
+        html += `</p>`;
 
-        // Real-World Examples
-        html += `<div class="section-h">Real-World Examples 📝</div>
-            <p class="body-text">
-            • "The company's ${word} focus on customer service made them #1 in the market."<br>
-            • "Success is the result of ${word} preparation meeting opportunity."
-            </p>`;
+        // Real-World Examples (expandido)
+        const exampleList = exampleData[word.toLowerCase()] || [
+            `The company's ${word} focus on innovation drove them to market leadership.`,
+            `In my career, I've learned that ${word} effort beats talent when talent doesn't work hard.`,
+            `Success requires a ${word} commitment to continuous improvement.`,
+            `The team showed ${word} dedication throughout the entire project lifecycle.`
+        ];
+        
+        html += `<div class="section-h">Real-World Examples 📝</div><p class="body-text">`;
+        exampleList.forEach(ex => {
+            html += `• "${ex}"<br>`;
+        });
+        html += `</p>`;
 
-        // Friendly Practice
+        // Friendly Practice (expandido)
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <p class="body-text">How to use this to "sell yourself" in a professional environment:</p>
             <div class="practice-box">
-                <p class="body-text"><b>Interview Tip:</b> "I'm <b>${word}</b> when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+                <p class="body-text"><b>1. In a Cover Letter:</b><br>
+                "I bring a ${word} problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized."</p>
+                <p class="body-text"><b>2. During an Interview:</b><br>
+                "I'm ${word} when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done."</p>
+                <p class="body-text"><b>3. In Performance Reviews:</b><br>
+                "My ${word} approach to customer satisfaction resulted in a 35% increase in retention rates."</p>
             </div>`;
 
-        // Pro Tip
+        // Pro Tip (expandido)
         html += `<div class="pro-tip">
-            <b>Tip Pro 💡</b>: Be careful! While being <b>${word}</b> is great for goals, balance results with empathy to avoid burnout.
+            <b>💡 Tip Pro:</b> Be careful! While being ${word} is great for achieving goals and driving results, being overly ${word} as a manager can lead to team "burnout" and decreased morale. In the U.S., the most respected leaders are those who are ${word} with results but empathetic and supportive with people. Balance is key to sustainable success.
         </div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
