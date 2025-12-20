@@ -18,7 +18,7 @@
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-color);
-            margin: 0; padding-top: 130px;
+            margin: 0; padding-top: 150px;
             color: #1e293b; 
         }
         
@@ -35,45 +35,44 @@
         }
 
         .brand-section { display: flex; flex-direction: column; }
-        .brand-logo { font-size: 2rem; font-weight: 800; letter-spacing: -1px; line-height: 1; margin: 0; }
+        .brand-logo { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; line-height: 1; margin: 0; }
         .brand-blue { color: var(--primary); }
         .brand-red { color: var(--secondary); }
-        .brand-legend { font-size: 0.85rem; color: #000; font-weight: 600; margin-top: 4px; }
+        .brand-legend { font-size: 0.9rem; color: #000; font-weight: 600; margin-top: 5px; }
+
+        nav { display: flex; gap: 20px; margin-top: 10px; }
+        .nav-link { 
+            background: none; border: none; font-weight: 700; color: #94a3b8; 
+            cursor: pointer; font-size: 0.8rem; text-transform: uppercase; padding: 8px 0;
+            transition: 0.3s; border-bottom: 3px solid transparent;
+        }
+        .nav-link.active { color: var(--primary); border-bottom-color: var(--primary); }
 
         .search-box-top {
             display: flex; background: #f1f5f9; padding: 5px;
-            border-radius: 12px; border: 2px solid #e2e8f0; width: 380px;
+            border-radius: 12px; border: 2px solid #e2e8f0; width: 400px;
         }
 
-        #word-input { 
-            flex: 1; border: none; background: transparent; padding: 10px; 
-            font-size: 1rem; outline: none; font-weight: 600;
-        }
+        #word-input { flex: 1; border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; }
+        .btn-search { background: var(--primary); color: white; border: none; padding: 0 22px; border-radius: 8px; font-weight: 800; cursor: pointer; }
 
-        .btn-search { 
-            background: var(--primary); color: white; border: none; padding: 0 20px; 
-            border-radius: 8px; font-weight: 800; cursor: pointer;
-        }
-
-        .container { max-width: 850px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 500px; }
         
-        .analysis-title { color: var(--primary); font-size: 2rem; font-weight: 800; margin-bottom: 20px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
+        /* Estructura de Análisis */
+        .analysis-header { color: var(--primary); font-size: 1.8rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; }
+        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
         .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
-
-        .pronunciation-box { 
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; 
-            border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin: 20px 0;
-        }
-
+        .pronunciation-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin: 25px 0; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
         .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
         .grit-scale td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
         .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
-
         .practice-box { background: #eff6ff; border-radius: 15px; padding: 25px; margin-top: 20px; border-left: 6px solid var(--primary); }
         .pro-tip { background: #fffbeb; border-left: 6px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; font-style: italic; }
 
+        .item-row { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .item-row:hover { background: #f8fafc; padding-left: 30px; color: var(--primary); }
         .hidden { display: none; }
     </style>
 </head>
@@ -84,9 +83,14 @@
         <div class="brand-section">
             <h1 class="brand-logo"><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
             <span class="brand-legend">American English Vocabulary Simulator by Carlos Mario Navarro</span>
+            <nav>
+                <button class="nav-link active" onclick="showTab('home')">Simulator</button>
+                <button class="nav-link" onclick="showTab('history')">Historical Search</button>
+                <button class="nav-link" onclick="showTab('alpha')">AZ List</button>
+            </nav>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Search word or phrasal verb..." autocomplete="off">
+            <input type="text" id="word-input" placeholder="Analyze word or phrase..." autocomplete="off">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
@@ -94,92 +98,154 @@
 
 <div class="container">
     <div class="app-card">
-        <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
-                <h2 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Linguistic Excellence 🇺🇸</h2>
-                <p style="color: #64748b; font-size: 1.2rem;">Analyze any term with professional American rigor.</p>
+        <div id="simulator-view">
+            <div id="welcome-msg" style="text-align: center; padding: 100px 0;">
+                <h2 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">Linguistic Analysis 🇺🇸</h2>
+                <p style="color: #64748b; font-size: 1.3rem;">Professional American English Breakdown Simulator.</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
+        </div>
+
+        <div id="list-view" class="hidden">
+            <h2 id="list-title" style="color: var(--primary); margin-bottom: 30px;">Historical Search</h2>
+            <div id="data-list"></div>
         </div>
     </div>
 </div>
 
 <script>
+    let myHistory = JSON.parse(localStorage.getItem('ep_history_v2')) || [];
+
     document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
 
-    async function handleSearch() {
-        const query = document.getElementById('word-input').value.trim();
+    async function handleSearch(term = null) {
+        const query = (term || document.getElementById('word-input').value).trim();
         if(!query) return;
         
+        showTab('home');
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px; color:var(--primary); font-weight:800;">DECONSTRUCTING TERM... 🚀</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:100px; color:var(--primary); font-weight:800; font-size:1.5rem;">ANALYZING AMERICAN LEXICON... 🚀</div>`;
 
         try {
             const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`);
             const data = await response.json();
+            
             if (data.title) throw new Error();
-            renderDynamicAnalysis(data[0], query);
+
+            if(!myHistory.includes(query.toLowerCase())) {
+                myHistory.push(query.toLowerCase());
+                localStorage.setItem('ep_history_v2', JSON.stringify(myHistory));
+            }
+
+            renderStructure(data[0], query);
         } catch (err) {
-            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2 style="color:var(--secondary);">Term Not Found</h2><p>Please check the spelling or try a more common American term.</p></div>`;
+            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2 style="color:var(--secondary);">Term Not Found</h2><p>Our simulator requires standard American English entries.</p></div>`;
         }
+        document.getElementById('word-input').value = '';
     }
 
-    function renderDynamicAnalysis(data, originalQuery) {
+    function renderStructure(data, originalQuery) {
         const word = data.word;
-        const isPhrase = originalQuery.split(' ').length > 1;
+        const upper = word.toUpperCase();
+        const isPhrase = originalQuery.trim().includes(' ');
         const definition = data.meanings[0].definitions[0].definition;
-        const example = data.meanings[0].definitions[0].example || "Used frequently in professional American discourse.";
-        const synonyms = data.meanings[0].synonyms.slice(0, 3).join(', ') || "Academic equivalents available upon request.";
-        const antonyms = data.meanings[0].antonyms.slice(0, 3).join(', ') || "None commonly cited in this context.";
-        const pos = data.meanings[0].partOfSpeech;
+        const example = data.meanings[0].definitions[0].example || "Widely used in American corporate and academic environments.";
         const phonetic = data.phonetics.find(p => p.text)?.text || "/.../";
+        const pos = data.meanings[0].partOfSpeech;
 
-        let html = '';
+        let content = '';
 
         if (isPhrase) {
-            html = `
-                <div class="analysis-title">Phrase Analysis: ${word.toUpperCase()}</div>
+            content = `
+                <div class="analysis-header">Phrase Analysis: ${upper}</div>
                 <div class="section-h">English Meaning 🇺🇸</div>
                 <p class="body-text"><b>Phrase Type (${pos}):</b> ${definition}</p>
-                <p class="body-text"><b>The "Action" Perspective:</b> In the U.S., this phrase functions as a tool for deconstruction, allowing complex tasks to be handled with precision.</p>
+                <p class="body-text"><b>The "Action" Perspective:</b> Real-world situational function emphasizing operational efficiency.</p>
+                <p class="body-text"><b>The "Explaining" Perspective:</b> How this phrase clarifies complex American discourse.</p>
+                
                 <div class="section-h">Phonetics & Pronunciation 🗣️</div>
                 <div class="pronunciation-box">
-                    <div><span style="font-family:monospace; font-size:1.6rem; color:var(--primary); font-weight:800;">${phonetic}</span></div>
-                    <button class="audio-btn" onclick="speechSynthesis.speak(new SpeechSynthesisUtterance('${word}'))">🔊</button>
+                    <div><span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
+                    <p style="margin-top:10px;"><b>Sounds like:</b> ${word.replace(' ', '-').toLowerCase()}. Focus on American connected speech.</p></div>
+                    <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
                 </div>
-                <div class="section-h">Real-World Examples 📝</div>
-                <p class="body-text">"${example}"</p>
-                <div class="section-h">Friendly Practice 🇺🇸</div>
-                <div class="practice-box">"Let's break this down into manageable steps to ensure project success."</div>
+
+                <div class="section-h">The Cognitive Process ⚖️</div>
+                <p class="body-text">Mental framework used by high-performers to maintain executive clarity and results.</p>
             `;
         } else {
-            html = `
-                <div class="analysis-title">Word Analysis: ${word.toUpperCase()}</div>
+            content = `
+                <div class="analysis-header">Word Analysis: ${upper}</div>
                 <div class="section-h">English Meaning 🇺🇸</div>
                 <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
-                <p class="body-text"><b>Connotation:</b> Highly valued in American corporate culture. It signals a "results-oriented" mindset.</p>
+                <p class="body-text"><b>Connotation:</b> High-energy American term signaling professional competence and unstoppable work ethic.</p>
+
                 <div class="section-h">Phonetics & Pronunciation 🗣️</div>
                 <div class="pronunciation-box">
-                    <div><span style="font-family:monospace; font-size:1.6rem; color:var(--primary); font-weight:800;">${phonetic}</span></div>
-                    <button class="audio-btn" onclick="speechSynthesis.speak(new SpeechSynthesisUtterance('${word}'))">🔊</button>
+                    <div><span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
+                    <p style="margin-top:10px;"><b>Sounds like:</b> ${word.toLowerCase()}. Stress placement follows standard American rules.</p></div>
+                    <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
                 </div>
-                <div class="section-h">Synonyms & Antonyms 🤝</div>
-                <p class="body-text"><b>Synonyms:</b> ${synonyms}</p>
-                <p class="body-text"><b>Antonyms:</b> ${antonyms}</p>
+
                 <div class="section-h">The "Grit" Scale ⚖️</div>
                 <table class="grit-scale">
-                    <tr><td>Level 1: Interest</td><td>Curiosity about the task.</td></tr>
-                    <tr><td>Level 2: Persistence</td><td>Continuing despite friction.</td></tr>
-                    <tr><td><b>LEVEL 3: ${word.toUpperCase()}</b></td><td><b>Unwavering commitment to the objective.</b></td></tr>
+                    <tr><td>Interest</td><td>Initial curiosity about the task.</td></tr>
+                    <tr><td>Persistence</td><td>Effort despite mistakes.</td></tr>
+                    <tr><td><b>${upper}</b></td><td><b>Refuse-to-lose mentality. You find a way or make one.</b></td></tr>
                 </table>
-                <div class="pro-tip"><b>Tip Pro 💡:</b> Use this term when you want to emphasize your unstoppable work ethic in a resume or interview.</div>
             `;
         }
 
-        document.getElementById('full-analysis').innerHTML = html + `<p style="text-align:center; margin-top:40px; font-weight:800; color:var(--primary);">Ready for your next Relentless Analysis? 🚀</p>`;
-        document.getElementById('word-input').value = '';
+        // Secciones comunes
+        content += `
+            <div class="section-h">Real-World Examples 📝</div>
+            <p class="body-text">"${example}"</p>
+
+            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="practice-box">
+                <p><b>Professional Context:</b> "I approach every technical challenge with a <b>${word}</b> mindset to ensure executive-level delivery."</p>
+            </div>
+
+            <div class="pro-tip"><b>Tip Pro 💡:</b> Strategic learning insight: use this term to sell yourself in professional environments while maintaining empathy with your team.</div>
+            <p style="text-align:center; margin-top:50px; font-weight:800; color:var(--primary);">Ready for your next Relentless Analysis? 🚀</p>
+        `;
+
+        document.getElementById('full-analysis').innerHTML = content;
+        playAudio(word);
+    }
+
+    function playAudio(w) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(w);
+        utter.lang = 'en-US';
+        utter.rate = 0.85;
+        window.speechSynthesis.speak(utter);
+    }
+
+    function showTab(tab) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById('simulator-view').classList.add('hidden');
+        document.getElementById('list-view').classList.add('hidden');
+
+        if(tab === 'home') {
+            document.querySelectorAll('.nav-link')[0].classList.add('active');
+            document.getElementById('simulator-view').classList.remove('hidden');
+        } else {
+            const isH = (tab === 'history');
+            document.querySelectorAll('.nav-link')[isH ? 1 : 2].classList.add('active');
+            document.getElementById('list-view').classList.remove('hidden');
+            document.getElementById('list-title').innerText = isH ? "Historical Search" : "AZ List";
+            
+            const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
+            document.getElementById('data-list').innerHTML = data.length ? data.map(w => `
+                <div class="item-row" onclick="handleSearch('${w}')">
+                    <span>${w.toUpperCase()}</span>
+                    <span style="color:var(--secondary)">➜</span>
+                </div>
+            `).join('') : '<p style="text-align:center; padding:50px; color:#94a3b8;">No data found.</p>';
+        }
     }
 </script>
 </body>
