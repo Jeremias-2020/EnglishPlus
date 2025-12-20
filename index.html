@@ -5,64 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#002868">
     
-    <title>EnglishPlus | American English Vocabulary Simulator</title>
-    <meta name="description" content="American English Vocabulary Simulator by Carlos Mario Navarro">
-    <meta property="og:image" content="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    <title>EnglishPlus | American English Simulator</title>
+    
+    <meta property="og:image" id="meta-og-image" content="https://i.postimg.cc/k4xT20pL/Imagen1.png">
     
     <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-
-    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f3f4f6; --card: #ffffff; --accent: #e8f0fe; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root { 
+            --primary: #002868; 
+            --secondary: #bf0a30; 
+            --card: #ffffff; 
+            --accent: #e8f0fe;
+            /* Fondo dinámico */
+            --bg-image: url('none'); 
+            --bg-color: #f3f4f6;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color);
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0; padding-bottom: 90px; color: #1e293b; 
+        }
         
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
-        
-        /* HEADER CON IMAGEN OFICIAL */
         header { background: var(--card); padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .logo-header { max-width: 100%; width: 450px; height: auto; display: block; margin: 0 auto; }
-        .subtitle { font-size: 0.85rem; color: #64748b; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
         .container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
         .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; outline: none; }
+        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; }
         .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; }
 
-        .app-card { background: var(--card); border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); min-height: 400px; }
+        .app-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: 400px; }
         
-        /* PRONUNCIATION SECTION */
-        .pronunciation-header { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            margin-bottom: 30px; 
-            padding: 20px; 
-            background: var(--accent); 
-            border-radius: 18px;
-            border: 1px solid #d0e2ff;
-        }
-        .word-bold { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0; text-transform: lowercase; }
+        .pronunciation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding: 20px; background: var(--accent); border-radius: 18px; border: 1px solid #d0e2ff; }
+        .word-bold { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0; }
         .phonetic-spelling { font-size: 1.4rem; color: var(--secondary); font-family: 'Courier New', monospace; font-weight: 600; }
-        .btn-audio { 
-            background: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.8rem; display: flex; align-items: center; 
-            justify-content: center; box-shadow: 0 4px 10px rgba(0,40,104,0.15); margin-left: auto;
-        }
+        .btn-audio { background: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-left: auto; }
 
-        /* PEDAGOGICAL CONTENT */
         .section-h { color: var(--primary); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 12px; }
-        .content { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 18px; }
-        .content b { color: var(--primary); }
+        .content { font-size: 1.1rem; line-height: 1.8; margin-bottom: 18px; }
         .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 16px; margin-top: 30px; border-left: 5px solid #fbbf24; }
 
-        /* NAVIGATION */
         nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
         .nav-item { border: none; background: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 0.85rem; }
-        .nav-item.active { color: var(--primary); }
-
+        .nav-item.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
         .hidden { display: none; }
         .list-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; }
     </style>
@@ -70,25 +62,27 @@
 <body>
 
 <header>
-    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
-    <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
+    <img id="main-logo" src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
 </header>
 
 <div class="container">
     <div class="search-bar">
-        <input type="text" id="word-input" placeholder="Enter word (e.g., rely, enough, utmost)...">
+        <input type="text" id="word-input" placeholder="Enter word and press Enter...">
         <button class="btn-main" onclick="executeSearch()">SEARCH</button>
     </div>
 
-    <div class="app-card" id="main-display">
-        <div id="home-view" style="text-align: center; padding-top: 60px; color: #94a3b8;">
-            <div style="font-size: 4rem; margin-bottom: 20px;">🇺🇸</div>
-            <h2>Welcome to EnglishPlus!</h2>
-            <p>Master American English pronunciation and usage instantly.</p>
+    <div class="app-card">
+        <div id="result-view">
+            <div id="home-content" style="text-align: center; padding-top: 80px; color: #94a3b8;">
+                <h2>Welcome to EnglishPlus</h2>
+                <p>Type a word to start learning.</p>
+            </div>
+            <div id="analysis-content" class="hidden"></div>
         </div>
-        
-        <div id="result-view" class="hidden"></div>
-        <div id="list-view" class="hidden"><div id="items-container"></div></div>
+        <div id="list-view" class="hidden">
+            <h3 id="list-title">History</h3>
+            <div id="items-container"></div>
+        </div>
     </div>
 </div>
 
@@ -99,84 +93,58 @@
 </nav>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('ep_final_v2')) || [];
+    // CARGAR CONFIGURACIÓN DESDE NETLIFY (Si existen)
+    // Nota: Netlify inyecta estas variables si usas un plugin o Snippet, 
+    // pero la forma más fácil es mediante esta lógica de "Override":
+    
+    const CUSTOM_LOGO = null; // Se puede cambiar aquí o vía script de Netlify
+    const CUSTOM_BG = null;
+
+    let vocabularyDb = JSON.parse(localStorage.getItem('ep_v3')) || [];
+
+    document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
 
     function executeSearch(target = null) {
         const val = (target || document.getElementById('word-input').value).trim().toLowerCase();
         if(!val) return;
-        if(!db.includes(val)) db.push(val);
-        localStorage.setItem('ep_final_v2', JSON.stringify(db));
+        if(!vocabularyDb.includes(val)) { vocabularyDb.push(val); localStorage.setItem('ep_v3', JSON.stringify(vocabularyDb)); }
         document.getElementById('word-input').value = '';
-        renderWord(val);
+        renderAnalysis(val);
         navigate('home');
     }
 
-    function renderWord(word) {
-        document.getElementById('home-view').classList.add('hidden');
-        document.getElementById('list-view').classList.add('hidden');
-        const view = document.getElementById('result-view');
-        view.classList.remove('hidden');
-
-        // Lógica de transcripción amigable
-        const phonetics = {
-            "enough": "uh·nuhf",
-            "rely": "ri·lai",
-            "utmost": "uht·mowst",
-            "thorough": "thur·ow"
-        };
-        const phonetic = phonetics[word] || word.replace(/a/g, 'ay').replace(/o/g, 'ow');
-
-        view.innerHTML = `
+    function renderAnalysis(word) {
+        document.getElementById('home-content').classList.add('hidden');
+        const content = document.getElementById('analysis-content');
+        content.classList.remove('hidden');
+        content.innerHTML = `
             <div class="pronunciation-header">
-                <div>
-                    <h1 class="word-bold">${word}</h1>
-                    <span class="phonetic-spelling">/${phonetic}/</span>
-                </div>
-                <button class="btn-audio" onclick="playGoogle('${word}')">🔊</button>
+                <div><h1 class="word-bold">${word}</h1><span class="phonetic-spelling">/pronunciation/</span></div>
+                <button class="btn-audio" onclick="playAudio('${word}')">🔊</button>
             </div>
-
-            <div class="content">That is a fantastic word! <b>"${word}"</b> is essential for your American English mastery.</div>
-
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <div class="content">In the U.S., this word is used to describe a high degree of intent or a specific quality in professional and daily life.</div>
-
-            <div class="section-h">Synonyms 🤝</div>
-            <div class="content">Greatest • Primary • Paramount • Leading.</div>
-
-            <div class="section-h">Real-World Examples 📝</div>
-            <div class="content">"I will do my <b>${word}</b> to help you," or "This team is very <b>${word}</b>."</div>
-
-            <div class="pro-tip">
-                <b>Tip Pro 💡</b>: Using <b>${word}</b> instead of "very" makes you sound much more professional and confident. You can bank on it! 🚀
-            </div>
+            <div class="section-h">Meaning</div><div class="content">Definition and American context for <b>${word}</b>.</div>
+            <div class="pro-tip"><b>Tip Pro 💡</b>: Use this word to sound more professional.</div>
         `;
-        playGoogle(word);
+        playAudio(word);
     }
 
-    function playGoogle(w) {
+    function playAudio(w) {
         const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(w)}&tl=en-us&client=tw-ob`;
-        new Audio(url).play().catch(() => {
-            const m = new SpeechSynthesisUtterance(w);
-            m.lang = 'en-US';
-            window.speechSynthesis.speak(m);
-        });
+        new Audio(url).play();
     }
 
     function navigate(v) {
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById('home-view').classList.add('hidden');
         document.getElementById('result-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
-
         if(v === 'home') {
             document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(document.getElementById('result-view').innerHTML === "") document.getElementById('home-view').classList.remove('hidden');
-            else document.getElementById('result-view').classList.remove('hidden');
+            document.getElementById('result-view').classList.remove('hidden');
         } else {
             const isH = v === 'history';
             document.querySelectorAll('.nav-item')[isH?1:2].classList.add('active');
             document.getElementById('list-view').classList.remove('hidden');
-            const data = isH ? [...db].reverse() : [...db].sort();
+            const data = isH ? [...vocabularyDb].reverse() : [...vocabularyDb].sort();
             document.getElementById('items-container').innerHTML = data.map(w => `<div class="list-item" onclick="executeSearch('${w}')">${w} <span>➜</span></div>`).join('');
         }
     }
