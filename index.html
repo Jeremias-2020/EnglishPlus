@@ -4,43 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#002868">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>EnglishPlus | American English Simulator</title>
     
     <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f3f4f6; --card: #ffffff; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --card: #ffffff; --accent: #eef2ff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: all 0.2s ease; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         
-        /* App Header */
-        header { background: var(--card); padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); sticky: top; }
-        .logo { max-width: 220px; height: auto; }
-        .subtitle { font-size: 0.75rem; color: #666; font-weight: 700; margin-top: 5px; }
+        header { background: var(--card); padding: 25px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .logo { max-width: 240px; height: auto; }
+        .subtitle { font-size: 0.8rem; color: #64748b; font-weight: 700; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Simulator Card */
-        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
-        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-        input { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 1rem; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        .container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
+        .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
+        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; outline: none; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,40,104,0.1); }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; }
 
-        .app-card { background: var(--card); border-radius: 20px; padding: 25px; shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 300px; }
+        .app-card { background: var(--card); border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); min-height: 400px; }
         
-        /* Typography */
-        .word-title { font-size: 2.2rem; margin: 0; color: var(--primary); }
-        .ipa { font-size: 1.2rem; color: #777; font-family: serif; }
-        .section-h { color: var(--secondary); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-top: 25px; border-left: 3px solid var(--secondary); padding-left: 10px; }
-        .content { font-size: 1rem; line-height: 1.6; color: #333; margin: 8px 0; }
+        /* Explanation Styling */
+        .word-result-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--bg); padding-bottom: 20px; margin-bottom: 25px; }
+        .word-title { font-size: 2.5rem; margin: 0; color: var(--primary); font-weight: 800; text-transform: lowercase; }
+        .ipa { font-size: 1.3rem; color: #64748b; font-family: 'Georgia', serif; font-style: italic; }
+        .btn-audio { font-size: 1.8rem; background: var(--accent); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-audio:hover { background: #e0e7ff; transform: scale(1.1); }
 
-        /* Floating Nav for Mobile */
-        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
-        .nav-item { border: none; background: none; font-weight: 700; color: #888; cursor: pointer; font-size: 0.8rem; }
+        .section-h { color: var(--secondary); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; margin-top: 30px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .content { font-size: 1.1rem; line-height: 1.7; color: #334155; margin-bottom: 15px; }
+        .content b { color: var(--primary); }
+        .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 15px; margin-top: 25px; }
+
+        /* Navigation */
+        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); z-index: 1000; }
+        .nav-item { border: none; background: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .nav-item.active { color: var(--primary); }
 
         .hidden { display: none; }
-        .list-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-weight: 600; }
+        .list-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; border-radius: 12px; }
+        .list-item:hover { background: var(--accent); color: var(--primary); }
     </style>
 </head>
 <body>
@@ -52,67 +57,121 @@
 
 <div class="container">
     <div class="search-bar">
-        <input type="text" id="word-in" placeholder="Type a word...">
-        <button class="btn-main" onclick="runSearch()">LEARN</button>
+        <input type="text" id="word-in" placeholder="Ex: Relentless, Thorough, Subtle...">
+        <button class="btn-main" onclick="runSearch()">EXPLORE</button>
     </div>
 
     <div class="app-card" id="display">
-        <div id="view-home" style="text-align: center; padding-top: 50px;">
-            <p>Welcome! Type a word to start the simulation.</p>
+        <div id="view-home" style="text-align: center; padding-top: 80px; color: #94a3b8;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🇺🇸</div>
+            <h2>Ready to level up?</h2>
+            <p>Type any word to get a full pedagogical breakdown.</p>
         </div>
+        
         <div id="view-result" class="hidden"></div>
+        
         <div id="view-list" class="hidden">
-            <h3 id="list-title">History</h3>
+            <h3 id="list-title" style="color: var(--primary);">History</h3>
             <div id="list-items"></div>
         </div>
     </div>
 </div>
 
 <nav>
-    <button class="nav-item active" onclick="showTab('home')">SIMULATOR</button>
-    <button class="nav-item" onclick="showTab('hist')">HISTORY</button>
-    <button class="nav-item" onclick="showTab('alpha')">A-Z</button>
+    <button class="nav-item active" onclick="showTab('home')"><span>🏠</span>SIMULATOR</button>
+    <button class="nav-item" onclick="showTab('hist')"><span>🕒</span>HISTORY</button>
+    <button class="nav-item" onclick="showTab('alpha')"><span>🔤</span>A-Z LIST</button>
 </nav>
 
 <script>
-    let history = JSON.parse(localStorage.getItem('ep_v1')) || [];
+    let history = JSON.parse(localStorage.getItem('ep_pro_v1')) || [];
 
     function runSearch(target = null) {
-        const word = (target || document.getElementById('word-in').value).trim().toLowerCase();
+        const word = (target || document.getElementById('word-in').value).trim();
         if(!word) return;
         
-        if(!history.includes(word)) history.push(word);
-        localStorage.setItem('ep_v1', JSON.stringify(history));
+        const cleanWord = word.toLowerCase();
+        if(!history.includes(cleanWord)) history.push(cleanWord);
+        localStorage.setItem('ep_pro_v1', JSON.stringify(history));
         
         document.getElementById('word-in').value = '';
-        renderWord(word);
+        renderCompleteExplanation(cleanWord);
         showTab('home');
     }
 
-    function renderWord(word) {
+    function renderCompleteExplanation(word) {
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-list').classList.add('hidden');
         const res = document.getElementById('view-result');
         res.classList.remove('hidden');
 
+        // El Simulador genera el contenido basado en tu modelo "RELY"
         res.innerHTML = `
-            <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div class="word-result-header">
                 <div>
                     <h1 class="word-title">${word}</h1>
-                    <span class="ipa">/ ${word.replace('a','æ')} /</span>
+                    <span class="ipa">/ ${generateMockIPA(word)} /</span>
                 </div>
-                <button onclick="speak('${word}')" style="font-size:2rem; background:none; border:none; cursor:pointer;">🔊</button>
+                <button class="btn-audio" onclick="speak('${word}')">🔊</button>
             </div>
-            <div class="section-h">Meaning</div><div class="content">Fantastic word! In American English, <b>${word}</b> is used to express maximum effort or peak status.</div>
-            <div class="section-h">Synonyms</div><div class="content">Greatest, Maximum, Paramount.</div>
-            <div class="section-h">Real World</div><div class="content">"I'll do my ${word} to help you."</div>
-            <div class="section-h">Tip Pro</div><div class="content">Use it in business meetings to sound more committed.</div>
+
+            <div class="content">
+                That is a fantastic word! <b>"${word}"</b> is a high-impact term in American English. Using it shows that you are taking your language skills to the maximum level!
+            </div>
+
+            <div class="section-h">Word Analysis: ${word.toUpperCase()}</div>
+            <div class="content">
+                In the U.S., this word is often used in professional and academic settings to express a high degree of intent or a specific quality of action.
+            </div>
+
+            <div class="section-h">English Meaning 🇺🇸</div>
+            <div class="content">
+                A primary concept used to describe a specific state, action, or quality within the American cultural context.
+            </div>
+
+            <div class="section-h">Synonyms 🤝</div>
+            <div class="content">
+                Principal • Leading • Key • Ultimate.
+            </div>
+
+            <div class="section-h">Antonyms 🚫</div>
+            <div class="content">
+                Negligible • Minor • Secondary.
+            </div>
+
+            <div class="section-h">Real-World Examples 📝</div>
+            <div class="content">
+                "We need to focus on <b>${word}</b> to ensure the success of our American branch."<br>
+                "It's a matter of <b>${word}</b> importance for the whole team."
+            </div>
+
+            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="content">
+                Try using <b>"${word}"</b> in your next conversation to sound more confident. For example, instead of saying something is "very important," try using this word to add more weight to your statement!
+            </div>
+
+            <div class="pro-tip">
+                <div class="section-h" style="margin-top:0;">Tip Pro 💡</div>
+                <div class="content" style="margin-bottom:0;">
+                    A common phrase in the U.S. is: "You can bank on it!" It shows you are 100% sure. Since you are learning <b>${word}</b>, you are definitely on the right track. Keep going! 🚀
+                </div>
+            </div>
+            
+            <p style="text-align:center; margin-top:30px; font-style:italic; color:#94a3b8;">
+                What's the next word on your list? I'm ready!
+            </p>
         `;
+    }
+
+    function generateMockIPA(w) {
+        // Simulación básica de fonética para el simulador
+        return w.replace(/a/g, 'æ').replace(/th/g, 'θ').replace(/u/g, 'ʌ').replace(/o/g, 'oʊ');
     }
 
     function speak(w) {
         const u = new SpeechSynthesisUtterance(w);
         u.lang = 'en-US';
+        u.rate = 0.85;
         window.speechSynthesis.speak(u);
     }
 
@@ -135,7 +194,9 @@
             document.getElementById('view-list').classList.remove('hidden');
             document.getElementById('list-title').innerText = isHist ? "Search History" : "Alphabetical List";
             const data = isHist ? [...history].reverse() : [...history].sort();
-            document.getElementById('list-items').innerHTML = data.map(w => `<div class="list-item" onclick="runSearch('${w}')">${w} <span>🇺🇸</span></div>`).join('');
+            document.getElementById('list-items').innerHTML = data.length > 0 
+                ? data.map(w => `<div class="list-item" onclick="runSearch('${w}')">${w} <span>🇺🇸</span></div>`).join('')
+                : '<p style="text-align:center; padding:40px;">No words yet!</p>';
         }
     }
 </script>
