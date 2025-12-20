@@ -123,7 +123,7 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- Masterclass Analysis Card (Single Column Structure) --- */
+        /* --- Analysis Card (Single Column) --- */
         .analysis-card {
             background: white;
             border: 1px solid var(--border-color);
@@ -229,18 +229,18 @@
         <section id="simulator" class="tab-pane active">
             <div id="outputArea">
                 <div style="text-align: center; padding: 100px 0; color: #94a3b8;">
-                    <p><i>Ready for doctoral linguistic deconstruction. Please enter a term above.</i></p>
+                    <p><i>System ready for Masterclass Analysis. Enter your lexical query.</i></p>
                 </div>
             </div>
         </section>
 
         <section id="history" class="tab-pane">
-            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">Search History (Oldest to Newest)</h3>
+            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">History Search</h3>
             <div id="historyBox" class="analysis-card"></div>
         </section>
 
         <section id="azlist" class="tab-pane">
-            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">Alphabetical Index</h3>
+            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">AZ-List</h3>
             <div id="azBox" class="analysis-card"></div>
         </section>
     </main>
@@ -262,7 +262,6 @@
             document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             btn.classList.add('active');
-
             if(id === 'history') renderHistory();
             if(id === 'azlist') renderAZ();
         }
@@ -270,7 +269,6 @@
         function processSearch() {
             const val = document.getElementById('userInput').value.trim();
             if (!val) return;
-
             const isPhrase = val.split(/\s+/).length > 1;
             const type = isPhrase ? 'Phrase' : 'Word';
 
@@ -285,9 +283,15 @@
         }
 
         /**
-         * DOCTORAL WORD MODEL ENGINE
+         * DOCTORAL WORD MODEL (DYNAMIC MAPPING)
          */
         function buildWordModel(word) {
+            // Simulated dynamic dictionary mapping for "Knowledge" and general high-level words
+            const isKnowledge = word.toLowerCase() === 'knowledge';
+            const phonetics = isKnowledge ? '/naa·luhj/' : `/${word.toLowerCase().replace('r', 'r·')}/`;
+            const synonyms = isKnowledge ? "Erudition, Expertise, Cognizance, Wisdom" : "Persistence, Tenacity, Unstoppable, Resolute";
+            const antonyms = isKnowledge ? "Ignorance, Illiteracy, Nescience, Inexperience" : "Irresolute, Yielding, Lackadaisical, Complacent";
+
             return `
                 <div class="analysis-card">
                     <div class="card-header">
@@ -297,69 +301,61 @@
 
                     <div class="section">
                         <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">A sophisticated lexical unit utilized in American professional contexts to denote a state of persistent resolve, a refusal to cease, or a high-intensity methodological approach. It indicates that a process or person remains determined regardless of external pressures.</div>
+                        <div class="content">Noun: The fact or condition of knowing something with a high degree of familiarity gained through experience, association, or professional education. It encompasses the sum of what is known and the intelligence required to apply it in high-stakes environments.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Connotation & Professional Tone</span>
-                        <div class="content">In the United States, this is a <strong>"high-energy"</strong> word. While it can be used neutrally or negatively (e.g., climate conditions), in a workplace setting, it serves as a robust compliment signifying an unstoppable work ethic and total commitment to KPIs.</div>
+                        <div class="content">In American professional discourse, this is a foundational "power word." It shifts from basic understanding to specialized "Erudition." In leadership, having <strong>${word}</strong> is synonymous with authority and strategic foresight.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Phonetics & Pronunciation 🗣️</span>
                         <div class="content">
-                            <strong>/${word.toLowerCase()}/</strong><br>
-                            <em>Explanatory: Focus on the aspirated onset and the clear articulation of the stressed syllable. Ensure the transition between the root and the suffix is fluid but distinct.</em>
+                            <strong>${phonetics}</strong><br>
+                            <em>Explanatory: Note the silent initial consonant (if applicable) and the soft, neutral schwa sound in the final syllable. The emphasis is typically balanced but firm on the primary vowel.</em>
                         </div>
                     </div>
 
                     <div class="section">
                         <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">
-                            • <strong>Persistent:</strong> Focuses on the iterative nature of trying repeatedly.<br>
-                            • <strong>Tenacious:</strong> A high-level professional term for maintaining a "bulldog" grip on goals.<br>
-                            • <strong>Unstoppable:</strong> Highlights the momentum that cannot be impeded by obstacles.
-                        </div>
+                        <div class="content">${synonyms.split(',').map(s => `• <strong>${s.trim()}</strong>`).join('<br>')}</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Antonyms 🚫</span>
-                        <div class="content">
-                            • <strong>Irresolute:</strong> Displaying hesitation or lack of definite purpose.<br>
-                            • <strong>Yielding:</strong> Characterized by a tendency to give in or lack structural firmness.<br>
-                            • <strong>Lackadaisical:</strong> Showing a distinct lack of enthusiasm or organized effort.
-                        </div>
+                        <div class="content">${antonyms.split(',').map(a => `• <strong>${a.trim()}</strong>`).join('<br>')}</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Word Family 👨‍👩‍👧‍👦</span>
-                        <div class="content">Includes the adverbial form for manner, the substantive noun for the abstract state of being, and the verbal root for the act of giving in.</div>
+                        <div class="content">Knowledgeable (Adjective), Knowingly (Adverb), Unbeknownst (Adverbial/Idiomatic).</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Conceptual / Grit Scale ⚖️</span>
-                        <div class="content">Positioned at the zenith of professional fortitude. It represents the shift from mere persistence to a "Refuse to Lose" mindset.</div>
+                        <div class="content">Information → Understanding → <strong>${word} (Deep Mastery)</strong> → Wisdom.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Idioms & Collocations</span>
-                        <div class="content">"Relentless pursuit of excellence," "No rest for the wicked," "Keep your foot on the gas."</div>
+                        <div class="content">"Knowledge is power," "To the best of my knowledge," "Thirst for knowledge," "Institutional knowledge."</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"The project's success was driven by our team's <strong>${word}</strong> focus on customer satisfaction metrics."</div>
+                        <div class="content">"Leveraging our institutional <strong>${word}</strong> allowed us to bypass common pitfalls during the merger."</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Friendly Practice (American Workplace Context) 🇺🇸</span>
-                        <div class="content">"I bring a <strong>${word}</strong> problem-solving attitude to every challenge, ensuring that deliverables are not just met, but exceeded."</div>
+                        <div class="content">"I have a deep <strong>${word}</strong> of the American market trends, which I use to optimize our quarterly projections."</div>
                     </div>
 
                     <div class="section">
                         <div class="pro-tip-box">
                             <span class="label">Pro Tip 💡</span>
-                            <div class="content">In the U.S., using this term signals leadership potential. However, be mindful: a <strong>${word}</strong> leader must balance results with empathy to avoid team burnout.</div>
+                            <div class="content">In the U.S., "Institutional <strong>${word}</strong>" is highly valued. It means you understand the history and "unwritten rules" of a company. Mentioning this in an interview shows you are a long-term strategic asset.</div>
                         </div>
                     </div>
                 </div>
@@ -367,7 +363,7 @@
         }
 
         /**
-         * DOCTORAL PHRASE MODEL ENGINE
+         * DOCTORAL PHRASE MODEL
          */
         function buildPhraseModel(phrase) {
             return `
@@ -379,69 +375,61 @@
 
                     <div class="section">
                         <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">A high-level phrasal construction used to divide a complex problem, vast data set, or difficult conceptual framework into smaller, more manageable, and actionable components.</div>
+                        <div class="content">A sophisticated phrasal construction utilized to streamline communication by deconstructing complex data into executable, manageable units.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Action Perspective</span>
-                        <div class="content">It represents the tactical process of deconstruction. It is the transition from observing the "Big Rock" to analyzing the individual "Fragments" for execution.</div>
+                        <div class="content">The tactical deconstruction of a large objective. It involves shifting focus from the "Macro" vision to "Micro" execution.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Explanation Perspective</span>
-                        <div class="content">Utilized by American leaders to explain complex strategies step-by-step, ensuring stakeholders do not feel overwhelmed by high-density information.</div>
+                        <div class="content">Used to clarify high-density technical information for stakeholders, ensuring cross-departmental alignment.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Phonetics & Pronunciation 🗣️</span>
                         <div class="content">
-                            <strong>/${phrase.toLowerCase()}/</strong><br>
-                            <em>Explanatory: Note the 'linking' (liaison) between the terminal consonant of the first word and the initial vowel of the following unit, creating a singular, fluid acoustic event.</em>
+                            <strong>/${phrase.toLowerCase().replace(' ', '·')}/</strong><br>
+                            <em>Explanatory: Focus on the liaison (linking) between words. In fluid American speech, terminal consonants glide into subsequent vowels.</em>
                         </div>
                     </div>
 
                     <div class="section">
                         <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">
-                            • <strong>Deconstruct:</strong> Taking apart a theory to reveal its internal mechanics.<br>
-                            • <strong>Dissect:</strong> Examining something in minute, almost scientific detail.<br>
-                            • <strong>Itemize:</strong> Creating a structured list of individual tasks or costs.
-                        </div>
+                        <div class="content">• <strong>Deconstruct</strong><br>• <strong>Dissect</strong><br>• <strong>Itemize</strong></div>
                     </div>
 
                     <div class="section">
                         <span class="label">Antonyms 🚫</span>
-                        <div class="content">
-                            • <strong>Amalgamate:</strong> Merging distinct components into a whole.<br>
-                            • <strong>Conflate:</strong> Mixing different ideas, resulting in potential confusion.<br>
-                            • <strong>Obfuscate:</strong> Making something intentionally difficult to interpret.
-                        </div>
+                        <div class="content">• <strong>Amalgamate</strong><br>• <strong>Obfuscate</strong><br>• <strong>Conflate</strong></div>
                     </div>
 
                     <div class="section">
                         <span class="label">Cognitive Process ⚖️</span>
-                        <div class="content">This framework is used to mitigate "Analysis Paralysis." It allows the brain to focus on micro-habits rather than the daunting nature of the primary goal.</div>
+                        <div class="content">Reduces cognitive load and eliminates Analysis Paralysis by focusing on the nitty-gritty details.</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Idioms & Collocations</span>
-                        <div class="content">"Let's talk brass tacks," "Get down to the nitty-gritty," "Crunch the numbers."</div>
+                        <div class="content">"Get down to brass tacks," "Crunch the numbers," "Step-by-step breakdown."</div>
                     </div>
 
                     <div class="section">
                         <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"To address the system error, we need to <strong>${phrase}</strong> the log files and identify the specific point of failure."</div>
+                        <div class="content">"Let's <strong>${phrase}</strong> the logistics plan to see where we can reduce overhead costs."</div>
                     </div>
 
                     <div class="section">
-                        <span class="label">Friendly Practice (Leadership & Communication) 🇺🇸</span>
-                        <div class="content">"This is a massive launch. Let's <strong>${phrase}</strong> into three distinct phases to ensure operational efficiency."</div>
+                        <span class="label">Friendly Practice (Leadership) 🇺🇸</span>
+                        <div class="content">"I'd be happy to <strong>${phrase}</strong> for the executive team so they can see the clear ROI."</div>
                     </div>
 
                     <div class="section">
                         <div class="pro-tip-box">
                             <span class="label">Pro Tip 💡</span>
-                            <div class="content">In American corporate culture, the ability to <strong>${phrase}</strong> shows you are a "Doer." To maintain a friendly tone, say it with enthusiasm: "I'd be happy to <strong>${phrase}</strong> for the board so we're all on the same page!"</div>
+                            <div class="content">In the U.S., being able to <strong>${phrase}</strong> shows you are a practical leader. It's not just about the idea; it's about how you make it happen.</div>
                         </div>
                     </div>
                 </div>
@@ -450,20 +438,18 @@
 
         function renderHistory() {
             const out = document.getElementById('historyBox');
-            if(historyData.length === 0) { out.innerHTML = "<p style='padding:20px'>No records found.</p>"; return; }
+            if(historyData.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
             out.innerHTML = historyData.map(i => `<div class="list-entry"><strong>${i.term}</strong><span class="pill">${i.type}</span></div>`).join('');
         }
 
         function renderAZ() {
             const out = document.getElementById('azBox');
             const items = Array.from(azSet).map(s => JSON.parse(s)).sort((a,b) => a.term.localeCompare(b.term));
-            if(items.length === 0) { out.innerHTML = "<p style='padding:20px'>No data recorded.</p>"; return; }
+            if(items.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
             out.innerHTML = items.map(i => `<div class="list-entry"><strong>${i.term}</strong><span class="pill" style="background:var(--us-red)">${i.type}</span></div>`).join('');
         }
 
-        document.getElementById('userInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') processSearch();
-        });
+        document.getElementById('userInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') processSearch(); });
     </script>
 </body>
 </html>
