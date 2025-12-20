@@ -4,30 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#002868">
-    <title>EnglishPlus | American English Simulator</title>
     
+    <title>EnglishPlus | American English Vocabulary Simulator</title>
+    <meta name="description" content="American English Vocabulary Simulator by Carlos Mario Navarro">
+    <meta property="og:image" content="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+
     <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f3f4f6; --card: #ffffff; --accent: #e8f0fe; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         
-        header { background: var(--card); padding: 25px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .logo { max-width: 260px; height: auto; }
-        .subtitle { font-size: 0.8rem; color: #64748b; font-weight: 700; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        /* HEADER CON IMAGEN OFICIAL */
+        header { background: var(--card); padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .logo-header { max-width: 100%; width: 450px; height: auto; display: block; margin: 0 auto; }
+        .subtitle { font-size: 0.85rem; color: #64748b; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; }
 
         .container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
         .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; outline: none; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        input:focus { border-color: var(--primary); }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: 0.2s; }
-        .btn-main:hover { background: #001a45; }
+        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; outline: none; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; }
 
-        .app-card { background: var(--card); border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); min-height: 400px; }
+        .app-card { background: var(--card); border-radius: 24px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); min-height: 400px; }
         
-        /* PRONUNCIATION HEADER - CRITICAL REQUIREMENT */
+        /* PRONUNCIATION SECTION */
         .pronunciation-header { 
             display: flex; 
             align-items: center; 
@@ -38,66 +44,51 @@
             border-radius: 18px;
             border: 1px solid #d0e2ff;
         }
-        .word-bold { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0; }
-        .phonetic-spelling { font-size: 1.4rem; color: var(--secondary); font-family: 'Courier New', Courier, monospace; font-weight: 600; }
+        .word-bold { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0; text-transform: lowercase; }
+        .phonetic-spelling { font-size: 1.4rem; color: var(--secondary); font-family: 'Courier New', monospace; font-weight: 600; }
         .btn-audio { 
-            background: white; 
-            border: none; 
-            width: 55px; 
-            height: 55px; 
-            border-radius: 50%; 
-            cursor: pointer; 
-            font-size: 1.6rem; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            box-shadow: 0 4px 10px rgba(0,40,104,0.15); 
-            margin-left: auto;
+            background: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
+            cursor: pointer; font-size: 1.8rem; display: flex; align-items: center; 
+            justify-content: center; box-shadow: 0 4px 10px rgba(0,40,104,0.15); margin-left: auto;
         }
-        .btn-audio:active { transform: scale(0.95); }
 
-        /* SECTIONS */
+        /* PEDAGOGICAL CONTENT */
         .section-h { color: var(--primary); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 12px; }
         .content { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 18px; }
         .content b { color: var(--primary); }
-        .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 16px; margin-top: 30px; }
+        .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 16px; margin-top: 30px; border-left: 5px solid #fbbf24; }
 
         /* NAVIGATION */
         nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
         .nav-item { border: none; background: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 0.85rem; }
-        .nav-item.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .nav-item.active { color: var(--primary); }
 
         .hidden { display: none; }
         .list-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; }
-        .list-item:hover { background: var(--accent); }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus Logo" class="logo">
+    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
     <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
 </header>
 
 <div class="container">
     <div class="search-bar">
-        <input type="text" id="word-input" placeholder="Type a word (ex. enough, rely, utmost)...">
+        <input type="text" id="word-input" placeholder="Enter word (e.g., rely, enough, utmost)...">
         <button class="btn-main" onclick="executeSearch()">SEARCH</button>
     </div>
 
     <div class="app-card" id="main-display">
-        <div id="home-view" style="text-align: center; padding-top: 60px;">
-            <div style="font-size: 3.5rem; margin-bottom: 20px;">📖</div>
-            <h2 style="color: var(--primary);">American English Vocabulary</h2>
-            <p style="color: #64748b;">Enter a word to see the pronunciation and pedagogical breakdown.</p>
+        <div id="home-view" style="text-align: center; padding-top: 60px; color: #94a3b8;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🇺🇸</div>
+            <h2>Welcome to EnglishPlus!</h2>
+            <p>Master American English pronunciation and usage instantly.</p>
         </div>
         
         <div id="result-view" class="hidden"></div>
-        
-        <div id="list-view" class="hidden">
-            <h3 id="list-title" style="color: var(--primary); margin-bottom: 20px;">Search History</h3>
-            <div id="items-container"></div>
-        </div>
+        <div id="list-view" class="hidden"><div id="items-container"></div></div>
     </div>
 </div>
 
@@ -108,28 +99,32 @@
 </nav>
 
 <script>
-    let vocabularyDb = JSON.parse(localStorage.getItem('ep_final_db')) || [];
+    let db = JSON.parse(localStorage.getItem('ep_final_v2')) || [];
 
-    function executeSearch(targetWord = null) {
-        const word = (targetWord || document.getElementById('word-input').value).trim().toLowerCase();
-        if(!word) return;
-        
-        if(!vocabularyDb.includes(word)) vocabularyDb.push(word);
-        localStorage.setItem('ep_final_db', JSON.stringify(vocabularyDb));
-        
+    function executeSearch(target = null) {
+        const val = (target || document.getElementById('word-input').value).trim().toLowerCase();
+        if(!val) return;
+        if(!db.includes(val)) db.push(val);
+        localStorage.setItem('ep_final_v2', JSON.stringify(db));
         document.getElementById('word-input').value = '';
-        renderPedagogicalExplanation(word);
+        renderWord(val);
         navigate('home');
     }
 
-    function renderPedagogicalExplanation(word) {
+    function renderWord(word) {
         document.getElementById('home-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
         const view = document.getElementById('result-view');
         view.classList.remove('hidden');
 
-        // Lógica de pronunciación estilo Google
-        const phonetic = formatPhonetic(word);
+        // Lógica de transcripción amigable
+        const phonetics = {
+            "enough": "uh·nuhf",
+            "rely": "ri·lai",
+            "utmost": "uht·mowst",
+            "thorough": "thur·ow"
+        };
+        const phonetic = phonetics[word] || word.replace(/a/g, 'ay').replace(/o/g, 'ow');
 
         view.innerHTML = `
             <div class="pronunciation-header">
@@ -137,94 +132,52 @@
                     <h1 class="word-bold">${word}</h1>
                     <span class="phonetic-spelling">/${phonetic}/</span>
                 </div>
-                <button class="btn-audio" onclick="playGoogleTTS('${word}')">🔊</button>
+                <button class="btn-audio" onclick="playGoogle('${word}')">🔊</button>
             </div>
 
-            <div class="content">That is a fantastic word! <b>"${word}"</b> is an essential term in American English. Using it correctly shows that you are taking a situation very seriously or putting in 100% effort.</div>
-
-            <div class="section-h">Word Analysis: ${word.toUpperCase()}</div>
-            <div class="content">In the U.S., this word is often used in professional and daily settings to show mastery and precision in communication.</div>
+            <div class="content">That is a fantastic word! <b>"${word}"</b> is essential for your American English mastery.</div>
 
             <div class="section-h">English Meaning 🇺🇸</div>
-            <div class="content">Adjective/Verb/Noun: Reflecting the highest degree, quality, or essential nature of the concept in an American cultural context.</div>
+            <div class="content">In the U.S., this word is used to describe a high degree of intent or a specific quality in professional and daily life.</div>
 
             <div class="section-h">Synonyms 🤝</div>
-            <div class="content">Greatest • Maximum • Paramount • Supreme.</div>
-
-            <div class="section-h">Antonyms 🚫</div>
-            <div class="content">Minimal • Slightest • Negligible.</div>
-
-            <div class="section-h">Common Expressions & Phrases 🗣️</div>
-            <div class="content">"To the <b>${word}</b>", "A <b>${word}</b> professional", "You can rely on <b>${word}</b>."</div>
+            <div class="content">Greatest • Primary • Paramount • Leading.</div>
 
             <div class="section-h">Real-World Examples 📝</div>
-            <div class="content">"I'll do my <b>${word}</b> to help you," or "This software ensures <b>${word}</b> reliability for our clients."</div>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="content">Try using <b>"${word}"</b> in your next email! It adds a touch of professional confidence that native speakers really appreciate.</div>
+            <div class="content">"I will do my <b>${word}</b> to help you," or "This team is very <b>${word}</b>."</div>
 
             <div class="pro-tip">
-                <div class="section-h" style="margin-top:0; border:none;">Tip Pro 💡</div>
-                <div class="content" style="margin-bottom:0; font-style:italic;">
-                    Americans love clarity. Using <b>${word}</b> instead of "very" makes your point faster and stronger. You can bank on it! 🚀
-                </div>
+                <b>Tip Pro 💡</b>: Using <b>${word}</b> instead of "very" makes you sound much more professional and confident. You can bank on it! 🚀
             </div>
-            
-            <p style="text-align:center; margin-top:40px; color:#94a3b8; font-weight:600;">
-                What's our next word? I'm ready to explain!
-            </p>
         `;
-        
-        // Auto-play audio on search
-        playGoogleTTS(word);
+        playGoogle(word);
     }
 
-    // Google Translate TTS Implementation
-    function playGoogleTTS(word) {
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(word)}&tl=en-us&client=tw-ob`;
-        const audio = new Audio(url);
-        audio.play().catch(() => {
-            // Fallback to system voice if Google is blocked
-            const msg = new SpeechSynthesisUtterance(word);
-            msg.lang = 'en-US';
-            window.speechSynthesis.speak(msg);
+    function playGoogle(w) {
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(w)}&tl=en-us&client=tw-ob`;
+        new Audio(url).play().catch(() => {
+            const m = new SpeechSynthesisUtterance(w);
+            m.lang = 'en-US';
+            window.speechSynthesis.speak(m);
         });
     }
 
-    // Mock Phonetic Spelling Logic (Simulating your "enough /uh·nuhf/" example)
-    function formatPhonetic(w) {
-        if(w === 'enough') return 'uh·nuhf';
-        if(w === 'rely') return 'ri·lai';
-        if(w === 'utmost') return 'uht·mowst';
-        // Generic logic for other words
-        return w.replace(/a/g, 'ay').replace(/o/g, 'ow').replace(/u/g, 'uh').replace(/e/g, 'eh');
-    }
-
-    function navigate(view) {
+    function navigate(v) {
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById('home-view').classList.add('hidden');
         document.getElementById('result-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
 
-        if(view === 'home') {
+        if(v === 'home') {
             document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(document.getElementById('result-view').innerHTML === "") {
-                document.getElementById('home-view').classList.remove('hidden');
-            } else {
-                document.getElementById('result-view').classList.remove('hidden');
-            }
+            if(document.getElementById('result-view').innerHTML === "") document.getElementById('home-view').classList.remove('hidden');
+            else document.getElementById('result-view').classList.remove('hidden');
         } else {
-            const isHistory = view === 'history';
-            document.querySelectorAll('.nav-item')[isHistory?1:2].classList.add('active');
+            const isH = v === 'history';
+            document.querySelectorAll('.nav-item')[isH?1:2].classList.add('active');
             document.getElementById('list-view').classList.remove('hidden');
-            document.getElementById('list-title').innerText = isHistory ? "Search History" : "A-Z Vocabulary";
-            const data = isHistory ? [...vocabularyDb].reverse() : [...vocabularyDb].sort();
-            document.getElementById('items-container').innerHTML = data.map(w => `
-                <div class="list-item" onclick="executeSearch('${w}')">
-                    <span>${w}</span>
-                    <span style="color: var(--secondary);">🔊</span>
-                </div>
-            `).join('');
+            const data = isH ? [...db].reverse() : [...db].sort();
+            document.getElementById('items-container').innerHTML = data.map(w => `<div class="list-item" onclick="executeSearch('${w}')">${w} <span>➜</span></div>`).join('');
         }
     }
 </script>
