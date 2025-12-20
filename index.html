@@ -3,453 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus+ | Doctoral Linguistic Simulator</title>
+    <title>EnglishPlus+ | American English Vocabulary Simulator</title>
     <style>
         :root {
-            --us-blue: #0033A0;
-            --us-red: #BF0A30;
-            --us-white: #FFFFFF;
-            --text-dark: #1a1a1b;
-            --border-color: #e2e8f0;
-            --bg-light: #f8fafc;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --us-blue: #002868;
+            --us-red: #bf0a30;
+            --us-white: #ffffff;
+            --light-gray: #f4f4f9;
+            --dark-text: #2c3e50;
+            --border-color: #d1d1d1;
         }
 
         body {
-            background-color: var(--us-white);
-            color: var(--text-dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--dark-text);
             line-height: 1.6;
         }
 
-        /* --- Header & Branding --- */
         header {
-            padding: 2.5rem 5% 1rem 5%;
-            border-bottom: 5px solid var(--us-blue);
+            background-color: var(--us-blue);
+            color: var(--us-white);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--us-red);
         }
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .title-group h1 {
+        header h1 {
+            margin: 0;
             font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: -2px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px var(--us-red);
         }
 
-        .title-blue { color: var(--us-blue); }
-        .title-red { color: var(--us-red); }
-
-        .subtitle {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #475569;
-            margin-top: -5px;
+        header p {
+            margin: 0.5rem 0 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        /* --- Search Bar --- */
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav button {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--us-blue);
+            transition: 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav button.active {
+            border-bottom: 3px solid var(--us-red);
+            color: var(--us-red);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .search-box {
             display: flex;
-            width: 100%;
-            max-width: 500px;
-            border: 2px solid var(--us-blue);
-            border-radius: 4px;
-            overflow: hidden;
+            gap: 10px;
+            margin-bottom: 2rem;
         }
 
-        .search-box input {
+        input[type="text"] {
             flex: 1;
-            padding: 15px 20px;
-            border: none;
-            outline: none;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
             font-size: 1.1rem;
         }
 
-        .search-box button {
-            background: var(--us-blue);
+        button.go-btn {
+            padding: 10px 30px;
+            background-color: var(--us-blue);
             color: white;
             border: none;
-            padding: 0 35px;
-            font-weight: 800;
+            border-radius: 5px;
             cursor: pointer;
-            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .search-box button:hover { background: var(--us-red); }
+        button.go-btn:hover {
+            background-color: #001a45;
+        }
 
-        /* --- Navigation Tabs --- */
-        nav {
+        .result-header {
             display: flex;
-            padding: 0 5%;
-            margin-top: 1.5rem;
-            background: #f1f5f9;
-        }
-
-        .tab-link {
-            padding: 15px 25px;
-            cursor: pointer;
-            font-weight: 700;
-            color: #64748b;
-            border: none;
-            background: transparent;
-            transition: 0.3s;
-        }
-
-        .tab-link.active {
-            background: white;
-            color: var(--us-blue);
-            box-shadow: inset 0 -4px 0 var(--us-blue);
-        }
-
-        /* --- Main Content Layout --- */
-        main {
-            padding: 2.5rem 5%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; animation: fadeIn 0.5s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- Analysis Card (Single Column) --- */
-        .analysis-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            overflow: hidden;
-        }
-
-        .card-header {
-            background: var(--bg-light);
-            padding: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            border-bottom: 2px solid var(--us-blue);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .card-header h2 {
-            font-size: 2.2rem;
-            color: var(--us-blue);
-            font-weight: 900;
-        }
-
-        .audio-icon {
+        .result-header h2 {
+            margin: 0;
+            text-transform: uppercase;
             font-size: 2rem;
-            color: var(--us-red);
+            color: var(--us-blue);
+        }
+
+        .speaker-icon {
+            font-size: 1.5rem;
             cursor: pointer;
-        }
-
-        .section {
-            padding: 1.5rem 2.5rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .section:last-child { border-bottom: none; }
-
-        .label {
-            display: block;
+            margin-left: 15px;
             color: var(--us-red);
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
         }
 
-        .content {
-            font-size: 1.15rem;
-            color: #1e293b;
-            line-height: 1.8;
+        .section-title {
+            font-weight: bold;
+            color: var(--us-red);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
         }
 
-        .pro-tip-box {
-            background: #fffbeb;
-            border-left: 6px solid #f59e0b;
-            padding: 1.5rem;
-            margin-top: 10px;
+        .section-content {
+            margin-bottom: 1rem;
+            padding-left: 5px;
         }
 
-        /* --- List Elements --- */
-        .list-entry {
+        .history-list, .az-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .history-list li, .az-list li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .history-list li:hover, .az-list li:hover {
+            background-color: #f0f4ff;
+        }
+
+        .nuance-map {
+            background: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid var(--us-blue);
+        }
+
+        .scale-box {
             display: flex;
             justify-content: space-between;
-            padding: 15px 25px;
-            background: #fdfdfd;
-            border-bottom: 1px solid #edf2f7;
-            align-items: center;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
-        .pill {
-            font-size: 0.75rem;
-            background: var(--us-blue);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-weight: 700;
+        .tip-pro {
+            background-color: #fff4e5;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ffd8a8;
         }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-container">
-            <div class="title-group">
-                <h1><span class="title-blue">English</span><span class="title-red">Plus+</span></h1>
-                <p class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
+<header>
+    <h1>EnglishPlus+</h1>
+    <p>American English Vocabulary Simulator by Carlos Mario Navarro</p>
+</header>
+
+<nav>
+    <button onclick="showTab('simulator')" id="btn-simulator" class="active">Simulator</button>
+    <button onclick="showTab('history')" id="btn-history">History Search</button>
+    <button onclick="showTab('az')" id="btn-az">AZ-List</button>
+</nav>
+
+<div class="container">
+    <div id="simulator" class="tab-content active">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Enter a word or phrase (e.g., Relentless or Break it down)">
+            <button class="go-btn" onclick="handleSearch()">Go</button>
+        </div>
+        <div id="displayArea">
+            <p style="text-align:center; color:#888;">Enter an American English term to begin your analysis.</p>
+        </div>
+    </div>
+
+    <div id="history" class="tab-content">
+        <h3>Search History (Oldest to Newest)</h3>
+        <ul id="historyList" class="history-list"></ul>
+    </div>
+
+    <div id="az" class="tab-content">
+        <h3>Alphabetical List (A–Z)</h3>
+        <ul id="azList" class="az-list"></ul>
+    </div>
+</div>
+
+<script>
+    let searchHistory = [];
+    const synth = window.speechSynthesis;
+
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+        
+        if(tabId === 'history') updateHistoryUI();
+        if(tabId === 'az') updateAZUI();
+    }
+
+    function handleSearch() {
+        const input = document.getElementById('searchInput').value.trim();
+        if (!input) return;
+
+        searchHistory.push(input);
+        const isPhrase = input.split(' ').length > 1;
+        
+        const result = isPhrase ? generatePhraseStructure(input) : generateWordStructure(input);
+        document.getElementById('displayArea').innerHTML = result;
+        
+        speak(input);
+    }
+
+    function speak(text) {
+        synth.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        synth.speak(utter);
+    }
+
+    function generateWordStructure(word) {
+        const upper = word.toUpperCase();
+        return `
+            <div class="result-header">
+                <h2>Word Analysis: ${upper}</h2>
+                <span class="speaker-icon" onclick="speak('${word}')">🔊</span>
             </div>
             
-            <div class="search-box">
-                <input type="text" id="userInput" placeholder="Enter a word or phrase in American English...">
-                <button onclick="processSearch()">Go</button>
+            <div class="section-title">English Meaning 🇺🇸</div>
+            <div class="section-content">
+                <strong>Adjective:</strong> Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.
             </div>
-        </div>
-    </header>
 
-    <nav>
-        <button class="tab-link active" onclick="switchTab('simulator', this)">Simulator</button>
-        <button class="tab-link" onclick="switchTab('history', this)">History Search</button>
-        <button class="tab-link" onclick="switchTab('azlist', this)">AZ-List</button>
-    </nav>
-
-    <main>
-        <section id="simulator" class="tab-pane active">
-            <div id="outputArea">
-                <div style="text-align: center; padding: 100px 0; color: #94a3b8;">
-                    <p><i>System ready for Masterclass Analysis. Enter your lexical query.</i></p>
-                </div>
+            <div class="section-title">Connotation</div>
+            <div class="section-content">
+                In American English, this is a high-energy word. It can be negative (for example, “relentless rain”), but in professional and business contexts it is usually a strong compliment meaning an unstoppable work ethic.
             </div>
-        </section>
 
-        <section id="history" class="tab-pane">
-            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">History Search</h3>
-            <div id="historyBox" class="analysis-card"></div>
-        </section>
+            <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+            <div class="section-content">
+                /rɪˈlent.ləs/ <br>
+                <em>Sounds like: re-LENT-less.</em><br>
+                (The stress is on the middle syllable.)
+            </div>
 
-        <section id="azlist" class="tab-pane">
-            <h3 style="margin-bottom: 1.5rem; color: var(--us-blue);">AZ-List</h3>
-            <div id="azBox" class="analysis-card"></div>
-        </section>
-    </main>
+            <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
+            <div class="section-content nuance-map">
+                <strong>Persistent</strong> – focuses on continuing despite difficulty.<br>
+                <strong>Unstoppable</strong> – emphasizes the absence of obstacles.<br>
+                <strong>Tenacious</strong> – formal and professional; refusing to let go.<br>
+                <strong>Incessant</strong> – often negative, especially for sounds or actions.
+            </div>
 
-    <script>
-        const historyData = [];
-        const azSet = new Set();
+            <div class="section-title">Antonyms 🚫</div>
+            <div class="section-content">
+                Irresolute, Yielding, Lazy / Lackadaisical, Merciful.
+            </div>
 
-        function triggerAudio(text) {
-            window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(text);
-            msg.lang = 'en-US';
-            msg.rate = 0.85;
-            window.speechSynthesis.speak(msg);
+            <div class="section-title">Word Family 👨‍👩‍👧‍👦</div>
+            <div class="section-content">
+                <strong>Relentlessly (Adverb):</strong> “He practiced relentlessly until he became fluent.”<br>
+                <strong>Relentlessness (Noun):</strong> “Her relentlessness led to success.”<br>
+                <strong>Relent (Verb):</strong> To become less severe.
+            </div>
+
+            <div class="section-title">The “Grit” Scale ⚖️</div>
+            <div class="section-content scale-box">
+                <span>Interest</span> → <span>Effort</span> → <span>Persistence</span> → <span>Relentlessness</span>
+            </div>
+
+            <div class="section-title">Idioms & Collocations 🗣️</div>
+            <div class="section-content">
+                • “Relentless pursuit of excellence”<br>
+                • “No rest for the wicked”<br>
+                • “Keep your foot on the gas”
+            </div>
+
+            <div class="section-title">Real-World Examples 📝</div>
+            <div class="section-content">
+                “The company’s relentless focus on quality set it apart.”<br>
+                “Success comes from relentless preparation.”
+            </div>
+
+            <div class="section-title">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="section-content">
+                Use this word in cover letters to describe your work ethic: "I bring a relentless drive to achieve quarterly targets."
+            </div>
+
+            <div class="section-title">Tip Pro 💡</div>
+            <div class="section-content tip-pro">
+                In U.S. corporate culture, being "relentless" is a badge of honor, but be mindful of your team's boundaries to avoid burnout.
+            </div>
+        `;
+    }
+
+    function generatePhraseStructure(phrase) {
+        const upper = phrase.toUpperCase();
+        return `
+            <div class="result-header">
+                <h2>Phrase Analysis: ${upper}</h2>
+                <span class="speaker-icon" onclick="speak('${phrase}')">🔊</span>
+            </div>
+
+            <div class="section-title">English Meaning 🇺🇸</div>
+            <div class="section-content">
+                <strong>Verb (Phrasal):</strong> To divide a complex problem or concept into smaller, more manageable parts.
+            </div>
+
+            <div class="section-title">The “Action” Perspective</div>
+            <div class="section-content">Breaking something into components.</div>
+
+            <div class="section-title">The “Explaining” Perspective</div>
+            <div class="section-content">Explaining step by step to reduce confusion.</div>
+
+            <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+            <div class="section-content">
+                /breɪk ɪt daʊn/ <br>
+                <em>Sounds like: bray-kit-DOWN.</em>
+            </div>
+
+            <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
+            <div class="section-content nuance-map">
+                Deconstruct, Dissect, Itemize, Simplify.
+            </div>
+
+            <div class="section-title">Antonyms 🚫</div>
+            <div class="section-content">
+                Amalgamate, Conflate, Obfuscate, Generalize.
+            </div>
+
+            <div class="section-title">Word Family 👨‍👩‍👧‍👦</div>
+            <div class="section-content">
+                <strong>Breakdown (Noun):</strong> An analytical report, or a mechanical failure.<br>
+                <strong>Breakable (Adjective):</strong> Capable of being broken.
+            </div>
+
+            <div class="section-title">The Cognitive Process ⚖️</div>
+            <div class="section-content scale-box">
+                <span>Goal</span> → <span>Breakdown</span> → <span>Fragments</span>
+            </div>
+
+            <div class="section-title">Idioms & Collocations 🗣️</div>
+            <div class="section-content">
+                • “Break it down for me”<br>
+                • “Get down to the nitty-gritty”<br>
+                • “Crunch the numbers”
+            </div>
+
+            <div class="section-title">Real-World Examples 📝</div>
+            <div class="section-content">
+                “Let’s break down the project requirements so the team understands the timeline.”
+            </div>
+
+            <div class="section-title">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="section-content">
+                In leadership roles, use this phrase to show clarity: "I will break down our strategy in the next meeting."
+            </div>
+
+            <div class="section-title">Tip Pro 💡</div>
+            <div class="section-content tip-pro">
+                "Break it down" can also mean to start dancing in casual U.S. slang, but in professional settings, it is strictly analytical.
+            </div>
+        `;
+    }
+
+    function updateHistoryUI() {
+        const list = document.getElementById('historyList');
+        list.innerHTML = '';
+        searchHistory.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            li.onclick = () => {
+                document.getElementById('searchInput').value = item;
+                showTab('simulator');
+                handleSearch();
+            };
+            list.appendChild(li);
+        });
+    }
+
+    function updateAZUI() {
+        const list = document.getElementById('azList');
+        list.innerHTML = '';
+        const sorted = [...searchHistory].sort((a, b) => a.localeCompare(b));
+        sorted.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            li.onclick = () => {
+                document.getElementById('searchInput').value = item;
+                showTab('simulator');
+                handleSearch();
+            };
+            list.appendChild(li);
+        });
+    }
+
+    // Enter Key Support
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            handleSearch();
         }
+    });
+</script>
 
-        function switchTab(id, btn) {
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
-            if(id === 'history') renderHistory();
-            if(id === 'azlist') renderAZ();
-        }
-
-        function processSearch() {
-            const val = document.getElementById('userInput').value.trim();
-            if (!val) return;
-            const isPhrase = val.split(/\s+/).length > 1;
-            const type = isPhrase ? 'Phrase' : 'Word';
-
-            historyData.push({ term: val, type: type });
-            azSet.add(JSON.stringify({ term: val, type: type }));
-
-            const out = document.getElementById('outputArea');
-            out.innerHTML = isPhrase ? buildPhraseModel(val) : buildWordModel(val);
-
-            triggerAudio(val);
-            document.getElementById('userInput').value = '';
-        }
-
-        /**
-         * DOCTORAL WORD MODEL (DYNAMIC MAPPING)
-         */
-        function buildWordModel(word) {
-            // Simulated dynamic dictionary mapping for "Knowledge" and general high-level words
-            const isKnowledge = word.toLowerCase() === 'knowledge';
-            const phonetics = isKnowledge ? '/naa·luhj/' : `/${word.toLowerCase().replace('r', 'r·')}/`;
-            const synonyms = isKnowledge ? "Erudition, Expertise, Cognizance, Wisdom" : "Persistence, Tenacity, Unstoppable, Resolute";
-            const antonyms = isKnowledge ? "Ignorance, Illiteracy, Nescience, Inexperience" : "Irresolute, Yielding, Lackadaisical, Complacent";
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <h2>Word Analysis: ${word.toUpperCase()}</h2>
-                        <span class="audio-icon" onclick="triggerAudio('${word}')">🔊</span>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">Noun: The fact or condition of knowing something with a high degree of familiarity gained through experience, association, or professional education. It encompasses the sum of what is known and the intelligence required to apply it in high-stakes environments.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Connotation & Professional Tone</span>
-                        <div class="content">In American professional discourse, this is a foundational "power word." It shifts from basic understanding to specialized "Erudition." In leadership, having <strong>${word}</strong> is synonymous with authority and strategic foresight.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Phonetics & Pronunciation 🗣️</span>
-                        <div class="content">
-                            <strong>${phonetics}</strong><br>
-                            <em>Explanatory: Note the silent initial consonant (if applicable) and the soft, neutral schwa sound in the final syllable. The emphasis is typically balanced but firm on the primary vowel.</em>
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">${synonyms.split(',').map(s => `• <strong>${s.trim()}</strong>`).join('<br>')}</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Antonyms 🚫</span>
-                        <div class="content">${antonyms.split(',').map(a => `• <strong>${a.trim()}</strong>`).join('<br>')}</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Word Family 👨‍👩‍👧‍👦</span>
-                        <div class="content">Knowledgeable (Adjective), Knowingly (Adverb), Unbeknownst (Adverbial/Idiomatic).</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Conceptual / Grit Scale ⚖️</span>
-                        <div class="content">Information → Understanding → <strong>${word} (Deep Mastery)</strong> → Wisdom.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Idioms & Collocations</span>
-                        <div class="content">"Knowledge is power," "To the best of my knowledge," "Thirst for knowledge," "Institutional knowledge."</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"Leveraging our institutional <strong>${word}</strong> allowed us to bypass common pitfalls during the merger."</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Friendly Practice (American Workplace Context) 🇺🇸</span>
-                        <div class="content">"I have a deep <strong>${word}</strong> of the American market trends, which I use to optimize our quarterly projections."</div>
-                    </div>
-
-                    <div class="section">
-                        <div class="pro-tip-box">
-                            <span class="label">Pro Tip 💡</span>
-                            <div class="content">In the U.S., "Institutional <strong>${word}</strong>" is highly valued. It means you understand the history and "unwritten rules" of a company. Mentioning this in an interview shows you are a long-term strategic asset.</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        /**
-         * DOCTORAL PHRASE MODEL
-         */
-        function buildPhraseModel(phrase) {
-            return `
-                <div class="analysis-card">
-                    <div class="card-header" style="border-top: 8px solid var(--us-red);">
-                        <h2>Phrase Analysis: ${phrase.toUpperCase()}</h2>
-                        <span class="audio-icon" onclick="triggerAudio('${phrase}')">🔊</span>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">English Meaning 🇺🇸</span>
-                        <div class="content">A sophisticated phrasal construction utilized to streamline communication by deconstructing complex data into executable, manageable units.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Action Perspective</span>
-                        <div class="content">The tactical deconstruction of a large objective. It involves shifting focus from the "Macro" vision to "Micro" execution.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Explanation Perspective</span>
-                        <div class="content">Used to clarify high-density technical information for stakeholders, ensuring cross-departmental alignment.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Phonetics & Pronunciation 🗣️</span>
-                        <div class="content">
-                            <strong>/${phrase.toLowerCase().replace(' ', '·')}/</strong><br>
-                            <em>Explanatory: Focus on the liaison (linking) between words. In fluid American speech, terminal consonants glide into subsequent vowels.</em>
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Synonyms (Nuance Map) 🤝</span>
-                        <div class="content">• <strong>Deconstruct</strong><br>• <strong>Dissect</strong><br>• <strong>Itemize</strong></div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Antonyms 🚫</span>
-                        <div class="content">• <strong>Amalgamate</strong><br>• <strong>Obfuscate</strong><br>• <strong>Conflate</strong></div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Cognitive Process ⚖️</span>
-                        <div class="content">Reduces cognitive load and eliminates Analysis Paralysis by focusing on the nitty-gritty details.</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Idioms & Collocations</span>
-                        <div class="content">"Get down to brass tacks," "Crunch the numbers," "Step-by-step breakdown."</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Real-World Professional Examples</span>
-                        <div class="content">"Let's <strong>${phrase}</strong> the logistics plan to see where we can reduce overhead costs."</div>
-                    </div>
-
-                    <div class="section">
-                        <span class="label">Friendly Practice (Leadership) 🇺🇸</span>
-                        <div class="content">"I'd be happy to <strong>${phrase}</strong> for the executive team so they can see the clear ROI."</div>
-                    </div>
-
-                    <div class="section">
-                        <div class="pro-tip-box">
-                            <span class="label">Pro Tip 💡</span>
-                            <div class="content">In the U.S., being able to <strong>${phrase}</strong> shows you are a practical leader. It's not just about the idea; it's about how you make it happen.</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderHistory() {
-            const out = document.getElementById('historyBox');
-            if(historyData.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
-            out.innerHTML = historyData.map(i => `<div class="list-entry"><strong>${i.term}</strong><span class="pill">${i.type}</span></div>`).join('');
-        }
-
-        function renderAZ() {
-            const out = document.getElementById('azBox');
-            const items = Array.from(azSet).map(s => JSON.parse(s)).sort((a,b) => a.term.localeCompare(b.term));
-            if(items.length === 0) { out.innerHTML = "<p style='padding:20px'>Empty.</p>"; return; }
-            out.innerHTML = items.map(i => `<div class="list-entry"><strong>${i.term}</strong><span class="pill" style="background:var(--us-red)">${i.type}</span></div>`).join('');
-        }
-
-        document.getElementById('userInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') processSearch(); });
-    </script>
 </body>
 </html>
