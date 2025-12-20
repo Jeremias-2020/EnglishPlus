@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#002868">
     
-    <title>EnglishPlus | American English Simulator</title>
+    <title>EnglishPlus | Your American English Buddy</title>
     
     <meta property="og:image" id="meta-og-image" content="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    
     <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -18,7 +18,7 @@
             --secondary: #bf0a30; 
             --card: #ffffff; 
             --accent: #e8f0fe;
-            /* Fondo dinámico */
+            /* Estos se pueden cambiar desde Netlify Snippets */
             --bg-image: url('none'); 
             --bg-color: #f3f4f6;
         }
@@ -34,29 +34,58 @@
         }
         
         header { background: var(--card); padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .logo-header { max-width: 100%; width: 450px; height: auto; display: block; margin: 0 auto; }
+        .logo-header { max-width: 100%; width: 420px; height: auto; display: block; margin: 0 auto; }
 
         .container { max-width: 700px; margin: 25px auto; padding: 0 20px; }
-        .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        input { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; }
-        .btn-main { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 14px; font-weight: 800; cursor: pointer; }
-
-        .app-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); min-height: 400px; }
+        .search-area { display: flex; gap: 12px; margin-bottom: 25px; }
         
-        .pronunciation-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding: 20px; background: var(--accent); border-radius: 18px; border: 1px solid #d0e2ff; }
-        .word-bold { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0; }
-        .phonetic-spelling { font-size: 1.4rem; color: var(--secondary); font-family: 'Courier New', monospace; font-weight: 600; }
-        .btn-audio { background: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-left: auto; }
+        input { 
+            flex: 1; padding: 18px; border: 2px solid #e2e8f0; border-radius: 16px; 
+            font-size: 1.1rem; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,40,104,0.1); }
 
-        .section-h { color: var(--primary); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 12px; }
-        .content { font-size: 1.1rem; line-height: 1.8; margin-bottom: 18px; }
-        .pro-tip { background: #fffbeb; border: 1px solid #fef3c7; padding: 20px; border-radius: 16px; margin-top: 30px; border-left: 5px solid #fbbf24; }
+        .btn-search { 
+            background: var(--primary); color: white; border: none; padding: 0 30px; 
+            border-radius: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; 
+        }
+        .btn-search:hover { background: #001a45; }
 
-        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
-        .nav-item { border: none; background: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 0.85rem; }
-        .nav-item.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        .app-card { 
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); 
+            border-radius: 28px; padding: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            min-height: 450px; 
+        }
+        
+        /* Analysis Styling */
+        .header-box { 
+            display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding: 20px; 
+            background: var(--accent); border-radius: 20px; border: 1px solid #d0e2ff; 
+        }
+        .word-title { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 0; text-transform: lowercase; }
+        .phonetic { font-size: 1.3rem; color: var(--secondary); font-family: 'Courier New', monospace; }
+        .btn-audio { 
+            background: white; border: none; width: 55px; height: 55px; border-radius: 50%; 
+            cursor: pointer; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-left: auto;
+        }
+
+        .section-label { color: var(--primary); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin-top: 30px; letter-spacing: 1px; display: block; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; margin-bottom: 10px; }
+        .text-body { font-size: 1.15rem; line-height: 1.7; color: #334155; }
+        .fun-fact { background: #fffbeb; border-left: 6px solid #fbbf24; padding: 20px; border-radius: 16px; margin-top: 25px; font-style: italic; }
+
+        /* Lists */
+        .list-container { max-height: 400px; overflow-y: auto; }
+        .entry-item { 
+            padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; 
+            justify-content: space-between; font-weight: 700; cursor: pointer; border-radius: 12px;
+        }
+        .entry-item:hover { background: var(--accent); color: var(--primary); }
+
+        /* Nav Bar */
+        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 18px 0; border-top: 1px solid #e2e8f0; z-index: 1000; }
+        .nav-btn { border: none; background: none; font-weight: 800; color: #94a3b8; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; }
+        .nav-btn.active { color: var(--primary); }
         .hidden { display: none; }
-        .list-item { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -66,86 +95,110 @@
 </header>
 
 <div class="container">
-    <div class="search-bar">
-        <input type="text" id="word-input" placeholder="Enter word and press Enter...">
-        <button class="btn-main" onclick="executeSearch()">SEARCH</button>
+    <div class="search-area">
+        <input type="text" id="word-input" placeholder="Type a word and hit Enter! 🇺🇸" autocomplete="off">
+        <button class="btn-search" onclick="executeSearch()">GO!</button>
     </div>
 
     <div class="app-card">
-        <div id="result-view">
-            <div id="home-content" style="text-align: center; padding-top: 80px; color: #94a3b8;">
-                <h2>Welcome to EnglishPlus</h2>
-                <p>Type a word to start learning.</p>
+        <div id="main-view">
+            <div id="welcome-msg" style="text-align: center; padding-top: 60px;">
+                <h1 style="color: var(--primary); font-size: 2.5rem;">Hey there! ✌️</h1>
+                <p style="color: #64748b; font-size: 1.2rem;">Ready to upgrade your American English?<br>Search for any word and let's have some fun!</p>
             </div>
-            <div id="analysis-content" class="hidden"></div>
+            <div id="analysis-view" class="hidden"></div>
         </div>
+
         <div id="list-view" class="hidden">
-            <h3 id="list-title">History</h3>
-            <div id="items-container"></div>
+            <h2 id="list-header" style="color: var(--primary); margin-bottom: 20px;">Your Progress</h2>
+            <div id="items-list" class="list-container"></div>
         </div>
     </div>
 </div>
 
 <nav>
-    <button class="nav-item active" onclick="navigate('home')">SIMULATOR</button>
-    <button class="nav-item" onclick="navigate('history')">HISTORY</button>
-    <button class="nav-item" onclick="navigate('alpha')">A-Z LIST</button>
+    <button class="nav-btn active" onclick="showTab('home')">Simulator</button>
+    <button class="nav-btn" onclick="showTab('history')">History</button>
+    <button class="nav-btn" onclick="showTab('alpha')">A-Z List</button>
 </nav>
 
 <script>
-    // CARGAR CONFIGURACIÓN DESDE NETLIFY (Si existen)
-    // Nota: Netlify inyecta estas variables si usas un plugin o Snippet, 
-    // pero la forma más fácil es mediante esta lógica de "Override":
-    
-    const CUSTOM_LOGO = null; // Se puede cambiar aquí o vía script de Netlify
-    const CUSTOM_BG = null;
+    let myWords = JSON.parse(localStorage.getItem('ep_v4')) || [];
 
-    let vocabularyDb = JSON.parse(localStorage.getItem('ep_v3')) || [];
+    // Press Enter to Search - Friendly & Fast!
+    document.getElementById('word-input').addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') executeSearch();
+    });
 
-    document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') executeSearch(); });
+    function executeSearch(clickedWord = null) {
+        const query = (clickedWord || document.getElementById('word-input').value).trim().toLowerCase();
+        if(!query) return;
 
-    function executeSearch(target = null) {
-        const val = (target || document.getElementById('word-input').value).trim().toLowerCase();
-        if(!val) return;
-        if(!vocabularyDb.includes(val)) { vocabularyDb.push(val); localStorage.setItem('ep_v3', JSON.stringify(vocabularyDb)); }
+        if(!myWords.includes(query)) {
+            myWords.push(query);
+            localStorage.setItem('ep_v4', JSON.stringify(myWords));
+        }
+
         document.getElementById('word-input').value = '';
-        renderAnalysis(val);
-        navigate('home');
+        renderAnalysis(query);
+        showTab('home');
     }
 
     function renderAnalysis(word) {
-        document.getElementById('home-content').classList.add('hidden');
-        const content = document.getElementById('analysis-content');
-        content.classList.remove('hidden');
-        content.innerHTML = `
-            <div class="pronunciation-header">
-                <div><h1 class="word-bold">${word}</h1><span class="phonetic-spelling">/pronunciation/</span></div>
-                <button class="btn-audio" onclick="playAudio('${word}')">🔊</button>
+        document.getElementById('welcome-msg').classList.add('hidden');
+        const view = document.getElementById('analysis-view');
+        view.classList.remove('hidden');
+
+        // Simple phonetic logic for the fun of it
+        const mockPhonetic = word.length > 4 ? word.slice(0,3) + "·" + word.slice(3) : word;
+
+        view.innerHTML = `
+            <div class="header-box">
+                <div>
+                    <h1 class="word-title">${word}</h1>
+                    <span class="phonetic">/ ${mockPhonetic} /</span>
+                </div>
+                <button class="btn-audio" onclick="speak('${word}')">🔊</button>
             </div>
-            <div class="section-h">Meaning</div><div class="content">Definition and American context for <b>${word}</b>.</div>
-            <div class="pro-tip"><b>Tip Pro 💡</b>: Use this word to sound more professional.</div>
+
+            <p class="text-body">You've got great taste! <b>"${word}"</b> is one of those words that makes you sound like a total pro in the States. Check this out:</p>
+
+            <span class="section-label">The American Vibe 🇺🇸</span>
+            <p class="text-body">Native speakers use this to keep things clear and sharp. It's super common in both chill conversations and big-time business meetings.</p>
+
+            <span class="section-label">Real-Talk Examples 📝</span>
+            <p class="text-body">"Yo, I totally <b>${word}</b> that situation!"<br>"That's <b>${word}</b> levels of awesome."</p>
+
+            <div class="fun-fact">
+                <b>Pro Tip 💡:</b> If you use this word while grabbing a coffee, people will definitely think you've lived in NYC for years! Keep it up, champ! 🚀
+            </div>
         `;
-        playAudio(word);
+        speak(word);
     }
 
-    function playAudio(w) {
+    function speak(w) {
         const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(w)}&tl=en-us&client=tw-ob`;
         new Audio(url).play();
     }
 
-    function navigate(v) {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById('result-view').classList.add('hidden');
+    function showTab(tab) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('main-view').classList.add('hidden');
         document.getElementById('list-view').classList.add('hidden');
-        if(v === 'home') {
-            document.querySelectorAll('.nav-item')[0].classList.add('active');
-            document.getElementById('result-view').classList.remove('hidden');
+
+        if(tab === 'home') {
+            document.querySelectorAll('.nav-btn')[0].classList.add('active');
+            document.getElementById('main-view').classList.remove('hidden');
         } else {
-            const isH = v === 'history';
-            document.querySelectorAll('.nav-item')[isH?1:2].classList.add('active');
+            const isHistory = (tab === 'history');
+            document.querySelectorAll('.nav-btn')[isHistory ? 1 : 2].classList.add('active');
             document.getElementById('list-view').classList.remove('hidden');
-            const data = isH ? [...vocabularyDb].reverse() : [...vocabularyDb].sort();
-            document.getElementById('items-container').innerHTML = data.map(w => `<div class="list-item" onclick="executeSearch('${w}')">${w} <span>➜</span></div>`).join('');
+            document.getElementById('list-header').innerText = isHistory ? "Your Recent Searches" : "All Words (A-Z)";
+            
+            const data = isHistory ? [...myWords].reverse() : [...myWords].sort();
+            document.getElementById('items-list').innerHTML = data.length 
+                ? data.map(w => `<div class="entry-item" onclick="executeSearch('${w}')">${w} <span>View ➜</span></div>`).join('')
+                : `<p style="text-align:center; color:#94a3b8; margin-top:50px;">Nothing here yet! Go find some cool words! 😎</p>`;
         }
     }
 </script>
