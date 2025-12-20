@@ -1,46 +1,82 @@
-<header style="text-align: center; padding: 20px; background-color: #2c3e50; color: white;">
-    <h1 id="main-title">American English Vocabulary Simulator by Carlos Mario Navarro</h1>
-</header>
+<div class="header">
+    <h1>American English Vocabulary Simulator by Carlos Mario Navarro</h1>
+</div>
 
-<div id="simulator-container">
+<div class="simulator-display">
+    <div class="analysis-card">
+        <h2 class="phrase-title">Phrase Analysis: BREAK IT DOWN</h2>
+        
+        <section class="meaning-section">
+            <h3>English Meaning 🇺🇸</h3>
+            <p><strong>Verb (Phrasal):</strong> To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.</p>
+            <ul>
+                <li><strong>The "Action" Perspective:</strong> It is the process of deconstruction. If a project is a wall, "breaking it down" is looking at the individual bricks.</li>
+                <li><strong>The "Explaining" Perspective:</strong> It means to explain something step-by-step so that the listener doesn't feel overwhelmed.</li>
+            </ul>
+        </section>
+
+        <section class="phonetics-section">
+            <h3>Phonetics & Pronunciation 🗣️</h3>
+            <p><strong>/breɪk ɪt daʊn/</strong></p>
+            <p>Sounds like: <em>bray-kit-DOWN</em>.</p>
+            <p><small>Note: In American English, the "k" in break and the "i" in it undergo linking. It sounds like one fluid word (breakit).</small></p>
+        </section>
+
+        <div class="vocabulary-grid">
+            <div class="synonyms">
+                <h3>Synonyms 🤝 (The Nuance Map)</h3>
+                <ul>
+                    <li><strong>Deconstruct:</strong> To take apart a theory or structure to reveal its internal works.</li>
+                    <li><strong>Dissect:</strong> To examine something in minute detail (like a scientist).</li>
+                    <li><strong>Itemize:</strong> To create a list of individual items (usually for costs or tasks).</li>
+                </ul>
+            </div>
+            <div class="antonyms">
+                <h3>Antonyms 🚫</h3>
+                <ul>
+                    <li><strong>Amalgamate:</strong> To combine many things into one large whole.</li>
+                    <li><strong>Obfuscate:</strong> To make something intentionally difficult to understand.</li>
+                    <li><strong>Conflate:</strong> To mix two or more ideas together (often causing confusion).</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="family-section">
+            <h3>Word Family 👨‍👩‍👧‍👦</h3>
+            <p><strong>Breakdown (Noun - Analytical):</strong> A detailed analysis.</p>
+            <p><strong>Breakdown (Noun - Mechanical):</strong> A failure of a machine.</p>
+            <p><strong>Breakdown (Noun - Health):</strong> A period of mental collapse due to stress.</p>
+        </section>
+
+        <section class="scale-section">
+            <h3>The Cognitive Process ⚖️ (The GIT/Grit Scale)</h3>
+            <p>"Breaking it down" is a mental framework used by high-performers to avoid <strong>Analysis Paralysis</strong>.</p>
+        </section>
+
+        <section class="idioms-section">
+            <h3>Idioms & Collocations 🗣️</h3>
+            <ul>
+                <li>"Break it down for me": A request for a simpler explanation.</li>
+                <li>"Get down to the nitty-gritty": To focus on the smallest, most important details.</li>
+                <li>"Crunch the numbers": To perform a detailed mathematical breakdown.</li>
+            </ul>
+        </section>
+
+        <section class="examples-section">
+            <h3>Real-World Examples 📝 (Minimum 3)</h3>
+            <div class="example">1. "If we break down the QuickBooks error, we can see it's actually a browser cache issue, not a payment failure."</div>
+            <div class="example">2. "The CEO asked for a breakdown of our quarterly goals by department."</div>
+            <div class="example">3. "Don't look at the whole mountain; just break it down into the next ten steps."</div>
+        </section>
+
+        <section class="practice-section">
+            <h3>Friendly Practice (The American Way) 🇺🇸</h3>
+            <p><strong>In an Interview:</strong> "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board."</p>
+        </section>
+
+        <div class="pro-tip-box">
+            <strong>Tip Pro 💡</strong>
+            <p>In the U.S., say it with enthusiasm: "I'd be happy to break that down so we're all on the same page!" to avoid sounding condescending.</p>
+        </div>
     </div>
-
-<script>
-// Estructura de ejemplo que debe seguir tu API o Base de Datos
-const vocabularyData = {
-    "Resilient": {
-        "meaning": "Able to withstand or recover quickly from difficult conditions.",
-        "phonetics": "/rɪˈzɪliənt/",
-        "wordFamily": "Resilience (n), Resiliently (adv)",
-        "gslScale": "High Frequency (Top 3000 words)",
-        "synonyms": [
-            { "word": "Tough", "meaning": "Strong enough to withstand adverse conditions." },
-            { "word": "Strong", "meaning": "Possessing skills and qualities to face hardships." }
-        ],
-        "antonyms": [
-            { "word": "Fragile", "meaning": "Easily broken or damaged; vulnerable." },
-            { "word": "Vulnerable", "meaning": "Susceptible to physical or emotional attack or harm." }
-        ],
-        "idioms_collocations": [
-            "Resilient spirit",
-            "To be remarkably resilient",
-            "Resilient economy"
-        ],
-        "examples": [
-            "Even after the market crash, the company proved to be incredibly resilient.",
-            "Kids are often more resilient than adults give them credit for.",
-            "Our community is resilient and we will rebuild together after the storm."
-        ],
-        "friendlyPractice": "Think of a time you faced a challenge. Write one sentence using 'resilient' to describe your attitude!"
-    }
-};
-
-// Función para renderizar con gramática revisada
-function displayWord(word) {
-    const data = vocabularyData[word];
-    if(!data) return;
-
-    // Lógica para inyectar en el DOM manteniendo tu diseño visual original...
-    console.log("Cargando datos para: " + word);
-}
-</script>
+</div>
