@@ -1,257 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Elite Relentless Analysis</title>
-    
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root { 
-            --primary: #002868; 
-            --secondary: #bf0a30; 
-            --card: #ffffff; 
-            --accent: #f8fafc;
-            --bg-color: #f1f5f9;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-color);
-            margin: 0; 
-            padding-top: 140px; 
-            color: #1e293b; 
-            scroll-behavior: smooth;
-        }
+function renderFullAnalysis(data) {
+        const word = data.word;
+        const upper = word.toUpperCase();
+        const phonetic = data.phonetics.find(p => p.text)?.text || "/.../";
+        const meanings = data.meanings;
         
-        header { 
-            background: var(--card); 
-            border-bottom: 4px solid var(--primary); 
-            position: fixed; top: 0; left: 0; width: 100%; 
-            z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            height: 110px;
-            display: flex;
-            align-items: center;
-        }
-
-        .header-container { 
-            max-width: 1200px; margin: 0 auto; padding: 0 25px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            width: 100%;
-        }
-
-        .logo-section { display: flex; flex-direction: column; }
-        .logo-header { width: 130px; height: auto; }
-
-        nav { display: flex; gap: 15px; margin-top: 5px; }
-        .nav-link { 
-            border: none; background: none; font-weight: 800; color: #94a3b8; 
-            cursor: pointer; font-size: 0.7rem; text-transform: uppercase;
-            padding: 5px; transition: 0.3s;
-        }
-        .nav-link.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-
-        .search-box-top {
-            display: flex; background: #f1f5f9; padding: 5px;
-            border-radius: 12px; border: 2px solid #e2e8f0; width: 320px;
-        }
-        #word-input { 
-            flex: 1; border: none; background: transparent; padding: 10px; 
-            font-size: 1rem; outline: none; font-weight: 600;
-        }
-        .btn-search { 
-            background: var(--primary); color: white; border: none; padding: 0 20px; 
-            border-radius: 8px; font-weight: 800; cursor: pointer;
-        }
-
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 400px; }
+        // Detectar si es frase o palabra
+        const isPhrase = word.includes(' ');
         
-        .main-title { 
-            color: var(--primary); 
-            font-size: 2.2rem; 
-            font-weight: 800; 
-            margin: 0 0 20px 0; 
-            text-transform: uppercase; 
-            letter-spacing: -1px; 
-            border-left: 8px solid var(--secondary);
-            padding-left: 15px;
-        }
+        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
-
-        .pronunciation-box { 
-            background: #f1f5f9; border-radius: 20px; padding: 25px; 
-            display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;
-        }
-        .audio-btn { 
-            background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.5rem; transition: 0.3s;
-        }
-        .audio-btn:hover { transform: scale(1.1); background: var(--secondary); }
-
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; margin-top: 25px; border-left: 8px solid var(--primary); }
-        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
-
-        .hidden { display: none; }
-
-        .loader { text-align: center; padding: 50px; font-weight: 800; color: var(--primary); }
-
-        @media (max-width: 600px) {
-            body { padding-top: 190px; }
-            header { height: auto; padding: 10px 0; }
-            .header-container { flex-direction: column; gap: 10px; }
-            .search-box-top { width: 90%; }
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <div class="header-container">
-        <div class="logo-section">
-            <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
-            <nav>
-                <button class="nav-link active" onclick="showTab('home')">Simulator</button>
-                <button class="nav-link" onclick="showTab('history')">History</button>
-                <button class="nav-link" onclick="showTab('alpha')">A-Z List</button>
-            </nav>
-        </div>
-        <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Enter word or phrase..." autocomplete="off">
-            <button class="btn-search" onclick="handleSearch()">GO</button>
-        </div>
-    </div>
-</header>
-
-<div class="container" id="main-container">
-    <div class="app-card">
-        <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-                <h1 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
-                <p style="font-size: 1.2rem; color: #64748b;">Ready to master the language with grit.</p>
-                <p>Type any word or phrase to break it down!</p>
-            </div>
-            <div id="full-analysis" class="hidden"></div>
-        </div>
+        // English Meaning
+        html += `<div class="section-h">English Meaning 🇺🇸</div>`;
+        meanings.forEach(meaning => {
+            const pos = meaning.partOfSpeech.toUpperCase();
+            meaning.definitions.slice(0, 2).forEach(def => {
+                html += `<p class="body-text">• <b>${pos}:</b> ${def.definition}</p>`;
+                if(def.example) html += `<p class="body-text" style="margin-left:20px; color:#64748b;"><i>Example: "${def.example}"</i></p>`;
+            });
+        });
         
-        <div id="list-view" class="hidden">
-            <h2 id="view-title" style="color: var(--primary);">History</h2>
-            <div id="data-list"></div>
-        </div>
-    </div>
-</div>
+        // Connotation
+        html += `<p class="body-text"><b>Connotation:</b> In American English, this is a "high-energy" word. While it can have negative uses, in business it is almost always a huge compliment meaning you have an unstoppable work ethic.</p>`;
 
-<script>
-    let myHistory = JSON.parse(localStorage.getItem('ep_v_search_11')) || [];
-
-    // Listener para la tecla ENTER
-    document.getElementById('word-input').addEventListener('keypress', (e) => { 
-        if(e.key === 'Enter') handleSearch(); 
-    });
-
-    async function handleSearch(clicked = null) {
-        const input = (clicked || document.getElementById('word-input').value).trim();
-        if(!input) return;
-        
-        showTab('home');
-        const container = document.getElementById('full-analysis');
-        document.getElementById('welcome-msg').classList.add('hidden');
-        container.classList.remove('hidden');
-        container.innerHTML = `<div class="loader"><h2>ANALYZING "${input.toUpperCase()}"... 🚀</h2></div>`;
-
-        window.scrollTo(0, 0);
-
-        // Guardar en historial
-        if(!myHistory.includes(input.toLowerCase())) {
-            myHistory.push(input.toLowerCase());
-            localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
-        }
-
-        // Simulamos una pequeña pausa para el efecto de análisis "Elite"
-        setTimeout(() => {
-            const isPhrase = input.includes(' ');
-            renderRelentlessAnalysis(input, isPhrase);
-        }, 800);
-
-        document.getElementById('word-input').value = '';
-    }
-
-    function renderRelentlessAnalysis(text, isPhrase) {
-        const upper = text.toUpperCase();
-        
-        // Estructura dinámica basada en si es palabra o frase
-        let content = `
-            <div class="main-title">Analysis: ${upper}</div>
-            
-            <div class="section-h">English Meaning 🇺🇸</div>
-            <p class="body-text">
-                ${isPhrase ? '<b>Phrasal/Idiom:</b> To process and understand this expression in a professional context.' : '<b>Noun/Verb:</b> A core element of high-level communication.'}<br>
-                In the U.S., using <b>"${text}"</b> shows a level of fluency that goes beyond basic vocabulary; it's about sounding natural and confident.
-            </p>
-
-            <div class="section-h">Phonetics & Pronunciation 🗣️</div>
+        // Phonetics & Pronunciation
+        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
             <div class="pronunciation-box">
                 <div>
-                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${isPhrase ? 'Linking active' : '/'+text.length+' syllables/'}</span><br>
-                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sound check:</b> Focus on the flow. In American English, we link sounds to keep the rhythm steady.</p>
+                    <span style="font-family:monospace; font-size:1.8rem; color:var(--primary); font-weight:800;">${phonetic}</span><br>
+                    <p style="margin: 10px 0 0 0; color: #64748b;"><b>Sounds like:</b> ${word.toLowerCase()}. (Stress on key syllable).</p>
                 </div>
-                <button class="audio-btn" onclick="playAudio('${text}')">🔊</button>
-            </div>
+                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
+            </div>`;
 
-            <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
-            <p class="body-text">
-                • <b>Refine:</b> (To make it better).<br>
-                • <b>Execute:</b> (To put into action).<br>
-                • <b>Master:</b> (To become an expert).
-            </p>
-
-            <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="practice-box">
-                <p class="body-text"><b>Professional Context:</b> "I’ve been practicing <b>${text}</b> to ensure our next client presentation is flawless. It’s all about that consistent growth!"</p>
-            </div>
-
-            <div class="pro-tip">
-                <b>Tip Pro 💡</b>: When you use "${text}" in a meeting, say it with a smile and clear articulation. Americans value <b>clarity</b> just as much as <b>speed</b>. You've got this!
-            </div>
-        `;
-
-        document.getElementById('full-analysis').innerHTML = content;
-        playAudio(text);
-    }
-
-    function playAudio(w) {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(w);
-        utter.lang = 'en-US';
-        utter.rate = 0.9;
-        window.speechSynthesis.speak(utter);
-    }
-
-    function showTab(t) {
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(l => l.classList.remove('active'));
-        document.getElementById('display-view').classList.add('hidden');
-        document.getElementById('list-view').classList.add('hidden');
-
-        if(t === 'home') {
-            navLinks[0].classList.add('active');
-            document.getElementById('display-view').classList.remove('hidden');
-        } else {
-            const isH = (t === 'history');
-            navLinks[isH ? 1 : 2].classList.add('active');
-            document.getElementById('list-view').classList.remove('hidden');
-            document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
-            const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
-            document.getElementById('data-list').innerHTML = data.map(w => 
-                `<div style="padding:20px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700; display:flex; justify-content:space-between;" onclick="handleSearch('${w}')">
-                    <span>${w.toUpperCase()}</span> <span>➜</span>
-                </div>`).join('');
+        // Synonyms
+        const allSyns = meanings.flatMap(m => m.synonyms || []);
+        if(allSyns.length > 0) {
+            html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div><p class="body-text">`;
+            allSyns.slice(0, 4).forEach(syn => {
+                html += `• <b>${syn.charAt(0).toUpperCase() + syn.slice(1)}:</b> (Variation with similar meaning).<br>`;
+            });
+            html += `</p>`;
         }
+
+        // Antonyms
+        const allAnts = meanings.flatMap(m => m.antonyms || []);
+        if(allAnts.length > 0) {
+            html += `<div class="section-h">Antonyms 🚫</div><p class="body-text">`;
+            allAnts.slice(0, 4).forEach(ant => {
+                html += `• <b>${ant.charAt(0).toUpperCase() + ant.slice(1)}:</b> (Opposite meaning).<br>`;
+            });
+            html += `</p>`;
+        }
+
+        // Word Family (solo para palabras, no frases)
+        if(!isPhrase) {
+            html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
+                <p class="body-text">
+                • <b>${word}ly</b> (Adverb): How you do something.<br>
+                • <b>${word}ness</b> (Noun): The state of being ${word}.<br>
+                </p>`;
+        }
+
+        // The "Grit" Scale
+        html += `<div class="section-h">The "Grit" Scale ⚖️</div>
+            <table class="grit-scale">
+                <tr><td>Interest</td><td>You like the idea.</td></tr>
+                <tr><td>Effort</td><td>You are working on it.</td></tr>
+                <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
+                <tr><td><b>${upper}</b></td><td>A "refuse to lose" mentality.</td></tr>
+            </table>`;
+
+        // Idioms & Collocations
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>
+            <p class="body-text">
+            • "${upper} pursuit of excellence"<br>
+            • "No rest for the wicked"<br>
+            • "Keep your foot on the gas"
+            </p>`;
+
+        // Real-World Examples
+        html += `<div class="section-h">Real-World Examples 📝</div>
+            <p class="body-text">
+            • "The company's ${word} focus on customer service made them #1 in the market."<br>
+            • "Success is the result of ${word} preparation meeting opportunity."
+            </p>`;
+
+        // Friendly Practice
+        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+            <div class="practice-box">
+                <p class="body-text"><b>Interview Tip:</b> "I'm <b>${word}</b> when it comes to hitting my KPIs. I don't stop when I'm tired; I stop when the job is done."</p>
+            </div>`;
+
+        // Pro Tip
+        html += `<div class="pro-tip">
+            <b>Tip Pro 💡</b>: Be careful! While being <b>${word}</b> is great for goals, balance results with empathy to avoid burnout.
+        </div>`;
+
+        document.getElementById('full-analysis').innerHTML = html;
+        playAudio(word);
     }
-</script>
-</body>
-</html>
