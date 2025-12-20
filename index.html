@@ -3,222 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Relentless Analysis</title>
+    <title>EnglishPlus | American English Simulator</title>
     
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root { 
-            --primary: #002868; /* Navy Blue */
-            --secondary: #bf0a30; /* Crimson Red */
+            --primary: #002868; 
+            --secondary: #bf0a30; 
             --card: #ffffff; 
+            --accent: #f8fafc;
             --bg-color: #f1f5f9;
         }
 
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg-color);
-            margin: 0; padding-top: 100px;
+            margin: 0; 
+            padding-top: 130px; /* Espacio para el header fijo */
             color: #1e293b; 
         }
         
-        /* HEADER FIJO CON BUSCADOR A LA DERECHA */
+        /* HEADER FIJO CON BUSCADOR INTEGRADO */
         header { 
             background: var(--card); 
             border-bottom: 4px solid var(--primary); 
-            position: fixed; top: 0; left: 0; width: 100%; 
-            z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-
-        .header-container { 
-            max-width: 1200px; margin: 0 auto; padding: 10px 25px; 
-            display: flex; align-items: center; justify-content: space-between; 
-        }
-
-        /* DISEÑO DE TEXTO (Logo reemplazado por Tipografía) */
-        .brand-logo { display: flex; flex-direction: column; cursor: pointer; }
-        .brand-text { font-size: 1.6rem; font-weight: 800; letter-spacing: -1px; }
-        .brand-plus { color: var(--secondary); }
-        .brand-legend { font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-
-        .search-box-top {
-            display: flex; background: #f1f5f9; padding: 5px;
-            border-radius: 12px; border: 2px solid #e2e8f0; width: 320px;
-        }
-        #word-input { 
-            flex: 1; border: none; background: transparent; padding: 8px 12px; 
-            font-size: 0.95rem; outline: none; font-weight: 600; font-family: 'Inter', sans-serif;
-        }
-        .btn-search { 
-            background: var(--primary); color: white; border: none; padding: 0 18px; 
-            border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s;
-        }
-        .btn-search:hover { background: var(--secondary); }
-
-        .container { max-width: 850px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); min-height: 500px; }
         
-        /* FORMATO DE RESPUESTA ELITE */
-        .analysis-header { color: var(--primary); font-size: 2rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; }
-        .sub-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 35px; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px; }
-        .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
+        .header-top {
+            max-width: 900px; margin: 0 auto; padding: 10px 20px;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        }
 
+        .logo-header { height: 50px; width: auto; }
+
+        /* BARRA DE BÚSQUEDA EN EL HEADER */
+        .search-container {
+            flex: 1; display: flex; gap: 8px; max-width: 500px;
+        }
+        
+        #word-input { 
+            flex: 1; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; 
+            font-size: 1rem; outline: none; transition: 0.3s;
+        }
+        #word-input:focus { border-color: var(--primary); background: #fdfdfd; }
+
+        .btn-search { 
+            background: var(--primary); color: white; border: none; padding: 0 20px; 
+            border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.2s;
+            font-size: 0.9rem; text-transform: uppercase;
+        }
+        .btn-search:hover { background: #001a45; }
+
+        /* NAVEGACIÓN DEBAJO DEL BUSCADOR */
+        nav { 
+            display: flex; justify-content: center; gap: 30px; 
+            padding: 10px 0; border-top: 1px solid #f1f5f9; background: white;
+        }
+        .nav-link { 
+            border: none; background: none; font-weight: 800; color: #94a3b8; 
+            cursor: pointer; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s;
+        }
+        .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        /* CONTENIDO */
+        .container { max-width: 850px; margin: 0 auto; padding: 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); min-height: 400px; }
+        
         .pronunciation-box { 
-            background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; 
-            border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin: 20px 0;
+            background: #eef2ff; border: 1px solid #d0e2ff; padding: 25px; 
+            border-radius: 20px; display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 30px;
         }
         .audio-btn { 
-            background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; 
-            cursor: pointer; font-size: 1.3rem; box-shadow: 0 4px 10px rgba(0,40,104,0.2);
+            background: white; border: none; width: 60px; height: 60px; border-radius: 50%; 
+            cursor: pointer; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .grit-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
-        .grit-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 1.05rem; }
-        .grit-table tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
-
-        .practice-box { background: #eff6ff; border-radius: 15px; padding: 25px; margin-top: 20px; border-left: 6px solid var(--primary); }
-        .pro-tip { background: #fffbeb; border-left: 6px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; font-style: italic; }
-
-        .hidden { display: none; }
+        .section-h { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px; }
+        .body-text { font-size: 1.1rem; line-height: 1.8; color: #334155; margin-bottom: 15px; }
         
-        @media (max-width: 700px) {
-            .header-container { flex-direction: column; gap: 15px; }
-            .search-box-top { width: 100%; }
-            body { padding-top: 170px; }
-        }
+        .grit-scale { width: 100%; border-collapse: collapse; margin: 15px 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+        .grit-scale td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .grit-scale tr:last-child { background: #f8fafc; font-weight: 800; color: var(--primary); }
+
+        .pro-tip { background: #fffbeb; border-left: 6px solid #fbbf24; padding: 20px; border-radius: 15px; margin-top: 35px; }
+
+        .item-row { padding: 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-container">
-        <div class="brand-logo" onclick="location.reload()">
-            <div class="brand-text" style="color: var(--primary);">ENGLISH<span class="brand-plus">PLUS</span></div>
-            <div class="brand-legend">American English Simulator</div>
-        </div>
-        <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Search word or phrasal verb..." autocomplete="off">
-            <button class="btn-search" onclick="handleSearch()">GO</button>
+    <div class="header-top">
+        <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo-header">
+        
+        <div class="search-container">
+            <input type="text" id="word-input" placeholder="Search word..." autocomplete="off">
+            <button class="btn-search" onclick="handleSearch()">SEARCH</button>
         </div>
     </div>
+    <nav>
+        <button class="nav-link active" onclick="showTab('home')">Simulator</button>
+        <button class="nav-link" onclick="showTab('history')">History</button>
+        <button class="nav-link" onclick="showTab('alpha')">A-Z List</button>
+    </nav>
 </header>
 
 <div class="container">
     <div class="app-card">
         <div id="display-view">
-            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
-                <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 10px;">RELENTLESS ANALYSIS</h1>
-                <p style="color: #64748b; font-size: 1.2rem;">Ready to break it down? Type your first word above.</p>
+            <div id="welcome-msg" style="text-align: center; padding: 50px 0;">
+                <h1 style="color: var(--primary); font-size: 2.5rem;">Ready to dominate? 🇺🇸</h1>
+                <p style="color: #64748b;">Use the search bar above to analyze any English word.</p>
             </div>
             <div id="full-analysis" class="hidden"></div>
+        </div>
+
+        <div id="list-view" class="hidden">
+            <h2 id="view-title" style="color: var(--primary);">Vocabulary Log</h2>
+            <div id="data-list" style="max-height: 500px; overflow-y: auto;"></div>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
+    let myHistory = JSON.parse(localStorage.getItem('ep_v12')) || [];
 
-    async function handleSearch() {
-        const query = document.getElementById('word-input').value.trim();
-        if(!query) return;
+    document.getElementById('word-input').addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') handleSearch();
+    });
+
+    function handleSearch(clicked = null) {
+        const word = (clicked || document.getElementById('word-input').value).trim();
+        if(!word) return;
         
-        const container = document.getElementById('full-analysis');
-        document.getElementById('welcome-msg').classList.add('hidden');
-        container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px; color:var(--primary); font-weight:800;">ANALYZING... 🇺🇸</div>`;
+        const lower = word.toLowerCase();
+        if(!myHistory.includes(lower)) {
+            myHistory.push(lower);
+            localStorage.setItem('ep_v12', JSON.stringify(myHistory));
+        }
 
-        // Simulamos la carga para el efecto "Relentless"
-        setTimeout(() => {
-            renderCompleteAnalysis(query);
-            document.getElementById('word-input').value = '';
-        }, 600);
+        document.getElementById('word-input').value = '';
+        renderFullAnalysis(word);
+        showTab('home');
+        window.scrollTo(0,0);
     }
 
-    function renderCompleteAnalysis(query) {
-        const isPhrase = query.includes(' ');
-        const upper = query.toUpperCase();
-        const word = query.toLowerCase();
-
-        // Esta función ahora inyecta exactamente la estructura que pediste
-        let html = `
-            <div class="analysis-header">Word Analysis: ${upper}</div>
-            
-            <div class="sub-h">English Meaning 🇺🇸</div>
-            <p class="body-text">
-                <b>${isPhrase ? 'Verb (Phrasal):' : 'Adjective:'}</b> ${isPhrase ? 'To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.' : 'Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.'}
-                <br><br>
-                <b>Connotation:</b> In American English, this is a "high-energy" ${isPhrase ? 'phrase' : 'word'}. ${isPhrase ? 'It shows you are organized and analytical.' : 'It can be negative (like "relentless rain"), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.'}
-            </p>
-
-            <div class="sub-h">Phonetics & Pronunciation 🗣️</div>
+    function renderFullAnalysis(word) {
+        document.getElementById('welcome-msg').classList.add('hidden');
+        const container = document.getElementById('full-analysis');
+        container.classList.remove('hidden');
+        const upper = word.toUpperCase();
+        
+        container.innerHTML = `
             <div class="pronunciation-box">
                 <div>
-                    <span style="font-family:monospace; font-size:1.6rem; color:var(--primary); font-weight:800;">
-                        ${isPhrase ? '/breɪk ɪt daʊn/' : '/rɪˈlent.ləs/'}
-                    </span><br>
-                    <p style="margin-top:10px;">Sounds like: <b>${isPhrase ? 'bray-kit-DOWN' : 're-LENT-less'}</b>. (Linking: ${isPhrase ? 'The k and i blend' : 'Stress on middle syllable'}).</p>
+                    <h1 style="margin:0; color:var(--primary); font-size: 2.2rem;">${upper}</h1>
+                    <div style="margin-top:10px; color:var(--secondary); font-weight:700;">
+                        Phonetics & Pronunciation 🗣️<br>
+                        <span style="font-family:monospace; font-size:1.3rem; color:var(--primary);">/rɪˈlent.ləs/</span><br>
+                        <small style="color:#64748b; font-weight:400;">Sounds like: re-LENT-less. (The stress is on the middle syllable).</small>
+                    </div>
                 </div>
-                <button class="audio-btn" onclick="playAudio('${query}')">🔊</button>
+                <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             </div>
 
-            <div class="sub-h">Synonyms 🤝 (The Nuance Map)</div>
-            <p class="body-text">
-                • <b>${isPhrase ? 'Deconstruct' : 'Persistent'}:</b> ${isPhrase ? 'To take apart a theory.' : 'Focuses on trying again and again.'}<br>
-                • <b>${isPhrase ? 'Simplify' : 'Unstoppable'}:</b> ${isPhrase ? 'Removing noise to find the signal.' : 'Nothing can get in your way.'}<br>
-                • <b>Tenacious:</b> A professional word for being like a bulldog.
-            </p>
+            <div class="section-h">Word Analysis: ${upper}</div>
+            <p class="body-text"><b>Meaning:</b> Remaining strict or determined; never-ceasing. A core American value for success.</p>
+            <p class="body-text"><b>Connotation:</b> High-energy word. In professional settings, it's a top-tier compliment for your work ethic.</p>
 
-            <div class="sub-h">Antonyms 🚫</div>
-            <p class="body-text">
-                • <b>${isPhrase ? 'Amalgamate' : 'Irresolute'}:</b> Combine into one / Hesitant.<br>
-                • <b>${isPhrase ? 'Obfuscate' : 'Yielding'}:</b> Make difficult / Give up easily.
-            </p>
-
-            <div class="sub-h">Word Family 👨‍👩‍👧‍👦</div>
-            <p class="body-text">
-                • <b>${query}ly (Adverb):</b> How you do something.<br>
-                • <b>${query}ness (Noun):</b> The state of being ${query}.<br>
-                ${isPhrase ? '• <b>Breakdown (Noun):</b> A detailed analysis.' : '• <b>To relent (Verb):</b> To finally give in.'}
-            </p>
-
-            <div class="sub-h">The "${isPhrase ? 'Cognitive' : 'Grit'}" Scale ⚖️</div>
-            <table class="grit-table">
+            <div class="section-h">The "Grit" Scale ⚖️</div>
+            <table class="grit-scale">
                 <tr><td>Interest</td><td>You like the idea.</td></tr>
-                <tr><td>Effort</td><td>You are working on it.</td></tr>
                 <tr><td>Persistence</td><td>You keep going despite mistakes.</td></tr>
-                <tr><td>${upper}</td><td>A "refuse to lose" mentality. You find a way or make one.</td></tr>
+                <tr><td>${upper}</td><td>A "find a way or make one" mentality.</td></tr>
             </table>
 
-            <div class="sub-h">Idioms & Collocations 🗣️</div>
-            <p class="body-text">
-                • "${upper} pursuit of excellence"<br>
-                • "No rest for the wicked"<br>
-                • "Keep your foot on the gas"
-            </p>
-
-            <div class="sub-h">Real-World Examples 📝</div>
-            <p class="body-text">
-                "The company's <b>${word}</b> focus on customer service made them #1."<br>
-                "Success is the result of <b>${word}</b> preparation meeting opportunity."
-            </p>
-
-            <div class="sub-h">Friendly Practice (The American Way) 🇺🇸</div>
-            <div class="practice-box">
-                <p><b>In a Cover Letter:</b><br>"I bring a <b>${word}</b> problem-solving attitude to every challenge."</p>
-                <p><b>During an Interview:</b><br>"I’m <b>${word}</b> when it comes to hitting my KPIs. I don't stop when I'm tired."</p>
-            </div>
-
             <div class="pro-tip">
-                <b>Tip Pro 💡:</b> Be careful! While being <b>${word}</b> is great for goals, remember that in the U.S., the most respected leaders are those who are <b>${word}</b> with results but empathetic with people.
+                <b>Tip Pro 💡</b>: Use this word to "sell yourself" in interviews. It shows you're a closer! 🚀
             </div>
-
-            <p style="text-align:center; margin-top:40px; font-weight:800; color:var(--primary);">
-                Is this the level of "Complete Explanation" you were looking for? 🚀
-            </p>
         `;
-
-        document.getElementById('full-analysis').innerHTML = html;
-        playAudio(query);
+        playAudio(word);
     }
 
     function playAudio(w) {
@@ -227,6 +197,24 @@
         utter.lang = 'en-US';
         utter.rate = 0.85;
         window.speechSynthesis.speak(utter);
+    }
+
+    function showTab(t) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.getElementById('display-view').classList.add('hidden');
+        document.getElementById('list-view').classList.add('hidden');
+
+        if(t === 'home') {
+            document.querySelectorAll('.nav-link')[0].classList.add('active');
+            document.getElementById('display-view').classList.remove('hidden');
+        } else {
+            const isH = (t === 'history');
+            document.querySelectorAll('.nav-link')[isH ? 1 : 2].classList.add('active');
+            document.getElementById('list-view').classList.remove('hidden');
+            document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
+            const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
+            document.getElementById('data-list').innerHTML = data.map(w => `<div class="item-row" onclick="handleSearch('${w}')">${w} <span>➜</span></div>`).join('');
+        }
     }
 </script>
 </body>
