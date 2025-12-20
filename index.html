@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#002868">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>EnglishPlus | American English Simulator</title>
+    
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22EnglishPlus%22,%22short_name%22:%22EnglishPlus%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22#ffffff%22,%22theme_color%22:%22#002868%22,%22icons%22:[{%22src%22:%22https://i.postimg.cc/k4xT20pL/Imagen1.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f3f4f6; --card: #ffffff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        
+        /* App Header */
+        header { background: var(--card); padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); sticky: top; }
+        .logo { max-width: 220px; height: auto; }
+        .subtitle { font-size: 0.75rem; color: #666; font-weight: 700; margin-top: 5px; }
+
+        /* Simulator Card */
+        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 1rem; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 15px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+
+        .app-card { background: var(--card); border-radius: 20px; padding: 25px; shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 300px; }
+        
+        /* Typography */
+        .word-title { font-size: 2.2rem; margin: 0; color: var(--primary); }
+        .ipa { font-size: 1.2rem; color: #777; font-family: serif; }
+        .section-h { color: var(--secondary); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-top: 25px; border-left: 3px solid var(--secondary); padding-left: 10px; }
+        .content { font-size: 1rem; line-height: 1.6; color: #333; margin: 8px 0; }
+
+        /* Floating Nav for Mobile */
+        nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        .nav-item { border: none; background: none; font-weight: 700; color: #888; cursor: pointer; font-size: 0.8rem; }
+        .nav-item.active { color: var(--primary); }
+
+        .hidden { display: none; }
+        .list-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://i.postimg.cc/k4xT20pL/Imagen1.png" alt="EnglishPlus" class="logo">
+    <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
+</header>
+
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="word-in" placeholder="Type a word...">
+        <button class="btn-main" onclick="runSearch()">LEARN</button>
+    </div>
+
+    <div class="app-card" id="display">
+        <div id="view-home" style="text-align: center; padding-top: 50px;">
+            <p>Welcome! Type a word to start the simulation.</p>
+        </div>
+        <div id="view-result" class="hidden"></div>
+        <div id="view-list" class="hidden">
+            <h3 id="list-title">History</h3>
+            <div id="list-items"></div>
+        </div>
+    </div>
+</div>
+
+<nav>
+    <button class="nav-item active" onclick="showTab('home')">SIMULATOR</button>
+    <button class="nav-item" onclick="showTab('hist')">HISTORY</button>
+    <button class="nav-item" onclick="showTab('alpha')">A-Z</button>
+</nav>
+
+<script>
+    let history = JSON.parse(localStorage.getItem('ep_v1')) || [];
+
+    function runSearch(target = null) {
+        const word = (target || document.getElementById('word-in').value).trim().toLowerCase();
+        if(!word) return;
+        
+        if(!history.includes(word)) history.push(word);
+        localStorage.setItem('ep_v1', JSON.stringify(history));
+        
+        document.getElementById('word-in').value = '';
+        renderWord(word);
+        showTab('home');
+    }
+
+    function renderWord(word) {
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-list').classList.add('hidden');
+        const res = document.getElementById('view-result');
+        res.classList.remove('hidden');
+
+        res.innerHTML = `
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                    <h1 class="word-title">${word}</h1>
+                    <span class="ipa">/ ${word.replace('a','æ')} /</span>
+                </div>
+                <button onclick="speak('${word}')" style="font-size:2rem; background:none; border:none; cursor:pointer;">🔊</button>
+            </div>
+            <div class="section-h">Meaning</div><div class="content">Fantastic word! In American English, <b>${word}</b> is used to express maximum effort or peak status.</div>
+            <div class="section-h">Synonyms</div><div class="content">Greatest, Maximum, Paramount.</div>
+            <div class="section-h">Real World</div><div class="content">"I'll do my ${word} to help you."</div>
+            <div class="section-h">Tip Pro</div><div class="content">Use it in business meetings to sound more committed.</div>
+        `;
+    }
+
+    function speak(w) {
+        const u = new SpeechSynthesisUtterance(w);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
+    }
+
+    function showTab(tab) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-result').classList.add('hidden');
+        document.getElementById('view-list').classList.add('hidden');
+
+        if(tab === 'home') {
+            document.querySelectorAll('.nav-item')[0].classList.add('active');
+            if(document.getElementById('view-result').innerHTML === "") {
+                document.getElementById('view-home').classList.remove('hidden');
+            } else {
+                document.getElementById('view-result').classList.remove('hidden');
+            }
+        } else {
+            const isHist = tab === 'hist';
+            document.querySelectorAll('.nav-item')[isHist?1:2].classList.add('active');
+            document.getElementById('view-list').classList.remove('hidden');
+            document.getElementById('list-title').innerText = isHist ? "Search History" : "Alphabetical List";
+            const data = isHist ? [...history].reverse() : [...history].sort();
+            document.getElementById('list-items').innerHTML = data.map(w => `<div class="list-item" onclick="runSearch('${w}')">${w} <span>🇺🇸</span></div>`).join('');
+        }
+    }
+</script>
+</body>
+</html>
