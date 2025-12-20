@@ -3,465 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus+ | American English Vocabulary Simulator</title>
+    <title>EnglishPlus+ | American English Simulator</title>
     <style>
         :root {
             --us-blue: #002868;
             --us-red: #bf0a30;
             --us-white: #ffffff;
-            --bg-gray: #f2f2f2;
-            --text-dark: #121212;
+            --light-gray: #f4f4f9;
+            --dark-text: #333;
+            --accent: #ffcc00;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
+            background-color: var(--light-gray);
+            color: var(--dark-text);
         }
 
-        /* HEADER & BRANDING */
+        /* Header & Navigation */
         header {
-            background-color: var(--us-white);
-            padding: 20px 5%;
-            border-bottom: 6px solid var(--us-blue);
+            background-color: var(--us-blue);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--us-red);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav button {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--us-blue);
+            transition: 0.3s;
+        }
+
+        nav button.active {
+            border-bottom: 4px solid var(--us-red);
+            color: var(--us-red);
+        }
+
+        /* Search Section */
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 10px;
+            padding: 0 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        button#searchBtn {
+            padding: 12px 25px;
+            background-color: var(--us-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Content Sections */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .view { display: none; animation: fadeIn 0.5s; }
+        .view.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Pedagogical Cards */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
+        .section-title {
+            color: var(--us-blue);
+            border-bottom: 2px solid var(--light-gray);
+            margin-top: 1.5rem;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .result-header { font-size: 2rem; color: var(--us-red); margin-bottom: 0; }
+        .pos-tag { font-style: italic; color: #666; }
+        
+        .pill-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .pill { 
+            background: var(--light-gray); 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+        }
+
+        .example-box {
+            background: #fffbe6;
+            border-left: 5px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        /* History & AZ List */
+        .list-item {
+            background: white;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .logo-box h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            font-weight: 900;
-        }
-
-        .logo-plus {
-            background: linear-gradient(90deg, var(--us-blue) 48%, var(--us-red) 52%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-        }
-
-        .logo-plus::after {
-            content: '★ ★ ★';
-            font-size: 0.7rem;
-            position: absolute;
-            top: -5px;
-            right: -35px;
-            -webkit-text-fill-color: var(--us-blue);
-        }
-
-        .subtitle {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #000;
-            margin-top: 5px;
-        }
-
-        /* SEARCH BAR */
-        .search-container {
-            display: flex;
-            gap: 10px;
-        }
-
-        #term-input {
-            padding: 12px 15px;
-            width: 350px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        #go-btn {
-            background-color: var(--us-blue);
-            color: white;
-            border: none;
-            padding: 0 30px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        #go-btn:hover { background-color: var(--us-red); }
-
-        /* TABS */
-        .tabs {
-            display: flex;
-            background: #ddd;
-            padding: 15px 5% 0;
-            gap: 5px;
-        }
-
-        .tab-btn {
-            padding: 12px 25px;
-            border: none;
-            background: #ccc;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .tab-btn.active {
-            background: white;
-            color: var(--us-blue);
-        }
-
-        /* MAIN CONTENT */
-        .main-content {
-            padding: 30px 5%;
-        }
-
-        .panel {
+        .loader {
+            text-align: center;
             display: none;
-            background: white;
-            padding: 40px;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        .panel.active { display: block; }
-
-        /* TEMPLATE STYLING */
-        .analysis-title { 
-            color: var(--us-blue); 
-            border-bottom: 2px solid #eee; 
-            margin-top: 0; 
-            padding-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .section-header { 
-            color: var(--us-red); 
-            font-weight: 800; 
-            display: block; 
-            margin-top: 25px; 
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .data-box { margin: 8px 0 15px 0; line-height: 1.6; }
-        
-        .grit-scale {
-            background: #f9f9f9;
-            padding: 15px;
-            border-left: 4px solid var(--us-blue);
-            font-family: monospace;
-        }
-
-        /* LISTS */
-        .list-row {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
+            font-weight: bold;
+            color: var(--us-blue);
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-box">
-        <h1 class="logo-plus">EnglishPlus+</h1>
-        <div class="subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</div>
-    </div>
-    <div class="search-container">
-        <input type="text" id="term-input" placeholder="Enter a word or phrase in American English...">
-        <button id="go-btn">Go</button>
-    </div>
+    <h1>EnglishPlus+ 🇺🇸</h1>
+    <p>American English Vocabulary Simulator by Carlos Mario Navarro</p>
 </header>
 
-<div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('simulator')">Simulator</button>
-    <button class="tab-btn" onclick="switchTab('history')">History Search</button>
-    <button class="tab-btn" onclick="switchTab('azlist')">AZ-List</button>
+<nav>
+    <button onclick="switchView('simulator')" id="btn-simulator" class="active">Simulator</button>
+    <button onclick="switchView('history')" id="btn-history">History Search</button>
+    <button onclick="switchView('azlist')" id="btn-azlist">A-Z List</button>
+</nav>
+
+<div class="search-container">
+    <input type="text" id="wordInput" placeholder="Enter a word or phrasal verb (e.g., 'relentless' or 'break down')">
+    <button id="searchBtn">GO</button>
 </div>
 
-<div class="main-content">
-    <div id="simulator" class="panel active">
-        <div id="result-area">
-            <p style="text-align:center; color:#999;">The simulator is ready. Please enter a term to begin the linguistic deconstruction.</p>
+<div class="loader" id="loader">Consulting American Dictionaries...</div>
+
+<main>
+    <section id="view-simulator" class="view active">
+        <div id="results" class="card">
+            <p style="text-align: center; color: #999;">The simulation will appear here. Start by typing something above!</p>
         </div>
-    </div>
+    </section>
 
-    <div id="history" class="panel">
-        <div id="history-items"></div>
-    </div>
+    <section id="view-history" class="view">
+        <div id="history-container"></div>
+    </section>
 
-    <div id="azlist" class="panel">
-        <div id="az-items"></div>
-    </div>
-</div>
+    <section id="view-azlist" class="view">
+        <div id="az-container"></div>
+    </section>
+</main>
 
 <script>
-    // BASE DE DATOS PARA DEMOSTRACIÓN (Contiene tus ejemplos exactos)
-    const DB = {
-        "relentless": {
-            type: "word",
-            meaning: "Adjective: Remaining strict or determined; never-ceasing. It describes someone who refuses to give up or a process that does not stop or become less intense.",
-            connotation: "In American English, this is a 'high-energy' word. It can be negative (like 'relentless rain'), but in business, it is almost always a huge compliment meaning you have an unstoppable work ethic.",
-            phonetics: "/rɪˈlent.ləs/",
-            soundsLike: "re-LENT-less. (The stress is on the middle syllable).",
-            synonyms: [
-                "Persistent: (Focuses on trying again and again).",
-                "Unstoppable: (Focuses on the fact that nothing can get in your way).",
-                "Tenacious: (A very 'fancy' professional word for being like a bulldog—not letting go).",
-                "Incessant: (Usually negative, like a noise that won't stop)."
-            ],
-            antonyms: [
-                "Irresolute: (Hesitant, not sure of oneself).",
-                "Yielding: (Giving up easily).",
-                "Lazy / Lackadaisical: (Lacking enthusiasm or effort).",
-                "Merciful: (Showing pity—sometimes 'relentless' means being harsh)."
-            ],
-            family: [
-                "Relentlessly (Adverb): How you do something. ('He practiced English relentlessly until he was fluent.')",
-                "Relentlessness (Noun): The state of being relentless. ('Her relentlessness is the reason she got the promotion.')",
-                "To relent (Verb/Antonym): To finally give in or become less severe. ('The rain finally relented after three days.')"
-            ],
-            grit: "Interest: You like the idea.<br>Effort: You are working on it.<br>Persistence: You keep going despite mistakes.<br>Relentlessness: You have a 'refuse to lose' mentality. You find a way or make one.",
-            idioms: ["Relentless pursuit of excellence", "No rest for the wicked", "Keep your foot on the gas"],
-            examples: [
-                "The company's relentless focus on customer service made them #1 in the market.",
-                "To fix the QuickBooks error, I had to be relentless with the support team until they answered.",
-                "Success is the result of relentless preparation meeting opportunity."
-            ],
-            pro_letter: "I bring a relentless problem-solving attitude to every challenge I face, ensuring that projects are not just finished, but optimized.",
-            pro_interview: "I’m relentless when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done.",
-            tip: "Be careful! While being relentless is great for goals, being a relentless boss can lead to 'burnout' in your team. In the U.S., the most respected leaders are those who are relentless with results but empathetic with people."
-        },
-        "break it down": {
-            type: "phrase",
-            meaning: "Verb (Phrasal): To divide a complex problem, a large amount of data, or a difficult concept into smaller, simpler, and more manageable components.",
-            action_perspective: "It is the process of deconstruction. If a project is a wall, 'breaking it down' is looking at the individual bricks.",
-            explaining_perspective: "It means to explain something step-by-step so that the listener doesn't feel overwhelmed.",
-            phonetics: "/breɪk ɪt daʊn/",
-            soundsLike: "bray-kit-DOWN.",
-            pron_note: "In American English, the 'k' in break and the 'i' in it undergo linking. It sounds like one fluid word (breakit).",
-            synonyms: [
-                "Deconstruct: To take apart a theory or structure to reveal its internal works.",
-                "Fragment: To break into small pieces (often used in data or task management).",
-                "Dissect: To examine something in minute detail (like a scientist).",
-                "Itemize: To create a list of individual items (usually for costs or tasks).",
-                "Simplify: The ultimate goal—removing the 'noise' to find the signal."
-            ],
-            antonyms: [
-                "Amalgamate: To combine many things into one large whole.",
-                "Conflate: To mix two or more ideas together (often causing confusion).",
-                "Obfuscate: To make intentionally difficult to understand.",
-                "Generalize: To talk about the 'big picture' without looking at the details."
-            ],
-            family: [
-                "Breakdown (Noun - Analytical): A detailed analysis. ('The budget breakdown shows we spent too much on ads.')",
-                "Breakdown (Noun - Mechanical): A failure of a machine.",
-                "Breakdown (Noun - Health): A period of mental collapse due to stress.",
-                "Breakable (Adjective): Something that can be broken."
-            ],
-            cognitive: {
-                goal: "The 'Big Rock' (e.g., Learning English).",
-                breakdown: "Milestones (e.g., Master 500 words, Understand Phrasal Verbs).",
-                fragments: "Daily habits (e.g., 15 minutes of chat every morning)."
-            },
-            idioms: ["Break it down for me", "Let's talk brass tacks", "Get down to the nitty-gritty", "Crunch the numbers"],
-            examples: [
-                "If we break down the QuickBooks error, we can see it's actually a browser cache issue, not a payment failure.",
-                "The CEO asked for a breakdown of our quarterly goals by department.",
-                "Don't look at the whole mountain; just break it down into the next ten steps."
-            ],
-            pro_lead: "Okay team, this is a massive launch. Let's break it down into three phases so we don't burn out.",
-            pro_interview: "I specialize in taking complex technical data and breaking it down into 'appealing' insights for the executive board.",
-            tip: "In the U.S., if you tell someone 'I'll break it down for you,' be careful with your tone. If said too slowly, it can sound condescending. To stay friendly and professional, say it with enthusiasm!"
-        }
-    };
+    /* --- Core Data State --- */
+    let historySearch = [];
+    let azList = new Set();
 
-    let historyLog = [];
-    let azList = [];
+    /* --- Elements --- */
+    const wordInput = document.getElementById('wordInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const resultsDiv = document.getElementById('results');
+    const loader = document.getElementById('loader');
 
-    function handleSearch() {
-        const input = document.getElementById('term-input').value.trim();
-        if (!input) return;
-
-        const isPhrase = input.includes(' ');
-        const key = input.toLowerCase();
-        
-        // Simulación de búsqueda en base de datos profesional
-        const data = DB[key] || generateDynamicAnalysis(input, isPhrase);
-
-        renderContent(data, input);
-        updateStorage(input);
-        document.getElementById('term-input').value = '';
-        switchTab('simulator');
+    /* --- Logic: Detection --- */
+    function detectInputType(text) {
+        return text.trim().includes(" ") ? "phrase" : "word";
     }
 
-    function renderContent(data, original) {
-        const area = document.getElementById('result-area');
-        const CAPS = original.toUpperCase();
+    /* --- API Service --- */
+    async function fetchData(word) {
+        try {
+            loader.style.display = 'block';
+            
+            // 1. Dictionary Data
+            const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            const dictData = dictRes.ok ? await dictRes.json() : null;
 
-        if (data.type === 'word') {
-            area.innerHTML = `
-                <h2 class="analysis-title">Word Analysis: ${CAPS}</h2>
-                <span class="section-header">English Meaning 🇺🇸</span>
-                <div class="data-box">${data.meaning}</div>
+            // 2. Synonyms (Datamuse)
+            const synRes = await fetch(`https://api.datamuse.com/words?rel_syn=${word}`);
+            const synData = await synRes.json();
 
-                <span class="section-header">Connotation:</span>
-                <div class="data-box">${data.connotation}</div>
+            // 3. Antonyms (Datamuse)
+            const antRes = await fetch(`https://api.datamuse.com/words?rel_ant=${word}`);
+            const antData = await antRes.json();
 
-                <span class="section-header">Phonetics & Pronunciation 🗣️</span>
-                <div class="data-box">${data.phonetics}</div>
+            return { dictData, synonyms: synData.slice(0, 6), antonyms: antData.slice(0, 6) };
+        } catch (error) {
+            console.error("API Error:", error);
+            return null;
+        } finally {
+            loader.style.display = 'none';
+        }
+    }
 
-                <span class="section-header">Sounds like:</span>
-                <div class="data-box">${data.soundsLike}</div>
+    /* --- Logic: Render Pipeline --- */
+    async function performSearch() {
+        const query = wordInput.value.trim().toLowerCase();
+        if (!query) return;
 
-                <span class="section-header">Synonyms 🤝 (The Nuance Map)</span>
-                <ul>${data.synonyms.map(s => `<li>${s}</li>`).join('')}</ul>
+        const type = detectInputType(query);
+        const data = await fetchData(query);
 
-                <span class="section-header">Antonyms 🚫</span>
-                <ul>${data.antonyms.map(a => `<li>${a}</li>`).join('')}</ul>
+        if (!data.dictData) {
+            resultsDiv.innerHTML = `
+                <h2 class="result-header">Oops! 🇺🇸</h2>
+                <p><strong>"${query}"</strong> is not registered as a fixed expression or common word in our primary American database.</p>
+                <div class="example-box">Tip: Check the spelling or try a more common root word.</div>
+            `;
+            return;
+        }
 
-                <span class="section-header">Word Family 👨‍👩‍👧‍👦</span>
-                <ul>${data.family.map(f => `<li>${f}</li>`).join('')}</ul>
+        // Update State
+        historySearch.unshift({ word: query, time: new Date().toLocaleTimeString() });
+        if (type === "word") azList.add(query);
 
-                <span class="section-header">The "Grit" Scale ⚖️</span>
-                <div class="data-box grit-scale">
-                    Understanding where "${CAPS}" sits compared to similar traits:<br><br>
-                    ${data.grit}
+        renderResult(query, type, data);
+        updateHistoryUI();
+        updateAZUI();
+    }
+
+    function renderResult(query, type, data) {
+        const entry = data.dictData[0];
+        const meaning = entry.meanings[0];
+        const definition = meaning.definitions[0];
+        const phonetic = entry.phonetic || (entry.phonetics[1] ? entry.phonetics[1].text : "N/A");
+
+        let html = "";
+
+        if (type === "word") {
+            html = `
+                <div class="result-header">Word Analysis: ${entry.word.toUpperCase()}</div>
+                <div class="pos-tag">${meaning.partOfSpeech}</div>
+
+                <div class="section-title">English Meaning 🇺🇸</div>
+                <p><strong>${meaning.partOfSpeech}:</strong> ${definition.definition}</p>
+                <p><em>Connotation:</em> This word is typically used in ${meaning.partOfSpeech === 'adjective' ? 'descriptive' : 'functional'} contexts within American English to convey ${query.length > 7 ? 'complexity' : 'directness'}.</p>
+
+                <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+                <p><strong>${phonetic}</strong></p>
+                <p><em>Sounds like:</em> Roughly pronounced as "${phonetic.replace(/\//g, '')}" with standard American emphasis.</p>
+
+                <div class="section-title">Synonyms 🤝 (The Nuance Map)</div>
+                <div class="pill-container">
+                    ${data.synonyms.map(s => `<span class="pill"><strong>${s.word}</strong>: (Close match)</span>`).join('') || 'No direct synonyms found.'}
                 </div>
 
-                <span class="section-header">Idioms & Collocations 🗣️</span>
-                <ul>${data.idioms.map(i => `<li>"${i}"</li>`).join('')}</ul>
+                <div class="section-title">Antonyms 🚫</div>
+                <div class="pill-container">
+                    ${data.antonyms.map(a => `<span class="pill"><strong>${a.word}</strong></span>`).join('') || 'No direct antonyms found.'}
+                </div>
 
-                <span class="section-header">Real-World Examples 📝</span>
-                <ul>${data.examples.map(e => `<li>"${e}"</li>`).join('')}</ul>
+                <div class="section-title">Real-World Examples 📝</div>
+                <div class="example-box">
+                    ${definition.example ? `"${definition.example}"` : `Typical usage: "The ${entry.word} nature of the project required extra focus."`}
+                </div>
 
-                <span class="section-header">Friendly Practice (The American Way) 🇺🇸</span>
-                <p><strong>In a Cover Letter:</strong><br>"${data.pro_letter}"</p>
-                <p><strong>During an Interview:</strong><br>"${data.pro_interview}"</p>
+                <div class="section-title">Friendly Practice 🇺🇸</div>
+                <p>In a professional setting, an American might say: <em>"We need to be <strong>${entry.word}</strong> in our pursuit of excellence."</em></p>
 
-                <span class="section-header">Tip Pro 💡</span>
-                <div class="data-box">${data.tip}</div>
-
-                <p><strong>Closing Question:</strong><br>Is this the level of "Complete Explanation" you were looking for? Give me your next word, and I will give it the ${CAPS} Analysis treatment! 🚀</p>
+                <div class="section-title">Tip Pro 💡</div>
+                <p>American speakers often use "${entry.word}" to emphasize intensity. Avoid using it for light or trivial matters to maintain its impact.</p>
             `;
         } else {
-            area.innerHTML = `
-                <h2 class="analysis-title">Phrase Analysis: ${CAPS}</h2>
-                <span class="section-header">English Meaning 🇺🇸</span>
-                <div class="data-box">${data.meaning}</div>
+            // Phrase / Phrasal Verb Layout
+            html = `
+                <div class="result-header">Phrase Analysis: ${query.toUpperCase()}</div>
+                <div class="section-title">English Meaning 🇺🇸</div>
+                <p><strong>Verb (Phrasal):</strong> ${definition.definition}</p>
 
-                <span class="section-header">The "Action" Perspective:</span>
-                <div class="data-box">${data.action_perspective}</div>
+                <div class="section-title">The "Action" Perspective</div>
+                <p>In the U.S., this phrase implies a breakdown of components or a specific sequence of movements.</p>
 
-                <span class="section-header">The "Explaining" Perspective:</span>
-                <div class="data-box">${data.explaining_perspective}</div>
+                <div class="section-title">Phonetics & Pronunciation 🗣️</div>
+                <p>${phonetic}</p>
 
-                <span class="section-header">Phonetics & Pronunciation 🗣️</span>
-                <div class="data-box">${data.phonetics}</div>
+                <div class="section-title">Synonyms 🤝</div>
+                <div class="pill-container">
+                    ${data.synonyms.map(s => `<span class="pill">${s.word}</span>`).join('') || 'Common in conversational English.'}
+                </div>
 
-                <span class="section-header">Sounds like:</span>
-                <div class="data-box">${data.soundsLike}</div>
+                <div class="section-title">Real-World Examples 📝</div>
+                <div class="example-box">
+                    ${definition.example ? `"${definition.example}"` : `Usage: "Let's ${query} so everyone understands the plan."`}
+                </div>
 
-                <span class="section-header">Note:</span>
-                <div class="data-box">${data.pron_note}</div>
-
-                <span class="section-header">Synonyms 🤝 (The Nuance Map)</span>
-                <ul>${data.synonyms.map(s => `<li>${s}</li>`).join('')}</ul>
-
-                <span class="section-header">Antonyms 🚫</span>
-                <ul>${data.antonyms.map(a => `<li>${a}</li>`).join('')}</ul>
-
-                <span class="section-header">Word Family 👨‍👩‍👧‍👦</span>
-                <ul>${data.family.map(f => `<li>${f}</li>`).join('')}</ul>
-
-                <span class="section-header">The Cognitive Process ⚖️</span>
-                <p><strong>The Goal:</strong> ${data.cognitive.goal}</p>
-                <p><strong>The Breakdown:</strong> ${data.cognitive.breakdown}</p>
-                <p><strong>The Fragments:</strong> ${data.cognitive.fragments}</p>
-
-                <span class="section-header">Idioms & Collocations 🗣️</span>
-                <ul>${data.idioms.map(i => `<li>"${i}"</li>`).join('')}</ul>
-
-                <span class="section-header">Real-World Examples 📝</span>
-                <ul>${data.examples.map(e => `<li>"${e}"</li>`).join('')}</ul>
-
-                <span class="section-header">Friendly Practice (The American Way) 🇺🇸</span>
-                <p><strong>When leading a project:</strong><br>"${data.pro_lead}"</p>
-                <p><strong>In an interview:</strong><br>"${data.pro_interview}"</p>
-
-                <span class="section-header">Tip Pro 💡</span>
-                <div class="data-box">${data.tip}</div>
-
-                <p><strong>Closing Question:</strong><br>Would you like me to break down the difference between this phrase and a similar one so you can choose the perfect option for professional English? 🚀</p>
+                <div class="section-title">Tip Pro 💡</div>
+                <p>Phrasal verbs like "${query}" are the bread and butter of American English. Use them in informal meetings to sound more natural!</p>
             `;
         }
+
+        resultsDiv.innerHTML = html;
     }
 
-    function generateDynamicAnalysis(term, isPhrase) {
-        // Esta función simula la generación de contenido experto en tiempo real
-        // para términos que no están en la pre-carga inicial.
-        if(!isPhrase) {
-            return {
-                type: 'word',
-                meaning: `Adjective/Noun: A professional American English term describing the essence of ${term}.`,
-                connotation: "In the US workplace, this term carries a standard professional weight.",
-                phonetics: "/.../", soundsLike: "Natural American pronunciation.",
-                synonyms: ["Option A: Formal", "Option B: Casual", "Option C: Technical", "Option D: Nuanced"],
-                antonyms: ["Opposite A", "Opposite B", "Opposite C", "Opposite D"],
-                family: [`${term}ly (Adverb)`, `${term}ness (Noun)`, `Re-${term} (Verb)`],
-                grit: "Interest: Low<br>Effort: Moderate<br>Persistence: High<br>"+term.toUpperCase()+": Peak Efficiency.",
-                idioms: [`The ${term} strategy`, `At the ${term} level`],
-                examples: [`We need more ${term} in this project.`],
-                pro_letter: `I will apply my ${term} skills to your company.`,
-                pro_interview: `I have a track record of ${term}.`,
-                tip: "Always use this term with confidence in professional settings."
-            };
-        } else {
-            return {
-                type: 'phrase',
-                meaning: `To execute the action of ${term} effectively.`,
-                action_perspective: "A step-by-step movement toward success.",
-                explaining_perspective: "Clarifying the process for the whole team.",
-                phonetics: "/.../", soundsLike: "Fluent connection.",
-                pron_note: "Standard American linking applies.",
-                synonyms: ["Alternative 1", "Alternative 2", "Alternative 3", "Alternative 4", "Alternative 5"],
-                antonyms: ["Reverse 1", "Reverse 2", "Reverse 3", "Reverse 4"],
-                family: ["Gerund form", "Past form", "Agent noun"],
-                cognitive: { goal: "Final Target", breakdown: "Milestone", fragments: "Daily task" },
-                idioms: ["Related idiom 1", "Related idiom 2"],
-                examples: [`Let's ${term} right now.`],
-                pro_lead: `My plan is to ${term}.`,
-                pro_interview: `I know how to ${term} under pressure.`,
-                tip: "Avoid over-explaining when you use this phrase; be direct."
-            };
-        }
+    /* --- Navigation Logic --- */
+    function switchView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(`view-${viewName}`).classList.add('active');
+        document.getElementById(`btn-${viewName}`).classList.add('active');
     }
 
-    function updateStorage(term) {
-        historyLog.push({ term, date: new Date().toLocaleTimeString() });
-        if (!azList.includes(term.toLowerCase())) {
-            azList.push(term.toLowerCase());
-            azList.sort();
-        }
-        renderLists();
+    function updateHistoryUI() {
+        const container = document.getElementById('history-container');
+        container.innerHTML = historySearch.map(item => `
+            <div class="list-item">
+                <span><strong>${item.word}</strong></span>
+                <small>${item.time}</small>
+            </div>
+        `).join('');
     }
 
-    function renderLists() {
-        document.getElementById('history-items').innerHTML = historyLog.map(i => `<div class="list-row"><span>${i.term}</span><span style="color:#888">${i.date}</span></div>`).join('');
-        document.getElementById('az-items').innerHTML = azList.map(i => `<div class="list-row"><span style="text-transform:capitalize">${i}</span></div>`).join('');
+    function updateAZUI() {
+        const container = document.getElementById('az-container');
+        const sorted = Array.from(azList).sort();
+        container.innerHTML = sorted.map(word => `
+            <div class="list-item">
+                <span>${word}</span>
+                <button onclick="quickSearch('${word}')" style="background:none; border:none; cursor:pointer;">🔍</button>
+            </div>
+        `).join('');
     }
 
-    function switchTab(id) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.currentTarget.classList.add('active');
+    function quickSearch(word) {
+        wordInput.value = word;
+        switchView('simulator');
+        performSearch();
     }
 
-    document.getElementById('go-btn').addEventListener('click', handleSearch);
-    document.getElementById('term-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
+    /* --- Listeners --- */
+    searchBtn.addEventListener('click', performSearch);
+    wordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
+
 </script>
 
 </body>
