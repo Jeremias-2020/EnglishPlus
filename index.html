@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: #1e293b; line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 130px; color: #1e293b; line-height: 1.6; }
         header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 0.9; }
@@ -20,17 +20,14 @@
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
         .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
-        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--secondary); font-weight: 700; color: #1e293b; }
-        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--secondary); font-weight: 600; }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 20px; overflow: hidden; background: #fff; margin: 25px 0; }
         .grit-row { padding: 20px; border-bottom: 1px solid #f1f5f9; }
-        .grit-row b.phase-title { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 8px; }
-        .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 6px solid var(--secondary); }
-        .grit-row:last-child b.phase-title { color: var(--secondary); }
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
+        .grit-row b { color: var(--primary); display: block; margin-bottom: 5px; font-size: 1.1rem; }
+        .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 6px solid var(--secondary); font-weight: 700; }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); margin: 20px 0; }
         .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
         .hidden { display: none; }
     </style>
@@ -44,7 +41,7 @@
             <p class="brand-subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type a word (e.g. Even, Allow, Grit)...">
+            <input type="text" id="word-input" placeholder="Try 'Even' or 'Relentless'...">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
@@ -54,44 +51,35 @@
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 40px 0;">
             <h1 style="color: var(--primary); font-size: 2.8rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
-            <p>Master the language of professional results.</p>
+            <p>Type a word to receive the full American Business insight.</p>
         </div>
         <div id="full-analysis" class="hidden"></div>
     </div>
 </div>
 
 <script>
-    // Diccionario de inteligencia personalizada para palabras clave de negocios
-    const smartData = {
+    const eliteLibrary = {
         "even": {
-            connotation: "In business, 'Even' represents balance, neutrality, and stability. Breaking even is the first step to profitability.",
+            meaning: "Adjective: Flat, level, or smooth. As an adverb, used for emphasis or comparison. In business, it refers to financial equilibrium and fairness.",
+            connotation: "In American English, 'Even' is the language of <b>Stability</b>. It's not just a math term; it's a state of mind. A leader who keeps things 'even' is seen as dependable, fair, and financially savvy.",
+            phonetic: "/ˈiː.vən/",
+            soundsLike: "EE-ven (Smile while saying the first syllable).",
+            synonyms: ["Level: (Physical or metaphorical balance).", "Uniform: (Consistently the same).", "Balanced: (Equal weight or importance).", "Equal: (The same in quantity or status)."],
+            antonyms: ["Odd: (Math-wise or just strange).", "Uneven: (Lacking consistency).", "Irregular: (Not following a pattern).", "Variable: (Constantly changing)."],
+            family: ["Evenly (Adverb): 'Distribute the tasks evenly.'", "Evenness (Noun): 'The evenness of his temper is amazing.'", "To even out (Verb): 'The market will eventually even out.'"],
             grit: [
-                "You use it only for basic numbers or to say something is flat.",
-                "You use it to emphasize progress, saying things are 'even better' than before.",
-                "You master the 'Break-Even' concept, focusing on financial stability.",
-                "You ensure an 'even' distribution of workload to prevent burnout and maximize team output."
+                "<b>Basic Math:</b> You use it only for numbers (2, 4, 6) or flat surfaces.",
+                "<b>Comparison:</b> You use it to emphasize progress ('Even better').",
+                "<b>Financial Stability:</b> You master the 'Break-Even' point in projects.",
+                "<b>EVEN (Mastery):</b> You maintain a 'level head' under pressure and ensure workload equity to maximize team output."
             ],
-            examples: [
-                "We expect to break even by the end of the third fiscal quarter.",
-                "An even distribution of resources is key to a scalable operation.",
-                "Even the most advanced AI needs human oversight for final reconciliation."
+            idioms: ["'Break even': To reach a point where costs and income are equal.", "'Get even': (Use with caution!) To retaliate.", "'An even playing field': A situation where everyone has the same opportunities."],
+            examples: ["We expect to break <b>even</b> by the end of the third fiscal quarter.", "An <b>even</b> distribution of resources is key to a scalable operation.", "Success requires an <b>even</b> temperament when dealing with QuickBooks errors."],
+            sellingPoints: [
+                "In a Meeting: 'If we can even out the budget, we'll see higher ROI next year.'",
+                "In an Email: 'I want to ensure an even transition between the old system and the new one.'"
             ],
-            tip: "Use 'Let's keep things even' to act as a fair mediator in high-stakes negotiations."
-        },
-        "allow": {
-            connotation: "A high-authority word that signals you are the one enabling results and managing professional boundaries.",
-            grit: [
-                "You wait for others to allow you to take action.",
-                "You allow established rules to dictate your speed without questioning them.",
-                "You allow your team the autonomy to solve problems independently.",
-                "You strategically manage the environment to allow for perfect outcomes. You are the enabler."
-            ],
-            examples: [
-                "This workflow allows for a seamless integration with QuickBooks.",
-                "We cannot allow these discrepancies to remain in the final audit.",
-                "Success allows no room for lack of preparation."
-            ],
-            tip: "Try using 'Allow me to clarify' instead of 'Let me explain' to sound more authoritative."
+            tip: "Use 'Allow me to get us back to even' when a meeting gets chaotic. It signals you are the person bringing balance back to the room."
         }
     };
 
@@ -105,64 +93,67 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<h2 style="text-align:center; padding: 50px;">ANALYZING: ${word.toUpperCase()}...</h2>`;
+        container.innerHTML = `<h2 style="text-align:center; padding: 50px;">GENERATING ELITE ANALYSIS...</h2>`;
 
-        try {
-            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            const apiData = await res.json();
-            if(!res.ok) throw new Error();
-            renderAnalysis(apiData[0], word);
-        } catch (err) {
-            container.innerHTML = `<h2 style="text-align:center; padding: 50px;">Word not found. Try 'Even' or 'Allow'.</h2>`;
-        }
+        // Simulamos un pequeño delay para el efecto de "análisis"
+        setTimeout(() => {
+            const data = eliteLibrary[word];
+            if(data) {
+                renderElite(data, word);
+            } else {
+                container.innerHTML = `<h2 style="text-align:center; padding: 50px;">Word not in elite library yet. Try 'EVEN'.</h2>`;
+            }
+        }, 800);
         input.value = '';
     }
 
-    function renderAnalysis(data, word) {
-        const upper = word.toUpperCase();
-        const meanings = data.meanings[0];
-        const def = meanings.definitions[0].definition;
-        const pos = meanings.partOfSpeech;
-        const phonetic = data.phonetic || (data.phonetics && data.phonetics.find(p => p.text)?.text) || "/.../";
-
-        // Cargar datos inteligentes o genéricos
-        const extra = smartData[word] || {
-            connotation: `In professional settings, "${word}" is used to provide clarity and drive results.`,
-            grit: ["Initial understanding of the term.", "Functional use in daily tasks.", "Leadership level application.", `Mastering ${upper} to drive strategic outcomes.`],
-            examples: [`"We need to evaluate how this affects our ${word}."`, `"Please ensure the ${word} is handled correctly."`, `"This represents a key ${word} for our team."`],
-            tip: `Using "${word}" correctly shows attention to detail and professional maturity.`
-        };
-
-        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
+    function renderElite(d, word) {
+        let html = `<div class="main-title">Word Analysis: ${word.toUpperCase()}</div>`;
         
         html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> ${extra.connotation}</p>`;
+        <p class="body-text">${d.meaning}</p>
+        <p class="body-text"><b>Connotation:</b> ${d.connotation}</p>`;
 
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div class="pronunciation-box">
-            <div><p class="body-text" style="font-family: monospace; font-size:1.4rem; margin:0; color:var(--primary);">${phonetic}</p></div>
+            <div>
+                <p class="body-text" style="font-family: monospace; font-size:1.4rem; margin:0; color:var(--primary);">${d.phonetic}</p>
+                <p class="body-text" style="margin:5px 0 0 0;"><b>Sounds like:</b> ${d.soundsLike}</p>
+            </div>
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
         </div>`;
 
-        html += `<div class="section-h">Synonyms & Antonyms</div>`;
-        const syns = (meanings.synonyms?.length > 0 ? meanings.synonyms : ['Check context']).slice(0,3).join(', ');
-        const ants = (meanings.antonyms?.length > 0 ? meanings.antonyms : ['Check context']).slice(0,3).join(', ');
-        html += `<p class="body-text"><b>Synonyms:</b> ${syns}</p><p class="body-text"><b>Antonyms:</b> ${ants}</p>`;
+        html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
+        d.synonyms.forEach(s => html += `<span class="list-item">${s}</span>`);
+
+        html += `<div class="section-h">Antonyms 🚫</div>`;
+        d.antonyms.forEach(a => html += `<span class="list-item">${a}</span>`);
+
+        html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
+        d.family.forEach(f => html += `<p class="body-text">• ${f}</p>`);
 
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b class="phase-title">⚪ Phase 1</b><span>${extra.grit[0]}</span></div>
-            <div class="grit-row"><b class="phase-title">🔵 Phase 2</b><span>${extra.grit[1]}</span></div>
-            <div class="grit-row"><b class="phase-title">🟢 Phase 3</b><span>${extra.grit[2]}</span></div>
-            <div class="grit-row"><b class="phase-title">🔴 Phase 4: MASTERING ${upper}</b><span>${extra.grit[3]}</span></div>
+            <div class="grit-row"><b>Phase 1</b>${d.grit[0]}</div>
+            <div class="grit-row"><b>Phase 2</b>${d.grit[1]}</div>
+            <div class="grit-row"><b>Phase 3</b>${d.grit[2]}</div>
+            <div class="grit-row"><b>Phase 4: MASTERING ${word.toUpperCase()}</b>${d.grit[3]}</div>
         </div>`;
 
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
+        d.idioms.forEach(i => html += `<p class="body-text">• ${i}</p>`);
+
         html += `<div class="section-h">Real-World Examples 📝</div>`;
-        extra.examples.forEach(ex => { html += `<p class="body-text">• ${ex}</p>`; });
+        d.examples.forEach(ex => html += `<p class="body-text">"${ex}"</p>`);
 
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-        <div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>${extra.tip}</p></div>`;
+        <div class="practice-box">
+            <p><b>How to sell yourself:</b></p>
+            <p>• <i>${d.sellingPoints[0]}</i></p>
+            <p>• <i>${d.sellingPoints[1]}</i></p>
+        </div>`;
+
+        html += `<div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>${d.tip}</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
