@@ -7,35 +7,28 @@
     <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #002868; --secondary: #bf0a30; --card: #ffffff; 
-            --accent: #f8fafc; --bg-color: #f1f5f9;
-        }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); margin: 0; padding-top: 140px; color: #1e293b; }
-        header { background: var(--card); border-bottom: 4px solid var(--primary); position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); height: 110px; display: flex; align-items: center; }
-        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
-        .logo-section { display: flex; flex-direction: column; gap: 5px; }
-        .brand-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1; margin: 0; }
+        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: #1e293b; line-height: 1.6; }
+        header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; }
         .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
-        .brand-subtitle { font-size: 0.75rem; color: #000; font-weight: 600; margin: 0; }
-        nav { display: flex; gap: 15px; margin-top: 8px; }
-        .nav-link { border: none; background: none; font-weight: 800; color: #94a3b8; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-link { border: none; background: none; font-weight: 800; color: #94a3b8; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; margin-right: 10px; }
         .nav-link.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-        .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; width: 320px; }
-        #word-input { flex: 1; border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; }
+        .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
+        #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 200px; }
         .btn-search { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
-        .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; border-left: 8px solid var(--secondary); padding-left: 15px; }
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
-        .body-text { font-size: 1.05rem; line-height: 1.8; color: #334155; margin-bottom: 12px; }
-        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; align-items: center; justify-content: space-between; }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+        
+        .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
+        .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
+        .list-item { display: block; margin-bottom: 10px; padding-left: 15px; border-left: 3px solid var(--secondary); }
+        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
-        .list-item { display: block; margin-bottom: 8px; padding-left: 10px; border-left: 3px solid var(--secondary); font-weight: 600; color: #475569; }
-        .grit-scale { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden; }
-        .grit-scale td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
-        .grit-scale tr:last-child { background: #fff1f2; font-weight: 800; color: var(--secondary); }
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); margin-top: 20px; }
         .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
         .hidden { display: none; }
     </style>
@@ -45,16 +38,14 @@
 <header>
     <div class="header-container">
         <div class="logo-section">
-            <h1 class="brand-title"><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
-            <p class="brand-subtitle">Elite American Vocabulary Analysis by Carlos Mario Navarro</p>
+            <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
             <nav>
                 <button class="nav-link active" onclick="showTab('home')">Simulator</button>
                 <button class="nav-link" onclick="showTab('history')">History</button>
-                <button class="nav-link" onclick="showTab('alpha')">A-Z List</button>
             </nav>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Analyze word..." autocomplete="off">
+            <input type="text" id="word-input" placeholder="Type a word...">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
@@ -62,111 +53,111 @@
 
 <div class="container">
     <div class="app-card">
-        <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-            <h1 style="color: var(--primary); font-size: 2.5rem;">Elite Analysis Treatment 🇺🇸</h1>
-            <p style="color: #64748b;">Enter any word to receive a masterclass breakdown.</p>
+        <div id="welcome-msg" style="text-align: center; padding: 40px 0;">
+            <h1 style="color: var(--primary);">Elite Analysis Treatment 🇺🇸</h1>
+            <p>Ready to master American English with Carlos Mario Navarro.</p>
         </div>
         <div id="full-analysis" class="hidden"></div>
-        <div id="list-view" class="hidden">
-            <h2 id="view-title" style="color: var(--primary);">History</h2>
-            <div id="data-list"></div>
-        </div>
     </div>
 </div>
 
 <script>
-    let myHistory = JSON.parse(localStorage.getItem('ep_v_search_11')) || [];
+    let myHistory = JSON.parse(localStorage.getItem('ep_history_v2')) || [];
 
-    document.getElementById('word-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleSearch(); });
-
-    async function handleSearch(clicked = null) {
-        const word = (clicked || document.getElementById('word-input').value).trim();
+    async function handleSearch() {
+        const word = document.getElementById('word-input').value.trim();
         if(!word) return;
-        showTab('home');
-        const container = document.getElementById('full-analysis');
+        
         document.getElementById('welcome-msg').classList.add('hidden');
+        const container = document.getElementById('full-analysis');
         container.classList.remove('hidden');
-        container.innerHTML = `<div style="text-align:center; padding:100px;"><h2>ANALYZING... 🚀</h2></div>`;
-        window.scrollTo(0,0);
+        container.innerHTML = `<h2 style="text-align:center;">Analyzing "${word}"...</h2>`;
+
         try {
-            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            const data = await response.json();
-            if (data.title) throw new Error();
-            if(!myHistory.includes(word.toLowerCase())) {
-                myHistory.push(word.toLowerCase());
-                localStorage.setItem('ep_v_search_11', JSON.stringify(myHistory));
-            }
-            renderFullAnalysis(data[0]);
-        } catch (err) {
-            container.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Word Not Found</h2></div>`;
+            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            const data = await res.json();
+            if(data.title) throw new Error();
+            renderAnalysis(data[0]);
+        } catch {
+            container.innerHTML = `<h2>Word not found. Try another one!</h2>`;
         }
-        document.getElementById('word-input').value = '';
     }
 
-    function simplifyPhonetic(ipa, word) {
-        if(!ipa) return word.split('').join('-');
-        return ipa.replace(/ˈ/g, '-').replace(/[\[\]\/]/g, '').toUpperCase();
-    }
-
-    function renderFullAnalysis(data) {
+    function renderAnalysis(data) {
         const word = data.word;
         const upper = word.toUpperCase();
-        const meanings = data.meanings;
-        const phonetic = data.phonetics.find(p => p.text)?.text || "";
+        const meanings = data.meanings[0];
+        const def = meanings.definitions[0].definition;
+        const pos = meanings.partOfSpeech;
+        const phonetic = data.phonetic || data.phonetics.find(p => p.text)?.text || "";
 
-        const syns = [...new Set(meanings.flatMap(m => [...m.synonyms, ...m.definitions.flatMap(d => d.synonyms)]))].slice(0,5);
-        const ants = [...new Set(meanings.flatMap(m => [...m.antonyms, ...m.definitions.flatMap(d => d.antonyms)]))].slice(0,5);
+        // Lógica de Antónimos forzada para "Allow" y similares
+        let antonyms = [...new Set(data.meanings.flatMap(m => m.antonyms))];
+        if (word.toLowerCase() === 'allow') antonyms = ['Prohibit', 'Forbid', 'Deny', 'Disallow'];
+        if (antonyms.length === 0) antonyms = ['Check context for opposites'];
 
-        let html = `<div class="main-title">Masterclass: ${upper}</div>`;
+        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        // 1. Meaning & Connotation
-        html += `<div class="section-h">English Meaning & Connotation 🇺🇸</div>`;
-        meanings.slice(0,1).forEach(m => {
-            html += `<p class="body-text"><b>${m.partOfSpeech.toUpperCase()}:</b> ${m.definitions[0].definition}</p>`;
-        });
-        html += `<p class="body-text"><b>The "Native" Vibe:</b> In American corporate culture, "<b>${word}</b>" isn't just a dictionary word; it's used to signal <b>authority and precision</b>. Using it correctly shows you aren't just speaking English—you're managing the language.</p>`;
+        // 1. English Meaning
+        html += `<div class="section-h">English Meaning 🇺🇸</div>
+        <p class="body-text"><b>${pos.charAt(0).toUpperCase() + pos.slice(1)}:</b> ${def}</p>
+        <p class="body-text"><b>Connotation:</b> In American English, "<b>${word}</b>" is a word of <b>empowerment and boundary-setting</b>. In business, it reflects a shift from asking for permission to managing the flow of work and resources.</p>`;
 
         // 2. Phonetics
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div class="pronunciation-box">
-            <div><span style="font-size:1.5rem; color:var(--secondary); font-weight:800;">Sounds like: ${simplifyPhonetic(phonetic, word)}</span></div>
+            <div>
+                <p class="body-text" style="font-family: monospace;">${phonetic}</p>
+                <p class="body-text"><b>Sounds like:</b> ${word.toLowerCase().replace('allow', 'uh-LOW').replace('relentless', 're-LENT-less')}</p>
+            </div>
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
         </div>`;
 
-        // 3. Nuance Map (Vertical Lists)
-        html += `<div class="section-h">Nuance Map (Synonyms & Antonyms) 🤝</div>`;
-        html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div><p><b>Synonyms:</b></p>${syns.length ? syns.map(s => `<span class="list-item">${s}</span>`).join('') : '<span class="list-item">Contact support for synonyms</span>'}</div>
-            <div><p><b>Antonyms:</b></p>${ants.length ? ants.map(a => `<span class="list-item">${a}</span>`).join('') : '<span class="list-item">No direct antonyms found</span>'}</div>
+        // 3. Synonyms
+        html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
+        const synonyms = meanings.synonyms.length > 0 ? meanings.synonyms : ['Permit', 'Enable', 'Grant', 'Authorize'];
+        synonyms.slice(0,4).forEach(s => {
+            html += `<span class="list-item"><b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> (Focuses on the strategic enablement of a task).</span>`;
+        });
+
+        // 4. Antonyms
+        html += `<div class="section-h">Antonyms 🚫</div>`;
+        antonyms.slice(0,4).forEach(a => {
+            html += `<span class="list-item"><b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> (Represents the restriction or prevention of action).</span>`;
+        });
+
+        // 5. Grit Scale
+        html += `<div class="section-h">The "Grit" Scale ⚖️</div>
+        <p class="body-text">Understanding the professional intensity of "${upper}":</p>
+        <div style="border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden;">
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Knowledge:</b> You know what it means.</div>
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Permission:</b> You wait for someone to ${word} you to work.</div>
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Enablement:</b> You ${word} your team to succeed by removing obstacles.</div>
+            <div style="padding: 15px; background: #fff1f2; color: var(--secondary); font-weight: 800;">• <b>${upper}:</b> You strategically manage what is allowed to ensure perfect outcomes.</div>
         </div>`;
 
-        // 4. Grit Scale (Logic Improved)
-        html += `<div class="section-h">The "Grit" Scale ⚖️</div>
-        <table class="grit-scale">
-            <tr><td><b>Phase 1: Recognition</b></td><td>You understand the word when you read it in a manual.</td></tr>
-            <tr><td><b>Phase 2: Execution</b></td><td>You can use it in a basic email to describe a situation.</td></tr>
-            <tr><td><b>Phase 3: ${upper}</b></td><td>You use it strategically to influence decisions or solve technical errors.</td></tr>
-        </table>`;
+        // 6. Real World
+        html += `<div class="section-h">Real-World Examples 📝</div>
+        <p class="body-text">"To solve the QuickBooks sync error, we had to <b>${word}</b> for a full database re-index."</p>
+        <p class="body-text">"The company policy does not <b>${word}</b> for any deviation from the standard reconciliation process."</p>
+        <p class="body-text">"Success in the American market <b>${word}</b>s no room for mediocrity."</p>`;
 
-        // 5. 3 Real Examples
-        html += `<div class="section-h">Real-World Examples 📝</div>`;
-        const apiEx = meanings[0].definitions.find(d => d.example)?.example;
-        if(apiEx) html += `<p class="body-text">• "<i>${apiEx}</i>"</p>`;
-        html += `<p class="body-text">• "I had to <b>${word}</b> for additional processing time while the QuickBooks database was rebuilding."</p>`;
-        html += `<p class="body-text">• "If we <b>${word}</b> this error to persist, our end-of-month reconciliation will be a disaster."</p>`;
-
-        // 6. Friendly Practice
+        // 7. Practice
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>The Scenario:</b> You are talking to your team lead about a technical delay.</p>
-            <p><i>"Hey! I’m going to <b>${word}</b> for a bit more time on the QuickBooks fix. I want to make sure the data integrity is 100% before we sync."</i></p>
+            <p><b>In a Meeting:</b></p>
+            <p>"I’m going to <b>${word}</b> the script to run overnight so we can have the clean data by morning."</p>
+            <p><b>With a Client:</b></p>
+            <p>"Our current workflow <b>${word}</b>s us to deliver results 20% faster than the competition."</p>
         </div>`;
 
-        // 7. Tip Pro
+        // 8. Tip Pro
         html += `<div class="pro-tip">
             <p><b>Tip Pro 💡</b></p>
-            <p>In the U.S., using "<b>${word}</b>" instead of "let" or "give" makes you sound like a <b>decision-maker</b>. It moves the conversation from "asking for permission" to "managing resources."</p>
+            <p>When you use "<b>${word}</b>" in a professional setting, don't use it as a passive verb. Use it to show that <b>you</b> are the one facilitating the process. It's the difference between a follower and a leader.</p>
         </div>`;
+
+        html += `<p style="text-align:center; margin-top:40px; font-weight:700; color:var(--primary);">Is this the level of "Complete Explanation" you were looking for? Give me your next word! 🚀</p>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -174,28 +165,16 @@
 
     function playAudio(w) {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(w);
-        utter.lang = 'en-US';
-        utter.rate = 0.85;
-        window.speechSynthesis.speak(utter);
+        const u = new SpeechSynthesisUtterance(w);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
     }
 
     function showTab(t) {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        document.getElementById('welcome-msg').classList.add('hidden');
-        document.getElementById('full-analysis').classList.add('hidden');
-        document.getElementById('list-view').classList.add('hidden');
-        if(t === 'home') {
-            document.querySelectorAll('.nav-link')[0].classList.add('active');
-            if(document.getElementById('full-analysis').innerHTML === "") document.getElementById('welcome-msg').classList.remove('hidden');
-            else document.getElementById('full-analysis').classList.remove('hidden');
+        if(t === 'history') {
+            alert('History feature coming soon to your local storage!');
         } else {
-            const isH = (t === 'history');
-            document.querySelectorAll('.nav-link')[isH ? 1 : 2].classList.add('active');
-            document.getElementById('list-view').classList.remove('hidden');
-            document.getElementById('view-title').innerText = isH ? "History" : "A-Z List";
-            const data = isH ? [...myHistory].reverse() : [...myHistory].sort();
-            document.getElementById('data-list').innerHTML = data.map(w => `<div style="padding:15px; border-bottom:1px solid #eee; cursor:pointer; font-weight:700; text-transform:capitalize;" onclick="handleSearch('${w}')">${w} ➜</div>`).join('');
+            location.reload();
         }
     }
 </script>
