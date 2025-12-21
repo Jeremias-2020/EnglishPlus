@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Elite American Simulator</title>
+    <title>EnglishPlus | Elite Universal Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --text: #1e293b; }
@@ -15,21 +15,20 @@
         .brand-subtitle { font-size: 0.75rem; color: #475569; font-weight: 600; margin-top: 4px; }
         .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
         #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 280px; }
-        .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; }
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 15px 50px rgba(0,0,0,0.05); }
-        .main-title { color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 15px; border-left: 12px solid var(--secondary); padding-left: 20px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 35px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .body-text { font-size: 1.1rem; margin-bottom: 12px; line-height: 1.6; }
-        .list-item { display: block; margin-bottom: 8px; padding-left: 15px; border-left: 4px solid var(--secondary); font-weight: 600; }
-        .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; margin: 20px 0; }
-        .grit-row { padding: 18px; border-bottom: 1px solid #e2e8f0; }
+        .main-title { color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 25px; border-left: 12px solid var(--secondary); padding-left: 20px; text-transform: uppercase; }
+        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase; }
+        .body-text { font-size: 1.15rem; margin-bottom: 15px; line-height: 1.7; }
+        .list-item { display: block; margin-bottom: 10px; padding-left: 15px; border-left: 4px solid var(--secondary); font-weight: 600; }
+        .grit-scale-container { border: 2px solid #e2e880; border-radius: 15px; overflow: hidden; margin: 25px 0; }
+        .grit-row { padding: 20px; border-bottom: 1px solid #e2e8f0; }
         .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 8px solid var(--secondary); }
-        .grit-row b { color: var(--primary); display: block; margin-bottom: 4px; font-size: 0.9rem; letter-spacing: 1px; }
-        .practice-box { background: #eff6ff; border-radius: 15px; padding: 25px; border-left: 6px solid var(--primary); margin: 20px 0; }
-        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: 0.3s; }
-        .audio-btn:hover { background: var(--secondary); transform: scale(1.1); }
+        .grit-row b { color: var(--primary); display: block; margin-bottom: 5px; font-size: 1rem; }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); margin: 25px 0; }
+        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 40px; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; transition: 0.3s; }
         .hidden { display: none; }
     </style>
 </head>
@@ -39,10 +38,10 @@
     <div class="header-container">
         <div class="logo-section">
             <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
-            <p class="brand-subtitle">Universal American Vocabulary Intelligence</p>
+            <p class="brand-subtitle">The "Relentless" Standard Vocabulary Simulator</p>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type ANY word (e.g. Accountability)...">
+            <input type="text" id="word-input" placeholder="Analyze word (e.g. Play, Growth)...">
             <button class="btn-search" onclick="handleSearch()">ANALYZE</button>
         </div>
     </div>
@@ -50,9 +49,9 @@
 
 <div class="container">
     <div class="app-card">
-        <div id="welcome-msg" style="text-align: center; padding: 40px 0;">
-            <h1 style="color: var(--primary); font-size: 2.5rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
-            <p>Enter any word to receive the "Relentless" standard of explanation.</p>
+        <div id="welcome-msg" style="text-align: center; padding: 50px 0;">
+            <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800;">Elite Analysis Treatment 🇺🇸</h1>
+            <p style="font-size: 1.2rem;">Get the full professional breakdown for any American English word.</p>
         </div>
         <div id="full-analysis" class="hidden"></div>
     </div>
@@ -65,93 +64,103 @@
         const input = document.getElementById('word-input');
         const word = input.value.trim().toLowerCase();
         if(!word) return;
-        
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<h2 style="text-align:center; padding: 50px; color: var(--primary);">DECODING "${word.toUpperCase()}"...</h2>`;
+        container.innerHTML = `<h2 style="text-align:center; padding: 60px; color: var(--primary);">GENERATING ELITE BREAKDOWN...</h2>`;
 
         try {
             const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
             const data = await res.json();
-            if(!res.ok) throw new Error();
             renderElite(data[0], word);
         } catch (err) {
-            container.innerHTML = `<h2 style="text-align:center; padding: 50px;">Word not found. Try a different term.</h2>`;
+            container.innerHTML = `<h2 style="text-align:center; padding: 60px;">Word not found. Check spelling and try again!</h2>`;
         }
         input.value = '';
     }
 
     function renderElite(api, word) {
         const upper = word.toUpperCase();
-        const meanObj = api.meanings[0];
-        const def = meanObj.definitions[0].definition;
-        const pos = meanObj.partOfSpeech;
-        const phonetic = api.phonetic || (api.phonetics && api.phonetics.find(p => p.text)?.text) || "/.../";
+        const meaning = api.meanings[0];
+        const pos = meaning.partOfSpeech;
+        const def = meaning.definitions[0].definition;
+        const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
+
+        // Lógica de Connotación Dinámica
+        let connotation = "";
+        if(pos.includes("adj")) connotation = `In American English, this is a "high-impact" descriptor. It goes beyond a simple definition to signal your standard of excellence.`;
+        else if(pos.includes("verb")) connotation = `This is an "action-oriented" word. In the U.S., it signals initiative and the ability to execute high-level movements.`;
+        else connotation = `This is a "foundational" term. It represents a core concept that, when used correctly, shows deep professional maturity.`;
 
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        // 1. English Meaning & Connotation
+        // 1. Meaning
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> In American English, this is a powerful term. Depending on the context, it signals a specific level of professional maturity. In a business or social environment, using <b>${word}</b> correctly demonstrates that you understand the cultural "vibe" and high-level communication standards expected in the U.S.</p>`;
+        <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
         // 2. Phonetics
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
-        <div style="display:flex; align-items:center; gap:20px; background:#f1f5f9; padding:20px; border-radius:15px; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:25px; background:#f1f5f9; padding:25px; border-radius:20px;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
-                <p class="body-text" style="font-family: monospace; font-size:1.4rem; color:var(--primary); font-weight:700; margin:0;">${phonetic}</p>
+                <p class="body-text" style="font-family: monospace; font-size:1.6rem; color:var(--primary); font-weight:700; margin:0;">${phonetic}</p>
                 <p class="body-text" style="margin:0;"><b>Sounds like:</b> ${upper}</p>
             </div>
         </div>`;
 
-        // 3. Synonyms (Nuance Map)
+        // 3. Synonyms (Filtrados)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        const syns = meanObj.synonyms.length > 0 ? meanObj.synonyms.slice(0,4) : ["Significant", "Strategic", "Essential", "Key"];
-        syns.forEach(s => html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: (Focuses on the practical application of the term).</span>`);
+        const syns = meaning.synonyms.length > 0 ? meaning.synonyms.slice(0,4) : ["Strategic", "Effective", "Significant", "Professional"];
+        syns.forEach(s => html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: (Focuses on practical results).</span>`);
 
         // 4. Antonyms
         html += `<div class="section-h">Antonyms 🚫</div>`;
-        const ants = meanObj.antonyms.length > 0 ? meanObj.antonyms.slice(0,4) : ["Standard", "Passive", "Irrelevant", "Weak"];
-        ants.forEach(a => html += `<span class="list-item" style="border-left-color: #64748b;">${a.charAt(0).toUpperCase() + a.slice(1)}: (Represents the lack of the word's specific energy).</span>`);
+        const ants = meaning.antonyms.length > 0 ? meaning.antonyms.slice(0,4) : ["Passive", "Ineffective", "Generic", "Weak"];
+        ants.forEach(a => html += `<span class="list-item" style="border-left-color: #64748b;">${a.charAt(0).toUpperCase() + a.slice(1)}: (Represents a lack of impact).</span>`);
 
-        // 5. Word Family
-        html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-        <p class="body-text">• ${word}ly (Adverb): How the action is performed.</p>
-        <p class="body-text">• ${word}ness (Noun): The state or quality of the word.</p>
-        <p class="body-text">• To ${word} (Verb): The act of applying this concept in real-time.</p>`;
+        // 5. Word Family (Inteligente)
+        html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
+        if(pos.includes("adj")) {
+            html += `<p class="body-text">• ${word}ly (Adverb): How you perform the action.</p>
+                     <p class="body-text">• ${word}ness (Noun): The quality of being ${word}.</p>`;
+        } else if(pos.includes("verb")) {
+            html += `<p class="body-text">• ${word}er (Noun): The person who does the action.</p>
+                     <p class="body-text">• ${word}ing (Adjective): The ongoing state of the action.</p>`;
+        } else {
+            html += `<p class="body-text">• Professional ${word} (Concept)</p>
+                     <p class="body-text">• Strategic ${word} (Application)</p>`;
+        }
 
-        // 6. Grit Scale (Dynamic Generation)
+        // 6. Grit Scale
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>Phase 1: Interest</b>You like the concept of ${word} and understand its basic dictionary definition.</div>
-            <div class="grit-row"><b>Phase 2: Effort</b>You are actively trying to incorporate ${word} into your professional vocabulary.</div>
-            <div class="grit-row"><b>Phase 3: Persistence</b>You use ${word} consistently in meetings and emails despite linguistic challenges.</div>
-            <div class="grit-row"><b>Phase 4: MASTERING ${upper}</b>You have a "refuse to lose" mentality. You find a way to make ${word} work for your goals.</div>
+            <div class="grit-row"><b>Phase 1: Interest</b>Understanding the theory of ${word}.</div>
+            <div class="grit-row"><b>Phase 2: Effort</b>Applying ${word} in your daily communication.</div>
+            <div class="grit-row"><b>Phase 3: Persistence</b>Maintaining the standard of ${word} under pressure.</div>
+            <div class="grit-row"><b>Phase 4: MASTERING ${upper}</b>Refusing to settle. Making ${word} a core part of your professional identity.</div>
         </div>`;
 
         // 7. Idioms & Collocations
         html += `<div class="section-h">Idioms & Collocations 🗣️</div>
-        <p class="body-text">• "The ${word} mindset": A classic way to describe a focused approach.</p>
-        <p class="body-text">• "Keep it ${word}": A playful but direct way to maintain a certain standard.</p>
-        <p class="body-text">• "Driven by ${word}": Used when the concept is the main force behind a project.</p>`;
+        <p class="body-text">• "The ${word} approach": A high-level way to describe your method.</p>
+        <p class="body-text">• "Driven by ${word}": When this concept is your main motivator.</p>`;
 
         // 8. Real-World Examples
-        const apiEx = meanObj.definitions.find(d => d.example)?.example;
+        const apiEx = meaning.definitions.find(d => d.example)?.example;
         html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">"<i>${apiEx ? apiEx : `The team's focus on ${word} was the main reason we hit our quarterly goals ahead of schedule.`}</i>"</p>
-        <p class="body-text">"<i>To solve this issue, we need to be more ${word} in our approach until we see a result.</i>"</p>`;
+        <p class="body-text">"<i>${apiEx ? apiEx : `We need to focus on our ${word} to ensure we dominate the market this year.`}</i>"</p>
+        <p class="body-text">"<i>His ${word} was the deciding factor in the board's final decision.</i>"</p>`;
 
         // 9. Friendly Practice
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>In a Cover Letter:</b> "I bring a dedicated <b>${word}</b> attitude to every challenge, ensuring that results are not just met, but exceeded."</p>
-            <p><b>During an Interview:</b> "I'm <b>${word}</b> when it comes to quality. I don't just stop when the task is done; I stop when it's perfect."</p>
+            <p><b>In a Meeting:</b> "I believe that if we apply a bit more <b>${word}</b> to this process, we'll see a significant increase in efficiency."</p>
+            <p><b>In an Interview:</b> "My approach is <b>${word}</b>-oriented; I don't just complete tasks, I optimize them for the best possible outcome."</p>
         </div>`;
 
         // 10. Tip Pro
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>When using "<b>${word}</b>" in the U.S., focus on the results it creates. Americans value the 'vibe' of confidence and directness. Slow down the pronunciation of the stressed syllable to sound more authoritative.</p></div>`;
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., using "<b>${word}</b>" with confidence is key. Don't just say the word; own it. Americans value people who speak with a clear sense of purpose and strategic intent.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
