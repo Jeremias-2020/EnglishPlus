@@ -89,75 +89,72 @@
         const meanings = data.meanings[0];
         const def = meanings.definitions[0].definition;
         const pos = meanings.partOfSpeech;
-        const phonetic = data.phonetic || data.phonetics.find(p => p.text)?.text || "";
+        const phonetic = data.phonetics.find(p => p.text)?.text || "";
 
-        // Lógica de Antónimos forzada para "Allow" y similares
+        // Lógica de Antónimos (Manual + API)
         let antonyms = [...new Set(data.meanings.flatMap(m => m.antonyms))];
-        if (word.toLowerCase() === 'allow') antonyms = ['Prohibit', 'Forbid', 'Deny', 'Disallow'];
-        if (antonyms.length === 0) antonyms = ['Check context for opposites'];
-
+        if (word.toLowerCase() === 'allow') antonyms = ['Prohibit', 'Forbid', 'Deny', 'Restrict'];
+        
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
         // 1. English Meaning
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.charAt(0).toUpperCase() + pos.slice(1)}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> In American English, "<b>${word}</b>" is a word of <b>empowerment and boundary-setting</b>. In business, it reflects a shift from asking for permission to managing the flow of work and resources.</p>`;
+        <p class="body-text"><b>Connotation:</b> In the U.S. business world, "<b>${word}</b>" is a <i>decision-maker's</i> word. It moves the needle from being a passive observer to being the person who enables systems, budgets, and people to function at 100% capacity.</p>`;
 
         // 2. Phonetics
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div class="pronunciation-box">
             <div>
-                <p class="body-text" style="font-family: monospace;">${phonetic}</p>
-                <p class="body-text"><b>Sounds like:</b> ${word.toLowerCase().replace('allow', 'uh-LOW').replace('relentless', 're-LENT-less')}</p>
+                <p class="body-text" style="font-family: monospace; font-size:1.2rem;">${phonetic}</p>
+                <p class="body-text"><b>Sounds like:</b> ${word.toLowerCase() === 'allow' ? 'uh-LOW' : word.split('').join('-').toUpperCase()}</p>
             </div>
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
         </div>`;
 
-        // 3. Synonyms
+        // 3. Synonyms (Uno por línea)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        const synonyms = meanings.synonyms.length > 0 ? meanings.synonyms : ['Permit', 'Enable', 'Grant', 'Authorize'];
+        const synonyms = meanings.synonyms.length > 0 ? meanings.synonyms : ['Permit', 'Authorize', 'Enable', 'Grant'];
         synonyms.slice(0,4).forEach(s => {
-            html += `<span class="list-item"><b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> (Focuses on the strategic enablement of a task).</span>`;
+            html += `<span class="list-item"><b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Focuses on granting formal authority.</span>`;
         });
 
-        // 4. Antonyms
+        // 4. Antonyms (Uno por línea)
         html += `<div class="section-h">Antonyms 🚫</div>`;
-        antonyms.slice(0,4).forEach(a => {
-            html += `<span class="list-item"><b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> (Represents the restriction or prevention of action).</span>`;
-        });
+        if(antonyms.length > 0) {
+            antonyms.slice(0,4).forEach(a => {
+                html += `<span class="list-item"><b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Acts as a direct barrier to progress.</span>`;
+            });
+        } else {
+            html += `<span class="list-item">Check context for specific opposites.</span>`;
+        }
 
-        // 5. Grit Scale
+        // 5. Grit Scale (LOGICA MEJORADA)
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
         <p class="body-text">Understanding the professional intensity of "${upper}":</p>
-        <div style="border: 1px solid #e2e8f0; border-radius: 15px; overflow: hidden;">
-            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Knowledge:</b> You know what it means.</div>
-            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Permission:</b> You wait for someone to ${word} you to work.</div>
-            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Enablement:</b> You ${word} your team to succeed by removing obstacles.</div>
-            <div style="padding: 15px; background: #fff1f2; color: var(--secondary); font-weight: 800;">• <b>${upper}:</b> You strategically manage what is allowed to ensure perfect outcomes.</div>
+        <div style="border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: #fff;">
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Passive:</b> You wait for others to <i>allow</i> you to take action (Employee mindset).</div>
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Compliance:</b> You <i>allow</i> rules to dictate your speed without questioning them.</div>
+            <div style="padding: 15px; border-bottom: 1px solid #eee;">• <b>Leadership:</b> You <i>allow</i> your team the autonomy to solve problems (Manager mindset).</div>
+            <div style="padding: 15px; background: #fff1f2; color: var(--secondary); font-weight: 800;">• <b>MASTERING ${upper}:</b> You strategically <i>allow</i> for errors in testing so you can prevent them in production. You control the environment.</div>
         </div>`;
 
-        // 6. Real World
+        // 6. Real World Examples (3 Ejemplos)
         html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">"To solve the QuickBooks sync error, we had to <b>${word}</b> for a full database re-index."</p>
-        <p class="body-text">"The company policy does not <b>${word}</b> for any deviation from the standard reconciliation process."</p>
-        <p class="body-text">"Success in the American market <b>${word}</b>s no room for mediocrity."</p>`;
+        <p class="body-text">• "The updated workflow <b>${word}s</b> for a seamless integration with QuickBooks, saving us 10 hours a week."</p>
+        <p class="body-text">• "We cannot <b>${word}</b> these discrepancies to remain in the final audit if we want to maintain credibility."</p>
+        <p class="body-text">• "Effective delegation <b>${word}s</b> a leader to focus on high-level strategy rather than micro-tasks."</p>`;
 
-        // 7. Practice
+        // 7. Practice & Tip
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>In a Meeting:</b></p>
-            <p>"I’m going to <b>${word}</b> the script to run overnight so we can have the clean data by morning."</p>
-            <p><b>With a Client:</b></p>
-            <p>"Our current workflow <b>${word}</b>s us to deliver results 20% faster than the competition."</p>
-        </div>`;
-
-        // 8. Tip Pro
-        html += `<div class="pro-tip">
+            <p><b>Scenario: Dealing with a project bottleneck:</b></p>
+            <p><i>"If we <b>${word}</b> for a slightly larger budget this quarter, we can automate the entire reconciliation process and eliminate these errors for good."</i></p>
+        </div>
+        <div class="pro-tip">
             <p><b>Tip Pro 💡</b></p>
-            <p>When you use "<b>${word}</b>" in a professional setting, don't use it as a passive verb. Use it to show that <b>you</b> are the one facilitating the process. It's the difference between a follower and a leader.</p>
+            <p>In the U.S., don't just say 'let me.' Say '<b>Allow</b> me to clarify.' It changes the energy of the room from you asking for a favor to you providing professional value. It is a subtle but powerful <b>Authority Move</b>.</p>
         </div>`;
-
-        html += `<p style="text-align:center; margin-top:40px; font-weight:700; color:var(--primary);">Is this the level of "Complete Explanation" you were looking for? Give me your next word! 🚀</p>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -180,3 +177,4 @@
 </script>
 </body>
 </html>
+
