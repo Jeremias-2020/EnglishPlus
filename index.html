@@ -26,10 +26,10 @@
         .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
         .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 20px; overflow: hidden; background: #fff; margin: 25px 0; }
-        .grit-row { padding: 20px; border-bottom: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 8px; }
-        .grit-row b { color: var(--primary); font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .grit-row { padding: 20px; border-bottom: 1px solid #f1f5f9; }
+        .grit-row b.phase-title { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 8px; }
         .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 6px solid var(--secondary); }
-        .grit-row:last-child b { color: var(--secondary); }
+        .grit-row:last-child b.phase-title { color: var(--secondary); }
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
         .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
         .hidden { display: none; }
@@ -103,7 +103,7 @@
         
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> In American corporate culture, "<b> ${word} </b>" signals authority. It shows you manage the environment for success.</p>`;
+        <p class="body-text"><b>Connotation:</b> In American corporate culture, "<b>&nbsp;${word}&nbsp;</b>" signals authority and precision. It moves you from a passive position to a leadership role.</p>`;
 
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div class="pronunciation-box">
@@ -123,22 +123,22 @@
 
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>⚪ Phase 1: Passive</b><span>You wait for others to <b> ${word} </b> you to take action.</span></div>
-            <div class="grit-row"><b>🔵 Phase 2: Compliance</b><span>You <b> ${word} </b> rules to dictate your speed.</span></div>
-            <div class="grit-row"><b>🟢 Phase 3: Leadership</b><span>You <b> ${word} </b> your team the autonomy to innovate.</span></div>
-            <div class="grit-row"><b>🔴 Phase 4: MASTERING ${upper}</b><span>You strategically manage the environment to ensure outcomes.</span></div>
+            <div class="grit-row"><b class="phase-title">⚪ Phase 1: Passive</b><span>You wait for others to <b>&nbsp;${word}&nbsp;</b> you to take action (Employee mindset).</span></div>
+            <div class="grit-row"><b class="phase-title">🔵 Phase 2: Compliance</b><span>You <b>&nbsp;${word}&nbsp;</b> established rules to dictate your speed.</span></div>
+            <div class="grit-row"><b class="phase-title">🟢 Phase 3: Leadership</b><span>You <b>&nbsp;${word}&nbsp;</b> your team the autonomy to innovate and solve problems.</span></div>
+            <div class="grit-row"><b class="phase-title">🔴 Phase 4: MASTERING ${upper}</b><span>You strategically manage the environment to ensure outcomes.</span></div>
         </div>`;
 
         html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">• "The new workflow <b> ${word}s </b> for a seamless integration with QuickBooks."</p>
-        <p class="body-text">• "We cannot <b> ${word} </b> these discrepancies to remain in the final audit."</p>
-        <p class="body-text">• "Success in the U.S. market <b> ${word}s </b> no room for lack of preparation."</p>`;
+        <p class="body-text">• "The new workflow <b>&nbsp;${word}s&nbsp;</b> for a seamless integration with QuickBooks."</p>
+        <p class="body-text">• "We cannot <b>&nbsp;${word}&nbsp;</b> these discrepancies to remain in the final audit."</p>
+        <p class="body-text">• "Success in the U.S. market <b>&nbsp;${word}s&nbsp;</b> no room for lack of preparation."</p>`;
 
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>Scenario:</b> "If we <b> ${word} </b> for a slightly larger budget, we can automate the process."</p>
+            <p><b>Scenario:</b> "If we <b>&nbsp;${word}&nbsp;</b> for a slightly larger budget this quarter, we can automate the entire process."</p>
         </div>
-        <div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>Use '<b> Allow </b> me to explain' to sound more authoritative in meetings.</p></div>`;
+        <div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>Try using '<b>&nbsp;Allow&nbsp;</b> me to clarify' instead of 'Let me explain' to sound more authoritative.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
