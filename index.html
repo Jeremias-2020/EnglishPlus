@@ -22,7 +22,7 @@
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
         .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
         .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
-        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--secondary); font-weight: 700; color: #1e293b; text-transform: capitalize; }
+        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--secondary); font-weight: 700; color: #1e293b; }
         .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
         .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 20px; overflow: hidden; background: #fff; margin: 25px 0; }
@@ -44,7 +44,7 @@
             <p class="brand-subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type a word and press Enter...">
+            <input type="text" id="word-input" placeholder="Type a word (e.g. Even, Allow, Grit)...">
             <button class="btn-search" onclick="handleSearch()">GO</button>
         </div>
     </div>
@@ -61,84 +61,108 @@
 </div>
 
 <script>
-    document.getElementById('word-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') handleSearch();
-    });
+    // Diccionario de inteligencia personalizada para palabras clave de negocios
+    const smartData = {
+        "even": {
+            connotation: "In business, 'Even' represents balance, neutrality, and stability. Breaking even is the first step to profitability.",
+            grit: [
+                "You use it only for basic numbers or to say something is flat.",
+                "You use it to emphasize progress, saying things are 'even better' than before.",
+                "You master the 'Break-Even' concept, focusing on financial stability.",
+                "You ensure an 'even' distribution of workload to prevent burnout and maximize team output."
+            ],
+            examples: [
+                "We expect to break even by the end of the third fiscal quarter.",
+                "An even distribution of resources is key to a scalable operation.",
+                "Even the most advanced AI needs human oversight for final reconciliation."
+            ],
+            tip: "Use 'Let's keep things even' to act as a fair mediator in high-stakes negotiations."
+        },
+        "allow": {
+            connotation: "A high-authority word that signals you are the one enabling results and managing professional boundaries.",
+            grit: [
+                "You wait for others to allow you to take action.",
+                "You allow established rules to dictate your speed without questioning them.",
+                "You allow your team the autonomy to solve problems independently.",
+                "You strategically manage the environment to allow for perfect outcomes. You are the enabler."
+            ],
+            examples: [
+                "This workflow allows for a seamless integration with QuickBooks.",
+                "We cannot allow these discrepancies to remain in the final audit.",
+                "Success allows no room for lack of preparation."
+            ],
+            tip: "Try using 'Allow me to clarify' instead of 'Let me explain' to sound more authoritative."
+        }
+    };
+
+    document.getElementById('word-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
 
     async function handleSearch() {
         const input = document.getElementById('word-input');
-        const word = input.value.trim();
+        const word = input.value.trim().toLowerCase();
         if(!word) return;
         
-        document.getElementById('welcome-msg').classList.add('hidden');
         const container = document.getElementById('full-analysis');
+        document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<h2 style="text-align:center; padding: 50px;">ANALYZING...</h2>`;
+        container.innerHTML = `<h2 style="text-align:center; padding: 50px;">ANALYZING: ${word.toUpperCase()}...</h2>`;
 
         try {
             const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-            const data = await res.json();
+            const apiData = await res.json();
             if(!res.ok) throw new Error();
-            renderAnalysis(data[0]);
+            renderAnalysis(apiData[0], word);
         } catch (err) {
-            container.innerHTML = `<h2 style="text-align:center; padding: 50px;">Word not found. Try "Relentless".</h2>`;
+            container.innerHTML = `<h2 style="text-align:center; padding: 50px;">Word not found. Try 'Even' or 'Allow'.</h2>`;
         }
         input.value = '';
-        window.scrollTo(0,0);
     }
 
-    function renderAnalysis(data) {
-        const word = data.word;
+    function renderAnalysis(data, word) {
         const upper = word.toUpperCase();
         const meanings = data.meanings[0];
         const def = meanings.definitions[0].definition;
         const pos = meanings.partOfSpeech;
         const phonetic = data.phonetic || (data.phonetics && data.phonetics.find(p => p.text)?.text) || "/.../";
 
-        let antonyms = [...new Set(data.meanings.flatMap(m => m.antonyms || []))];
-        if (word.toLowerCase() === 'allow') antonyms = ['Prohibit', 'Forbid', 'Deny', 'Restrict'];
-        if (antonyms.length === 0) antonyms = ['Check context for opposites'];
+        // Cargar datos inteligentes o genéricos
+        const extra = smartData[word] || {
+            connotation: `In professional settings, "${word}" is used to provide clarity and drive results.`,
+            grit: ["Initial understanding of the term.", "Functional use in daily tasks.", "Leadership level application.", `Mastering ${upper} to drive strategic outcomes.`],
+            examples: [`"We need to evaluate how this affects our ${word}."`, `"Please ensure the ${word} is handled correctly."`, `"This represents a key ${word} for our team."`],
+            tip: `Using "${word}" correctly shows attention to detail and professional maturity.`
+        };
 
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> In American corporate culture, "<b>&nbsp;${word}&nbsp;</b>" signals authority and precision. It moves you from a passive position to a leadership role.</p>`;
+        <p class="body-text"><b>Connotation:</b> ${extra.connotation}</p>`;
 
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div class="pronunciation-box">
-            <div>
-                <p class="body-text" style="font-family: monospace; font-size:1.4rem; margin:0; color:var(--primary);">${phonetic}</p>
-                <p class="body-text" style="margin:5px 0 0 0;"><b>Sounds like:</b> ${word.toLowerCase() === 'allow' ? 'uh-LOW' : upper}</p>
-            </div>
+            <div><p class="body-text" style="font-family: monospace; font-size:1.4rem; margin:0; color:var(--primary);">${phonetic}</p></div>
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
         </div>`;
 
-        html += `<div class="section-h">Synonyms 🤝</div>`;
-        const synonyms = (meanings.synonyms && meanings.synonyms.length > 0 ? meanings.synonyms : ['Permit', 'Authorize', 'Enable', 'Grant']).slice(0,4);
-        synonyms.forEach(s => { html += `<span class="list-item">${s}</span>`; });
-
-        html += `<div class="section-h">Antonyms 🚫</div>`;
-        antonyms.slice(0,4).forEach(a => { html += `<span class="list-item">${a}</span>`; });
+        html += `<div class="section-h">Synonyms & Antonyms</div>`;
+        const syns = (meanings.synonyms?.length > 0 ? meanings.synonyms : ['Check context']).slice(0,3).join(', ');
+        const ants = (meanings.antonyms?.length > 0 ? meanings.antonyms : ['Check context']).slice(0,3).join(', ');
+        html += `<p class="body-text"><b>Synonyms:</b> ${syns}</p><p class="body-text"><b>Antonyms:</b> ${ants}</p>`;
 
         html += `<div class="section-h">The "Grit" Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b class="phase-title">⚪ Phase 1: Passive</b><span>You wait for others to <b>&nbsp;${word}&nbsp;</b> you to take action (Employee mindset).</span></div>
-            <div class="grit-row"><b class="phase-title">🔵 Phase 2: Compliance</b><span>You <b>&nbsp;${word}&nbsp;</b> established rules to dictate your speed.</span></div>
-            <div class="grit-row"><b class="phase-title">🟢 Phase 3: Leadership</b><span>You <b>&nbsp;${word}&nbsp;</b> your team the autonomy to innovate and solve problems.</span></div>
-            <div class="grit-row"><b class="phase-title">🔴 Phase 4: MASTERING ${upper}</b><span>You strategically manage the environment to ensure outcomes.</span></div>
+            <div class="grit-row"><b class="phase-title">⚪ Phase 1</b><span>${extra.grit[0]}</span></div>
+            <div class="grit-row"><b class="phase-title">🔵 Phase 2</b><span>${extra.grit[1]}</span></div>
+            <div class="grit-row"><b class="phase-title">🟢 Phase 3</b><span>${extra.grit[2]}</span></div>
+            <div class="grit-row"><b class="phase-title">🔴 Phase 4: MASTERING ${upper}</b><span>${extra.grit[3]}</span></div>
         </div>`;
 
-        html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">• "The new workflow <b>&nbsp;${word}s&nbsp;</b> for a seamless integration with QuickBooks."</p>
-        <p class="body-text">• "We cannot <b>&nbsp;${word}&nbsp;</b> these discrepancies to remain in the final audit."</p>
-        <p class="body-text">• "Success in the U.S. market <b>&nbsp;${word}s&nbsp;</b> no room for lack of preparation."</p>`;
+        html += `<div class="section-h">Real-World Examples 📝</div>`;
+        extra.examples.forEach(ex => { html += `<p class="body-text">• ${ex}</p>`; });
 
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-        <div class="practice-box">
-            <p><b>Scenario:</b> "If we <b>&nbsp;${word}&nbsp;</b> for a slightly larger budget this quarter, we can automate the entire process."</p>
-        </div>
-        <div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>Try using '<b>&nbsp;Allow&nbsp;</b> me to clarify' instead of 'Let me explain' to sound more authoritative.</p></div>`;
+        <div class="pro-tip"><p><b>Tip Pro 💡</b></p><p>${extra.tip}</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
