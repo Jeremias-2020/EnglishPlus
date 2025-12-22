@@ -86,25 +86,31 @@
         const upper = word.toUpperCase();
         const mean = api.meanings[0];
         const pos = mean.partOfSpeech.toLowerCase();
-        const def = mean.definitions[0].definition;
+        const definition = mean.definitions[0].definition;
         const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
 
-        // DEEP CONTEXT CORE
-        const impactWords = ['relentless', 'grit', 'growth', 'allow', 'strategy', 'accountability', 'drive', 'excellence'];
-        const isProfessional = impactWords.includes(word) || ['adjective', 'adverb'].includes(pos);
+        // CORE LINGUISTIC LOGIC
         const isVerb = pos.includes('verb');
-        const isCommon = !isProfessional && !isVerb;
+        const isAdj = pos.includes('adjective');
+        const isNoun = pos.includes('noun');
+
+        // SMART CONNOTATION GENERATOR
+        let connotation = "";
+        if (word === 'focus' || word === 'relentless' || word === 'grit') {
+            connotation = `In the American professional ecosystem, this is a **High-Impact Power Word**. It signals discipline, clarity, and a "refuse-to-lose" strategic intent.`;
+        } else if (isVerb) {
+            connotation = `In U.S. business culture, this is an **Action-Oriented** term. It signals initiative and the ability to enable results through strategic execution.`;
+        } else if (isAdj) {
+            connotation = `This is a **High-Energy** descriptor. Using it correctly in an American context signals a high standard of excellence and professional maturity.`;
+        } else {
+            connotation = `This is a **Foundational** term. In a professional setting, its value lies in precision. Using it correctly demonstrates cultural fluency and clear communication.`;
+        }
 
         let html = `<div class="main-title">WORD ANALYSIS: ${upper}</div>`;
         
         // 1. Meaning & Connotation
-        let connotation = "";
-        if (isProfessional) connotation = `In American professional culture, this is a **High-Impact** term. It transcends its literal definition to signal a standard of excellence, maturity, and a "refuse-to-lose" mindset.`;
-        else if (isVerb) connotation = `This is an **Action-Oriented** term. In the U.S., it signals initiative. It is used by leaders to describe the execution of strategic pathways and the enablement of results.`;
-        else connotation = `This is a **Foundational** term. In the American context, its value lies in its precision. Using it correctly demonstrates cultural fluency and clear communication in everyday life.`;
-
         html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
+        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
         // 2. Phonetics
@@ -113,34 +119,40 @@
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
                 <p class="body-text" style="font-family: monospace; font-size:2rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Listen for the American stress pattern.</p>
+                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Stress the dominant syllable for authority.</p>
             </div>
         </div>`;
 
-        // 3. Nuance Map
+        // 3. Nuance Map (Dynamic Synonyms)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        const syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0,4) : (isProfessional ? ["Strategic", "Persistent", "Unstoppable", "Tenacious"] : ["Standard", "Primary", "Classic", "Essential"]);
+        let syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0, 4) : [];
+        if (syns.length === 0) {
+            // Contextual fallbacks if API has no synonyms
+            if (isVerb) syns = ["Execute", "Enable", "Drive", "Optimize"];
+            else if (isAdj) syns = ["Strategic", "Intense", "Exceptional", "Vital"];
+            else syns = ["Standard", "Primary", "Essential", "Key"];
+        }
         syns.forEach(s => {
-            let detail = isProfessional ? "Focuses on high-level professional results." : "Focuses on clarity and foundational accuracy.";
-            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: ${detail}</span>`;
+            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: Focuses on driving outcomes and clarity.</span>`;
         });
 
-        // 4. Word Family
+        // 4. Word Family (No more "focusly"!)
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
-        if (pos === 'adjective') {
-            html += `<p class="body-text">• <b>${word}ly (Adverb):</b> The manner of execution.</p><p class="body-text">• <b>${word}ness (Noun):</b> The state of possessing this quality.</p>`;
+        if (word === 'focus') {
+            html += `<p class="body-text">• <b>Focused (Adj):</b> Concentrated attention.</p><p class="body-text">• <b>Focusing (Gerund):</b> The act of prioritizing.</p>`;
         } else if (isVerb) {
-            html += `<p class="body-text">• <b>${word}ing:</b> The active, ongoing process.</p><p class="body-text">• <b>${word}able:</b> The capacity for this action to occur.</p>`;
+            html += `<p class="body-text">• <b>${word}ing:</b> The active execution.</p><p class="body-text">• <b>${word}ed:</b> The completed action.</p>`;
+        } else if (isAdj) {
+            html += `<p class="body-text">• <b>${word}ly:</b> Applied with this quality.</p><p class="body-text">• <b>${word}ness:</b> The state of this quality.</p>`;
         } else {
-            html += `<p class="body-text">• <b>${word}-oriented:</b> Strategy focused on this concept.</p><p class="body-text">• <b>Standard ${word}:</b> The primary application.</p>`;
+            html += `<p class="body-text">• <b>${word}s:</b> Plural/multiple instances.</p><p class="body-text">• <b>${word}-driven:</b> Strategy based on this concept.</p>`;
         }
 
-        // 5. Adaptable Scale
-        let scaleTitle = isProfessional ? "The Grit Scale" : (isVerb ? "The Execution Scale" : "The Intensity Scale");
-        let steps = isProfessional 
-            ? ["Interest: Understanding the theory.", "Effort: Trying to apply it daily.", "Persistence: Consistent use under pressure.", `RELENTLESS: Making ${upper} your identity.`]
-            : (isVerb ? ["Permission: Being authorized to act.", "Action: Taking the first step.", "Efficiency: Optimizing the movement.", `MASTERY: Empowering others through ${upper}.`]
-                     : ["Basic: A small or partial amount.", "Standard: A normal, functional level.", "Premium: A high-quality version.", `ELITE: The absolute best version of ${word}.`]);
+        // 5. The Scale (Switching logic)
+        let scaleTitle = (isVerb || word === 'focus') ? "The Execution Scale" : "The Grit Scale";
+        let steps = (isVerb || word === 'focus') 
+            ? ["Awareness: Knowing what needs to be done.", "Action: Taking the first initiative.", "Efficiency: Optimizing the process.", `MASTERY: Empowering others through ${upper}.`]
+            : ["Interest: Understanding the concept.", "Effort: Trying to apply it.", "Persistence: Consistent application.", `RELENTLESS: Making ${upper} your identity.`];
 
         html += `<div class="section-h">${scaleTitle} ⚖️</div>
         <div class="grit-scale-container">
@@ -150,27 +162,29 @@
             <div class="grit-row"><b>Phase 4</b><div>${steps[3]}</div></div>
         </div>`;
 
-        // 6. Collocations
+        // 6. Idioms (Dynamic Logic)
         html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
-        const idioms = isProfessional ? [`'${word} pursuit of excellence'`, `'No rest for the wicked'`] : [`'The ${word} approach'`, `'Back to basics'`];
+        let idioms = [];
+        if (word === 'focus') idioms = ["'Laser-focused' (Extreme concentration)", "'Zero in on' (Targeting a specific point)"];
+        else if (isVerb) idioms = [`'${word} for' (Planning for outcome)`, `'High-level ${word}'`];
+        else idioms = ["'Relentless pursuit'", "'Keep your eye on the prize'"];
+        
         idioms.forEach(i => html += `<p class="body-text">• <b>${i}</b></p>`);
 
         // 7. Contextual Practice
-        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+        html += `<div class="section-h">Professional Practice 🇺🇸</div>
         <div class="practice-box">`;
-        if (isProfessional || isVerb) {
-            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> for a higher margin of error to ensure our quality remains elite."</p>
-                     <p><b>In an Interview:</b> "My approach is <b>${word}</b>-driven. I don't just complete tasks; I optimize them for the best outcome."</p>`;
+        if (word === 'focus' || isVerb) {
+            html += `<p><b>In a Meeting:</b> "I suggest we <b>zero in</b> on our targets to ensure we <b>${word}</b> our resources where they matter most."</p>
+                     <p><b>In an Interview:</b> "I am <b>laser-${word}ed</b> on results. I don't just stay busy; I stay productive."</p>`;
         } else {
-            html += `<p><b>Social Setting:</b> "There's nothing like a perfect <b>${word}</b> to start the day. It's a classic part of the experience."</p>
-                     <p><b>Clear Communication:</b> "To be precise, we are looking for a <b>${word}</b> that meets our specific daily needs."</p>`;
+            html += `<p><b>In a Cover Letter:</b> "I bring a <b>${word}</b> approach to every project, ensuring elite standards are met."</p>
+                     <p><b>In an Interview:</b> "My track record is <b>${word}</b>-oriented; I prioritize the company's North Star at all times."</p>`;
         }
         html += `</div>`;
 
         // 8. Tip Pro
-        let tip = isProfessional ? `In the U.S., use this word with a downward inflection. It signals authority and confidence. Americans respect those who "own" their vocabulary.` 
-                                 : `Precision is key. In the U.S., using the exact word instead of a general one signals high intelligence and cultural integration.`;
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>${tip}</p></div>`;
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., using "<b>${word}</b>" correctly is a sign of leadership. Avoid sounding overwhelmed; instead, sound in control by using downward inflection. Remember: Americans respect those who "own" their focus and their language.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -187,3 +201,4 @@
 </script>
 </body>
 </html>
+
