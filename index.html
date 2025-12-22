@@ -13,56 +13,17 @@
             --orange: #f97316;
         }
 
-        body { 
-            font-family: 'Inter', -apple-system, system-ui, sans-serif; 
-            background: var(--bg); 
-            margin: 0; 
-            padding: 20px; 
-        }
-
-        .container { 
-            max-width: 850px; 
-            margin: 40px auto; 
-            background: var(--white); 
-            padding: 50px; 
-            border-radius: 35px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.07); 
-        }
-
-        .search-area { 
-            display: flex; 
-            gap: 15px; 
-            margin-bottom: 50px; 
-        }
-
-        input { 
-            flex: 1; 
-            padding: 20px 30px; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 20px; 
-            font-size: 1.2rem; 
-            outline: none; 
-            transition: 0.3s;
-        }
-
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .container { max-width: 850px; margin: 40px auto; background: var(--white); padding: 50px; border-radius: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.07); }
+        
+        .search-area { display: flex; gap: 15px; margin-bottom: 50px; }
+        input { flex: 1; padding: 20px 30px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 1.2rem; outline: none; transition: 0.3s; }
         input:focus { border-color: var(--accent); }
-
-        button { 
-            padding: 0 40px; 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            border-radius: 20px; 
-            font-weight: 800; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            transition: 0.3s; 
-        }
-
+        button { padding: 0 40px; background: var(--accent); color: white; border: none; border-radius: 20px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; }
         button:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* DISEÑO DE RESPUESTA DE ALTO NIVEL */
-        .main-title { font-size: 3rem; font-weight: 900; color: var(--primary); border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
+        /* RENDERIZADO DE ÉLITE */
+        .main-title { font-size: 3rem; font-weight: 900; color: var(--primary); border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; }
         .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; display: flex; align-items: center; gap: 10px; }
         .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
         .practice-box { background: #f1f5f9; padding: 35px; border-radius: 25px; border: 1px solid #e2e8f0; margin: 30px 0; }
@@ -71,93 +32,90 @@
         .grit-scale-container { margin: 30px 0; }
         .grit-row { display: flex; margin-bottom: 12px; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
         .grit-row b { background: var(--primary); color: white; padding: 20px; min-width: 130px; text-align: center; }
-        .grit-row div { padding: 20px; background: white; flex: 1; font-size: 1.1rem; }
+        .grit-row div { padding: 20px; background: white; flex: 1; }
 
         .loader { border: 5px solid #f3f3f3; border-top: 5px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #error-log { color: #dc2626; background: #fef2f2; padding: 20px; border-radius: 15px; display: none; margin-bottom: 20px; border: 1px solid #fee2e2; font-family: monospace; }
+        #error-log { color: #dc2626; background: #fef2f2; padding: 20px; border-radius: 15px; display: none; margin-bottom: 20px; border: 1px solid #fee2e2; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="search-area">
-        <input type="text" id="wordInput" placeholder="Analyze (Focus, Low, Relentless)..." autocomplete="off">
+        <input type="text" id="wordInput" placeholder="Analyze word (Focus, Low, Grit)..." autocomplete="off">
         <button id="searchBtn">ANALIZAR</button>
     </div>
-
     <div id="error-log"></div>
     <div id="full-analysis"></div>
 </div>
 
 <script>
-    // TU API KEY INTEGRADA
     const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
     
-    const wordInput = document.getElementById('wordInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const fullAnalysis = document.getElementById('full-analysis');
-    const errorLog = document.getElementById('error-log');
+    // Lista de modelos para Auto-Test en tiempo real
+    const MODELS = [
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-pro"
+    ];
 
-    async function startAnalysis() {
-        const word = wordInput.value.trim();
-        if (!word) return;
-
-        errorLog.style.display = 'none';
-        fullAnalysis.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#64748b; font-weight:600;">CONSULTANDO CEREBRO NEURAL...</p>';
-
-        // USAMOS EL NOMBRE DE MODELO MÁS COMPATIBLE EN LA HISTORIA DE LA API
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
-
+    async function callGemini(word, modelName) {
+        const URL = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${API_KEY}`;
         const prompt = `Analiza la palabra "${word}" con el máximo rigor de un lingüista experto.
         Respuesta EXCLUSIVAMENTE en HTML usando estas clases: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
-        Tono: Carlos Mario Navarro (Sofisticado, autoritario, empoderador).
-        ESTRUCTURA:
-        1. Word Analysis (main-title)
-        2. English Meaning
-        3. Connotation (Psicología y cultura USA)
-        4. Phonetics (IPA)
-        5. Synonyms & Antonyms
-        6. Word Family (Morfología)
-        7. The Grit Scale (4 fases)
-        8. Professional Practice (Ejemplos detallados)
-        9. Tip Pro (Cierre de autoridad)
-        IMPORTANTE: No uses bloques de código markdown.`;
+        Tono: Carlos Mario Navarro (Sofisticado, autoritario). Estructura completa (Meaning, Connotation, Phonetics, Synonyms, Family, Grit Scale, Practice, Pro-Tip). 
+        NO USES MARKDOWN.`;
 
-        try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }]
-                })
-            });
+        const response = await fetch(URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
 
-            const data = await response.json();
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error.message);
+        }
 
-            if (data.error) {
-                throw new Error(data.error.message);
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
+    }
+
+    async function startAnalysis() {
+        const word = document.getElementById('wordInput').value.trim();
+        if (!word) return;
+
+        const output = document.getElementById('full-analysis');
+        const errorLog = document.getElementById('error-log');
+        
+        errorLog.style.display = 'none';
+        output.innerHTML = '<div class="loader"></div><p style="text-align:center;">Sincronizando con el motor neural...</p>';
+
+        // Lógica de Auto-Test: Prueba cada modelo hasta que uno responda
+        let success = false;
+        for (const model of MODELS) {
+            try {
+                console.log(`Probando modelo: ${model}`);
+                const htmlResult = await callGemini(word, model);
+                output.innerHTML = htmlResult.replace(/```html|```/g, "").trim();
+                success = true;
+                break; // Si funciona, salimos del bucle
+            } catch (err) {
+                console.warn(`Modelo ${model} falló: ${err.message}`);
+                continue; // Prueba el siguiente
             }
+        }
 
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
-                let cleanHTML = data.candidates[0].content.parts[0].text;
-                cleanHTML = cleanHTML.replace(/```html|```/g, "").trim();
-                fullAnalysis.innerHTML = cleanHTML;
-            }
-
-        } catch (err) {
-            console.error("Error:", err);
+        if (!success) {
             errorLog.style.display = 'block';
-            errorLog.innerHTML = `<b>Error de Sistema:</b><br>${err.message}<br><br><small>Verifica en Google AI Studio que el modelo 'Gemini 1.0 Pro' o 'Gemini 1.5 Pro' esté habilitado.</small>`;
-            fullAnalysis.innerHTML = "";
+            errorLog.innerHTML = "<b>Error Crítico:</b> No se pudo conectar con ningún modelo de Gemini. Verifica tu API Key y conexión.";
+            output.innerHTML = "";
         }
     }
 
-    searchBtn.onclick = startAnalysis;
-    wordInput.onkeydown = function(e) {
-        if (e.key === 'Enter') startAnalysis();
-    };
+    document.getElementById('searchBtn').onclick = startAnalysis;
+    document.getElementById('wordInput').onkeydown = (e) => { if (e.key === 'Enter') startAnalysis(); };
 </script>
-
 </body>
 </html>
