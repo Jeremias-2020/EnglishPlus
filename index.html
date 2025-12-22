@@ -14,7 +14,7 @@
         button { padding: 0 40px; background: var(--accent); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         button:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* RENDERIZADO DE ÉLITE */
+        /* DISEÑO DE ÉLITE CARLOS MARIO NAVARRO */
         .main-title { font-size: 3rem; font-weight: 900; border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
         .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; display: flex; align-items: center; gap: 10px; }
         .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
@@ -35,16 +35,16 @@
 
 <div class="container">
     <div class="search-area">
-        <input type="text" id="wordInput" placeholder="Analyze word (Focus, Low, Grit)..." autocomplete="off">
+        <input type="text" id="wordInput" placeholder="Analyze word with Gemini 2.0..." autocomplete="off">
         <button id="searchBtn">ANALIZAR</button>
     </div>
     <div id="full-analysis"></div>
 </div>
 
 <script>
-    // CREDENCIALES VERIFICADAS
+    // CONFIGURACIÓN BASADA EN TU CURL
     const KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
-    const MODEL = "gemini-1.5-flash"; // Modelo optimizado para latencia baja
+    const MODEL = "gemini-2.0-flash"; 
 
     async function analyze() {
         const wordInput = document.getElementById('wordInput');
@@ -53,16 +53,16 @@
         
         if (!word) return;
 
-        output.innerHTML = '<div class="loader"></div><p style="text-align:center; font-weight:600;">Sincronizando con el motor de EnglishPlus+...</p>';
+        output.innerHTML = '<div class="loader"></div><p style="text-align:center; font-weight:600;">Iniciando Motor Lingüístico Gemini 2.0...</p>';
 
-        const prompt = `Analiza la palabra "${word}" como un lingüista experto en American English de élite. 
+        const prompt = `Analiza la palabra "${word}" como un lingüista experto de élite. 
         Respuesta obligatoria en HTML puro usando clases: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
         Tono: Carlos Mario Navarro (Sofisticado, autoritario).
         ESTRUCTURA: Word Analysis, English Meaning, Connotation, Phonetics, Synonyms, Family, Grit Scale (4 fases), Professional Practice, Pro-Tip.
         IMPORTANTE: NO USES markdown ni bloques de código.`;
 
         try {
-            // URL con versión estable 1.5
+            // URL ajustada a la versión 2.0 Flash
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${KEY}`;
 
             const response = await fetch(url, {
@@ -75,13 +75,11 @@
 
             const data = await response.json();
 
-            if (data.error) {
-                throw new Error(data.error.message);
-            }
+            if (data.error) throw new Error(data.error.message);
 
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 let html = data.candidates[0].content.parts[0].text;
-                // Limpieza de etiquetas markdown por seguridad
+                // Limpieza garantizada
                 html = html.replace(/```html|```/g, "").trim();
                 output.innerHTML = html;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -90,15 +88,14 @@
         } catch (err) {
             output.innerHTML = `
                 <div class="error-card">
-                    <h3>Error de Handshake Lingüístico</h3>
-                    <p>Detalle: ${err.message}</p>
+                    <h3>Error de Handshake 2.0</h3>
+                    <p>${err.message}</p>
                     <hr>
-                    <p><small><b>Nota para Carlos:</b> Si el error persiste, asegúrate de haber activado la "Generative Language API" en tu consola de Google Cloud para el proyecto EnglishPlus+.</small></p>
+                    <p><small>Verifica que tu API Key tenga permisos para <b>Gemini 2.0 Flash</b> en Google AI Studio.</small></p>
                 </div>`;
         }
     }
 
-    // Configuración de disparadores (Listeners)
     document.getElementById('searchBtn').addEventListener('click', analyze);
     document.getElementById('wordInput').addEventListener('keydown', (e) => {
         if (e.key === 'Enter') analyze();
