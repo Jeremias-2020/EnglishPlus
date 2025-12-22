@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Elite Smart Dictionary</title>
+    <title>EnglishPlus | Carlos Mario Navarro Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --text: #0f172a; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 130px; color: var(--text); }
-        header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: var(--text); }
+        header { background: #fff; border-bottom: 5px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 120px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; }
+        .logo-section h1 { font-size: 2.2rem; font-weight: 800; margin: 0; letter-spacing: -1.5px; }
         .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
-        .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
-        #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 280px; }
-        .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 800; cursor: pointer; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 15px 50px rgba(0,0,0,0.05); }
-        .main-title { color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 25px; border-left: 12px solid var(--secondary); padding-left: 20px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-top: 45px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
-        .body-text { font-size: 1.15rem; margin-bottom: 15px; line-height: 1.7; color: #334155; }
-        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 4px solid var(--secondary); font-weight: 600; font-size: 1.1rem; }
-        .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 20px; overflow: hidden; background: #fff; margin: 25px 0; }
-        .grit-row { padding: 22px; border-bottom: 1px solid #f1f5f9; }
-        .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 8px solid var(--secondary); }
-        .grit-row b { color: var(--primary); display: block; margin-bottom: 6px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 35px; border-left: 10px solid var(--primary); margin: 30px 0; }
-        .pro-tip { background: #fffbeb; border-left: 10px solid #fbbf24; padding: 30px; border-radius: 15px; margin-top: 40px; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.4rem; transition: 0.3s; }
+        .credits { font-size: 0.85rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-top: 5px; }
+        .search-box-top { display: flex; background: #f1f5f9; padding: 6px; border-radius: 12px; border: 2px solid #cbd5e1; }
+        #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 250px; }
+        .btn-search { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-search:hover { background: var(--secondary); }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px 20px 100px 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .main-title { color: var(--primary); font-size: 3rem; font-weight: 800; margin-bottom: 25px; border-left: 15px solid var(--secondary); padding-left: 25px; line-height: 1; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 50px; border-bottom: 3px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+        .body-text { font-size: 1.2rem; margin-bottom: 15px; line-height: 1.8; color: #334155; }
+        .list-item { display: block; margin-bottom: 15px; padding: 15px; background: #f8fafc; border-left: 5px solid var(--secondary); font-weight: 600; border-radius: 0 8px 8px 0; }
+        .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 20px; overflow: hidden; margin: 30px 0; }
+        .grit-row { padding: 25px; border-bottom: 1px solid #f1f5f9; display: flex; gap: 20px; align-items: flex-start; }
+        .grit-row:last-child { background: #fff1f2; border-bottom: none; border-left: 10px solid var(--secondary); }
+        .grit-row b { color: var(--primary); min-width: 100px; font-size: 0.9rem; text-transform: uppercase; }
+        .practice-box { background: #eff6ff; border-radius: 25px; padding: 40px; border-left: 12px solid var(--primary); margin: 35px 0; }
+        .pro-tip { background: #fffbeb; border-left: 12px solid #fbbf24; padding: 35px; border-radius: 20px; margin-top: 50px; font-style: italic; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,40,104,0.3); }
+        .audio-btn:hover { transform: scale(1.1); background: var(--secondary); }
         .hidden { display: none; }
     </style>
 </head>
@@ -37,9 +40,10 @@
     <div class="header-container">
         <div class="logo-section">
             <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
+            <div class="credits">American English Vocabulary Simulator by Carlos Mario Navarro</div>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Analyze any word (Soup, Accountability)...">
+            <input type="text" id="word-input" placeholder="Type word (e.g. Accountability, Allow)...">
             <button class="btn-search" onclick="handleSearch()">ANALYZE</button>
         </div>
     </div>
@@ -48,8 +52,8 @@
 <div class="container">
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-            <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800;">Elite Smart Analysis 🇺🇸</h1>
-            <p style="font-size: 1.3rem;">Every word gets the "Relentless" structure, with real-world common sense.</p>
+            <h1 style="color: var(--primary); font-size: 3.5rem; font-weight: 800; letter-spacing: -2px;">ELITE ANALYZER</h1>
+            <p style="font-size: 1.4rem; color: #64748b;">The "Relentless" standard for professional vocabulary.</p>
         </div>
         <div id="full-analysis" class="hidden"></div>
     </div>
@@ -65,14 +69,15 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<h2 style="text-align:center; padding: 80px; color: var(--primary);">ANALYZING CONTEXT...</h2>`;
+        container.innerHTML = `<h2 style="text-align:center; padding: 100px; color: var(--primary); font-weight: 800;">DECODING "${word.toUpperCase()}"...</h2>`;
 
         try {
             const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
             const data = await res.json();
+            if(!res.ok) throw new Error();
             renderElite(data[0], word);
         } catch (err) {
-            container.innerHTML = `<h2 style="text-align:center; padding: 80px;">Word not found. Check spelling!</h2>`;
+            container.innerHTML = `<h2 style="text-align:center; padding: 100px;">Word not found. Try a different term.</h2>`;
         }
         input.value = '';
     }
@@ -81,92 +86,79 @@
         const upper = word.toUpperCase();
         const mean = api.meanings[0];
         const pos = mean.partOfSpeech.toLowerCase();
-        const definition = mean.definitions[0].definition;
-        const phonetic = api.phonetic || (api.phonetics && api.phonetics.find(p => p.text)?.text) || "/.../";
+        const def = mean.definitions[0].definition;
+        const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
 
-        // LÓGICA DE CATEGORIZACIÓN (Abstract vs Concrete)
-        const businessKeywords = ['relentless', 'growth', 'strategy', 'accountability', 'grit', 'success', 'lead', 'professional', 'efficiency'];
-        const isProfessional = businessKeywords.includes(word) || pos === 'adjective' || pos === 'adverb';
-        const isConcrete = ['noun'].includes(pos) && !isProfessional;
+        // MOTOR LÓGICO DE CONTEXTO (The Carlos Mario Navarro Logic)
+        const isProfessional = ['adjective', 'adverb'].includes(pos) || ['strategy','growth','allow','grit','accountability'].includes(word);
+        const isVerb = pos.includes('verb');
+        const isConcrete = pos.includes('noun') && !isProfessional;
 
-        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
+        let html = `<div class="main-title">WORD ANALYSIS: ${upper}</div>`;
         
-        // 1. English Meaning & Connotation
-        let connotation = isProfessional 
-            ? `In American culture, this is a "high-energy" word. It signals an unstoppable work ethic or a high professional standard.`
-            : `In American life, this is a foundational everyday term. It's often associated with comfort, routine, or the basic elements of a social experience.`;
-        
+        // 1. Meaning & Connotation
+        let connotation = "";
+        if(isVerb) connotation = `In American business, this is an "Enabling Term." It's not just about permission; it's about creating strategic pathways for results.`;
+        else if(isProfessional) connotation = `This is a "High-Impact" descriptor. In the U.S., using this word signals a relentless focus on excellence and professional maturity.`;
+        else connotation = `This is a "Foundational" term. While common, its precise use in professional settings shows attention to detail and cultural fluency.`;
+
         html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
+        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
         // 2. Phonetics
-        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
-        <div style="display:flex; align-items:center; gap:25px; background:#f1f5f9; padding:25px; border-radius:20px; margin-bottom:30px;">
+        html += `<div class="section-h">Pronunciation 🗣️</div>
+        <div style="display:flex; align-items:center; gap:30px; background:#f1f5f9; padding:30px; border-radius:25px;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
-                <p class="body-text" style="font-family: monospace; font-size:1.6rem; color:var(--primary); font-weight:700; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0;"><b>Sounds like:</b> ${upper}</p>
+                <p class="body-text" style="font-family: monospace; font-size:1.8rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
+                <p class="body-text" style="margin:0; font-weight:600;">Stress the dominant syllable for authority.</p>
             </div>
         </div>`;
 
-        // 3. Synonyms (Nuance Map)
+        // 3. Nuance Map
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        const syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0,4) : (isConcrete ? ["Variety", "Alternative", "Choice"] : ["Strategic", "Effective"]);
-        syns.forEach(s => {
-            let detail = isProfessional ? "Focuses on professional results." : "A common variation or alternative.";
-            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: (${detail})</span>`;
-        });
+        const syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0,4) : (isVerb ? ["Enable", "Facilitate", "Authorize", "Permit"] : ["Strategic", "Effective", "Key", "Vital"]);
+        syns.forEach(s => html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: Focuses on the ability to drive outcomes.</span>`);
 
-        // 4. Antonyms
-        html += `<div class="section-h">Antonyms 🚫</div>`;
-        const ants = mean.antonyms.length > 0 ? mean.antonyms.slice(0,4) : ["Void", "Opposite", "Lack"];
-        ants.forEach(a => html += `<span class="list-item" style="border-left-color: #64748b;">${a.charAt(0).toUpperCase() + a.slice(1)}: (The absence or reverse of the word).</span>`);
-
-        // 5. Word Family (Realista)
+        // 4. Word Family
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
-        if(pos === 'adjective') {
-            html += `<p class="body-text">• ${word}ly (Adverb)</p><p class="body-text">• ${word}ness (Noun)</p>`;
-        } else if(pos === 'noun') {
-            html += `<p class="body-text">• ${word}s (Plural)</p><p class="body-text">• ${word}-like (Adjective)</p>`;
-        } else {
-            html += `<p class="body-text">• To ${word} (Verb)</p><p class="body-text">• ${word}ing (Gerund)</p>`;
-        }
+        if(isVerb) html += `<p class="body-text">• <b>${word}ing:</b> The active process of execution.</p><p class="body-text">• <b>${word}able:</b> The quality of being possible or permitted.</p>`;
+        else html += `<p class="body-text">• <b>${word}ly:</b> How the quality is applied.</p><p class="body-text">• <b>${word}ness:</b> The core state of the concept.</p>`;
 
-        // 6. The Scale (Adaptativa)
-        let scaleTitle = isProfessional ? "The Grit Scale" : "The Intensity Scale";
-        let phases = isProfessional 
-            ? [`Interest: You like the idea.`, `Effort: You are working on it.`, `Persistence: You keep going.`, `${upper}: Unstoppable mentality.`]
-            : [`Fragment: Just a small part.`, `Standard: A normal amount of ${word}.`, `Abundance: Plenty of ${word} available.`, `MASTER LEVEL: The absolute best version of ${word}.`];
+        // 5. The Scale (Diferenciada)
+        let scaleTitle = isVerb ? "The Execution Scale" : "The Grit Scale";
+        let steps = isVerb 
+            ? ["Permission: Being told you can do it.", "Action: Taking the first step.", "Efficiency: Optimizing the process.", `Mastery: Using ${upper} to empower others.`]
+            : ["Interest: Liking the concept.", "Effort: Trying to apply it.", "Persistence: Consistent application.", `RELENTLESS: Making ${upper} your identity.`];
 
         html += `<div class="section-h">${scaleTitle} ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>Phase 1</b>${phases[0]}</div>
-            <div class="grit-row"><b>Phase 2</b>${phases[1]}</div>
-            <div class="grit-row"><b>Phase 3</b>${phases[2]}</div>
-            <div class="grit-row"><b>Phase 4</b>${phases[3]}</div>
+            <div class="grit-row"><b>Phase 1</b><div>${steps[0]}</div></div>
+            <div class="grit-row"><b>Phase 2</b><div>${steps[1]}</div></div>
+            <div class="grit-row"><b>Phase 3</b><div>${steps[2]}</div></div>
+            <div class="grit-row"><b>Phase 4</b><div>${steps[3]}</div></div>
         </div>`;
 
-        // 7. Idioms
+        // 6. Idioms
         html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
-        const idioms = isConcrete ? ["'In the soup' (In trouble)", "'From soup to nuts' (From beginning to end)"] : [`'Relentless pursuit'`, `'No rest for the wicked'`];
-        idioms.forEach(i => html += `<p class="body-text">• ${i}</p>`);
+        const idiomList = isVerb ? [`'Allow for' (Plan for contingencies)`, `'Grant access' (Strategic entry)`] : [`'Relentless pursuit'`, `'Keep the momentum'`];
+        idiomList.forEach(i => html += `<p class="body-text">• <b>${i}</b></p>`);
 
-        // 8. Real-World Examples
-        const apiEx = mean.definitions.find(d => d.example)?.example;
-        html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">"<i>${apiEx ? apiEx : `We enjoyed a warm bowl of ${word} on a cold day.`}</i>"</p>
-        <p class="body-text">"<i>The ${word} of the matter is that we need a clear solution.</i>"</p>`;
+        // 7. Friendly Practice
+        html += `<div class="section-h">Professional Practice 🇺🇸</div>
+        <div class="practice-box">`;
+        if(isVerb) {
+            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> for a 10% margin of error to ensure we hit our final deadline without stress."</p>
+                     <p><b>In an Interview:</b> "I don't just follow rules; I <b>${word}</b> my team to take ownership, which increases our overall speed."</p>`;
+        } else {
+            html += `<p><b>In a Cover Letter:</b> "I bring a <b>${word}</b> approach to problem-solving, ensuring that no stone is left unturned."</p>
+                     <p><b>In an Interview:</b> "I am <b>${word}</b> when it comes to deadlines. My track record shows I never compromise on quality."</p>`;
+        }
+        html += `</div>`;
 
-        // 9. Friendly Practice (Contextual)
-        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>`;
-        let practice = isProfessional 
-            ? `<p><b>In an Interview:</b> "I’m <b>${word}</b> when it comes to quality. I stop when the job is perfect."</p>`
-            : `<p><b>At a Social Event:</b> "There's nothing like a good <b>${word}</b> to bring people together. It's my favorite comfort food."</p>`;
-        html += `<div class="practice-box">${practice}</div>`;
-
-        // 10. Tip Pro
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>${isProfessional ? 'Focus on results and drive.' : 'Focus on the cultural experience and the feelings of comfort and connection it brings.'}</p></div>`;
+        // 8. Tip Pro
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., words like "<b>${word}</b>" should be spoken with downward inflection to sound more authoritative. Remember: Americans respect leaders who use language to <b>enable</b>, not just to describe. Ownership is everything.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -177,7 +169,7 @@
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(w);
         u.lang = 'en-US';
-        u.rate = 0.9;
+        u.rate = 0.85;
         window.speechSynthesis.speak(u);
     }
 </script>
