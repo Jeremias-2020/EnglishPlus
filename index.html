@@ -180,4 +180,38 @@
         9. <div class="section-h">Professional & Social Practice 🇺🇸</div> (Escenarios reales detallados).
         10. <div class="pro-tip"><b>Tip Pro 💡</b></div> (Consejo de autoridad y presencia).
 
-        IMPORTANTE: No uses markdown. El tono debe ser el de
+        IMPORTANTE: No uses markdown. El tono debe ser el de Carlos Mario Navarro: sofisticado, autoritario y empoderador.`;
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.error) throw new Error(data.error.message);
+
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                let htmlContent = data.candidates[0].content.parts[0].text;
+                htmlContent = htmlContent.replace(/```html|```/g, "").trim();
+                output.innerHTML = htmlContent;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+        } catch (err) {
+            errorLog.innerText = "SISTEMA: " + err.message;
+            errorLog.style.display = 'block';
+            output.innerHTML = "";
+        }
+    }
+
+    btn.addEventListener('click', performAnalysis);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') performAnalysis(); });
+</script>
+
+</body>
+</html>
