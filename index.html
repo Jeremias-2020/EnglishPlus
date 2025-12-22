@@ -57,20 +57,21 @@
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
             <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis 🇺🇸</h1>
-            <p>Directly powered by Gemini 3 Flash Preview.</p>
+            <p>Powered by Gemini 3 Flash technology for American Professionalism.</p>
         </div>
         <div id="display-area"></div>
     </div>
 </div>
 
 <script>
-    const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
-    const MODEL = "gemini-3-flash-preview"; 
+    // SECURITY: The key is fetched from Vercel Environment Variables
+    const API_KEY = window.process?.env?.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
+    const MODEL = "gemini-3-flash-preview";
 
-    // FIXED GLOBAL AUDIO - NO ALERTS
+    // GLOBAL AUDIO FUNCTION
     window.playEliteAudio = function(text) {
         if (!text) return;
-        window.speechSynthesis.cancel(); // Stop current audio
+        window.speechSynthesis.cancel();
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'en-US';
         msg.rate = 0.85;
@@ -84,19 +85,23 @@
         const word = input.value.trim();
         if(!word) return;
 
-        document.getElementById('welcome-msg').style.display = 'none';
-        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">Analyzing: ${word.toUpperCase()}</h2>`;
+        if(!API_KEY) {
+            displayArea.innerHTML = `<h3 style="color:red; text-align:center;">Error: API Key missing. Please set NEXT_PUBLIC_GEMINI_API_KEY in Vercel.</h3>`;
+            return;
+        }
 
-        // COMPACT PROMPT FOR SPEED
-        const prompt = `Elite American English Analysis for "${word}". 
-        Tone: Authoritative/Professional. 
-        MANDATORY HTML ONLY (NO MARKDOWN, NO ALERTS):
+        document.getElementById('welcome-msg').style.display = 'none';
+        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">SYNCHRONIZING WITH GEMINI 3...</h2>`;
+
+        const prompt = `Perform an Elite Analysis for the word "${word}". 
+        Tone: Professional American English (Carlos Mario Navarro style).
+        MANDATORY HTML (No Markdown):
         <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
         <div class="section-h">English Meaning 🇺🇸</div>
-        <div class="body-text"><b>Definition & Connotation:</b> ...</div>
+        <div class="body-text">... (Include Connotation)</div>
         <div class="section-h">Phonetics 🗣️</div>
         <div class="pronunciation-box">
-            <div>IPA: ... | Sounds like: ...</div>
+            <div>IPA | Sounds like...</div>
             <button class="audio-btn" onclick="window.playEliteAudio('${word}')">🔊</button>
         </div>
         <div class="section-h">Synonyms & Antonyms</div>
@@ -110,10 +115,8 @@
             <div class="grit-row">3. Persistence</div>
             <div class="grit-row">4. ${word.toUpperCase()}</div>
         </div>
-        <div class="section-h">Idioms & Examples</div>
-        ...
         <div class="section-h">Professional Application</div>
-        <div class="practice-box">...</div>
+        <div class="practice-box">... (Cover Letter/Interview)</div>
         <div class="pro-tip">...</div>`;
 
         try {
@@ -130,11 +133,11 @@
             let html = data.candidates[0].content.parts[0].text;
             displayArea.innerHTML = html.replace(/```html|```/g, "").trim();
             
-            window.playEliteAudio(word); // Auto-play
+            window.playEliteAudio(word);
             input.value = '';
 
         } catch (err) {
-            displayArea.innerHTML = `<div style="color:var(--secondary); text-align:center;"><h3>System Error</h3><p>${err.message}</p></div>`;
+            displayArea.innerHTML = `<div style="color:var(--secondary); text-align:center;"><h3>System Latency Alert</h3><p>${err.message}</p></div>`;
         }
     }
 
