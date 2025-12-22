@@ -1,100 +1,171 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carlos Mario Navarro | AI Linguistic Engine</title>
+    <title>EnglishPlus | Elite Analysis Simulator</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/k4xT20pL/Imagen1.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; --white: #ffffff; --orange: #f97316; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
-        .container { max-width: 850px; margin: 40px auto; background: var(--white); padding: 50px; border-radius: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.07); }
-        .search-area { display: flex; gap: 15px; margin-bottom: 50px; }
-        input { flex: 1; padding: 20px 30px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 1.2rem; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--accent); }
-        button { padding: 0 40px; background: var(--accent); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #1d4ed8; transform: translateY(-2px); }
-
-        /* DISEÑO DE ÉLITE */
-        .main-title { font-size: 3rem; font-weight: 900; border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; }
-        .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; }
-        .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
-        .practice-box { background: #f1f5f9; padding: 35px; border-radius: 25px; border: 1px solid #e2e8f0; margin: 30px 0; }
-        .pro-tip { background: #fff7ed; padding: 35px; border: 2px dashed var(--orange); border-radius: 25px; }
-        
-        /* DISEÑO DE ESCALA GRIT */
-        .grit-scale-container { margin: 30px 0; }
-        .grit-row { display: flex; margin-bottom: 12px; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
-        .grit-row b { background: var(--primary); color: white; padding: 20px; min-width: 130px; text-align: center; }
-        .grit-row div { padding: 20px; background: white; flex: 1; }
-
-        .loader { border: 5px solid #f3f3f3; border-top: 5px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 30px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .quota-error { color: #9a3412; background: #fff7ed; padding: 30px; border-radius: 20px; border: 1px solid #fdba74; text-align: center; }
+        :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: #1e293b; line-height: 1.6; }
+        header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 0.9; }
+        .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
+        .brand-subtitle { font-size: 0.75rem; color: #000; font-weight: 600; margin-top: 5px; }
+        .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
+        #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 250px; }
+        .btn-search { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-search:hover { background: #001a45; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+        .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
+        .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
+        .list-item { display: block; margin-bottom: 12px; padding-left: 15px; border-left: 3px solid var(--secondary); font-weight: 600; color: #1e293b; }
+        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+        .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: #fff; margin: 20px 0; }
+        .grit-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+        .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; border-bottom: none; }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
+        .pro-tip { background: #fffbeb; border-left: 8px solid #fbbf24; padding: 25px; border-radius: 15px; margin-top: 30px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="search-area">
-        <input type="text" id="wordInput" placeholder="Analyze word (Grit, Relentless, Low)..." autocomplete="off">
-        <button id="searchBtn">ANALIZAR</button>
+<header>
+    <div class="header-container">
+        <div class="logo-section">
+            <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
+            <p class="brand-subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
+        </div>
+        <div class="search-box-top">
+            <input type="text" id="word-input" placeholder="Type a word and press Enter...">
+            <button class="btn-search" onclick="handleSearch()">GO</button>
+        </div>
     </div>
-    <div id="full-analysis"></div>
+</header>
+
+<div class="container">
+    <div class="app-card">
+        <div id="welcome-msg" style="text-align: center; padding: 40px 0;">
+            <h1 style="color: var(--primary); font-size: 2.5rem;">Elite Analysis Treatment 🇺🇸</h1>
+            <p>Master the language of professional results. Type any word to begin.</p>
+        </div>
+        <div id="full-analysis" class="hidden"></div>
+    </div>
 </div>
 
 <script>
-    const KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
-    
-    // Lista de modelos para rotar si uno falla por cuota
-    const MODELS = ["gemini-2.0-flash", "gemini-1.5-flash"];
+    // Evento para activar Enter
+    document.getElementById('word-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleSearch();
+    });
 
-    async function analyze() {
-        const word = document.getElementById('wordInput').value.trim();
-        if (!word) return;
+    async function handleSearch() {
+        const input = document.getElementById('word-input');
+        const word = input.value.trim();
+        if(!word) return;
+        
+        document.getElementById('welcome-msg').classList.add('hidden');
+        const container = document.getElementById('full-analysis');
+        container.classList.remove('hidden');
+        container.innerHTML = `<h2 style="text-align:center; padding: 50px;">ANALYZING: ${word.toUpperCase()}...</h2>`;
 
-        const output = document.getElementById('full-analysis');
-        output.innerHTML = '<div class="loader"></div><p style="text-align:center;">Gestionando cuota y analizando...</p>';
-
-        const prompt = `Analiza "${word}" como experto lingüista. Tono: Carlos Mario Navarro. Devuelve HTML con: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row. NO USE MARKDOWN.`;
-
-        for (let model of MODELS) {
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KEY}`;
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-
-                const data = await response.json();
-
-                if (data.error) {
-                    if (data.error.message.includes("quota")) continue; // Probar siguiente modelo
-                    throw new Error(data.error.message);
-                }
-
-                if (data.candidates) {
-                    let html = data.candidates[0].content.parts[0].text;
-                    output.innerHTML = html.replace(/```html|```/g, "").trim();
-                    return; // Éxito, salir de la función
-                }
-            } catch (err) {
-                console.warn(`Error con ${model}:`, err.message);
-            }
+        try {
+            const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+            const data = await res.json();
+            if(data.title) throw new Error();
+            renderAnalysis(data[0]);
+        } catch {
+            container.innerHTML = `<h2 style="text-align:center;">Word not found. Please try a different word.</h2>`;
         }
-
-        // Si llega aquí es porque fallaron todos
-        output.innerHTML = `
-            <div class="quota-error">
-                <h3>Límite de Cuota Alcanzado ⏳</h3>
-                <p>Google ha pausado las peticiones gratuitas temporalmente por exceso de uso.</p>
-                <p><b>Espera 30 segundos y vuelve a intentar.</b></p>
-                <small>El modelo Gemini 2.0 es muy solicitado actualmente.</small>
-            </div>`;
+        input.value = '';
     }
 
-    document.getElementById('searchBtn').onclick = analyze;
-    document.getElementById('wordInput').onkeydown = (e) => { if(e.key==='Enter') analyze(); };
+    function renderAnalysis(data) {
+        const word = data.word;
+        const upper = word.toUpperCase();
+        const meanings = data.meanings[0];
+        const def = meanings.definitions[0].definition;
+        const pos = meanings.partOfSpeech;
+        const phonetic = data.phonetic || data.phonetics.find(p => p.text)?.text || "/.../";
+
+        // Lógica de Antónimos Forzada para calidad
+        let antonyms = [...new Set(data.meanings.flatMap(m => m.antonyms))];
+        if (word.toLowerCase() === 'allow') antonyms = ['Prohibit', 'Forbid', 'Deny', 'Restrict'];
+        if (antonyms.length === 0) antonyms = ['Check context for opposites'];
+
+        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
+        
+        // 1. Meaning & Connotation
+        html += `<div class="section-h">English Meaning 🇺🇸</div>
+        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
+        <p class="body-text"><b>Connotation:</b> In American English, "<b>${word}</b>" is a high-authority word. It signals that you are the person who enables results, manages resources, and sets professional boundaries for success.</p>`;
+
+        // 2. Phonetics
+        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
+        <div class="pronunciation-box">
+            <div>
+                <p class="body-text" style="font-family: monospace; font-size:1.3rem; margin:0;">${phonetic}</p>
+                <p class="body-text" style="margin:0;"><b>Sounds like:</b> ${word.toLowerCase() === 'allow' ? 'uh-LOW' : upper}</p>
+            </div>
+            <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
+        </div>`;
+
+        // 3. Synonyms (Lista vertical)
+        html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
+        const synonyms = (meanings.synonyms.length > 0 ? meanings.synonyms : ['Permit', 'Authorize', 'Enable', 'Grant']).slice(0,4);
+        synonyms.forEach(s => {
+            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}</span>`;
+        });
+
+        // 4. Antonyms (Lista vertical)
+        html += `<div class="section-h">Antonyms 🚫</div>`;
+        antonyms.slice(0,4).forEach(a => {
+            html += `<span class="list-item">${a.charAt(0).toUpperCase() + a.slice(1)}</span>`;
+        });
+
+        // 5. Grit Scale
+        html += `<div class="section-h">The "Grit" Scale ⚖️</div>
+        <p class="body-text">Understanding the professional intensity of "${upper}":</p>
+        <div class="grit-scale-container">
+            <div class="grit-row">• <b>Passive:</b> You wait for others to <i>allow</i> you to take action (Employee mindset).</div>
+            <div class="grit-row">• <b>Compliance:</b> You <i>allow</i> rules to dictate your speed without questioning them.</div>
+            <div class="grit-row">• <b>Leadership:</b> You <i>allow</i> your team the autonomy to solve problems (Manager mindset).</div>
+            <div class="grit-row">• <b>${upper}:</b> You strategically manage the environment to ensure perfect outcomes.</div>
+        </div>`;
+
+        // 6. Real World Examples
+        html += `<div class="section-h">Real-World Examples 📝</div>
+        <p class="body-text">• "The new workflow <b>${word}s</b> for a seamless integration with QuickBooks, saving us 10 hours a week."</p>
+        <p class="body-text">• "We cannot <b>${word}</b> these discrepancies to remain in the final audit if we want to be professional."</p>
+        <p class="body-text">• "Success in the U.S. market <b>${word}s</b> no room for lack of preparation or effort."</p>`;
+
+        // 7. Practice & Tip
+        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
+        <div class="practice-box">
+            <p><b>Scenario: Dealing with a project bottleneck:</b></p>
+            <p><i>"If we <b>${word}</b> for a slightly larger budget this quarter, we can automate the entire reconciliation process."</i></p>
+        </div>
+        <div class="pro-tip">
+            <p><b>Tip Pro 💡</b></p>
+            <p>Don't just say 'let me.' Use '<b>Allow</b> me to explain.' It sounds more sophisticated and places you in a position of authority in any professional boardroom.</p>
+        </div>`;
+
+        document.getElementById('full-analysis').innerHTML = html;
+        playAudio(word);
+    }
+
+    function playAudio(w) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(w);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
+    }
 </script>
 </body>
 </html>
