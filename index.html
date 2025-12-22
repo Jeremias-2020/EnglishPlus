@@ -9,35 +9,28 @@
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: #1e293b; line-height: 1.6; }
-        
-        /* HEADER ESTILO ORIGINAL */
         header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 0.9; }
         .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
         .brand-subtitle { font-size: 0.75rem; color: #000; font-weight: 600; margin-top: 5px; }
-        
         .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
         #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 250px; }
         .btn-search { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .btn-search:hover { background: #001a45; }
-
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 400px; }
 
         /* ESTILOS DE RENDERIZADO IA */
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
         .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
         .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin: 20px 0; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: 0.3s; }
-        .audio-btn:hover { transform: scale(1.1); background: var(--secondary); }
-        
+        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: #fff; margin: 20px 0; }
-        .grit-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .grit-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; }
         .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; border-bottom: none; }
-        
-        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); margin-top: 20px; }
+        .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
         .pro-tip { background: #fff7ed; border-left: 8px solid #f97316; padding: 25px; border-radius: 15px; margin-top: 30px; }
         
         .loader { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 50px auto; }
@@ -63,88 +56,60 @@
 <div class="container">
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-            <h1 style="color: var(--primary); font-size: 3rem; margin-bottom: 10px;">Elite Analysis Simulator 🇺🇸</h1>
-            <p style="font-size: 1.2rem; color: #64748b;">Powered by Gemini 2.0 Flash Technology</p>
-            <p>Master the language of professional results. Type any word to begin.</p>
+            <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis Treatment 🇺🇸</h1>
+            <p>Powered by Gemini 3 Flash Preview</p>
         </div>
         <div id="display-area"></div>
     </div>
 </div>
 
 <script>
-    const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM";
-    const MODEL = "gemini-2.0-flash";
+    const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; // Tu clave confirmada
+    const MODEL = "gemini-3-flash-preview"; // El modelo que aparece en tu imagen
 
     const input = document.getElementById('word-input');
-    const goBtn = document.getElementById('go-btn');
     const displayArea = document.getElementById('display-area');
-    const welcomeMsg = document.getElementById('welcome-msg');
 
-    // Función de Audio
     function playAudio(text) {
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
     }
 
-    async function startAnalysis() {
+    async function handleSearch() {
         const word = input.value.trim();
-        if (!word) return;
+        if(!word) return;
 
-        welcomeMsg.classList.add('hidden');
-        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center; color: var(--primary);">CONECTANDO CON EL MOTOR NEURAL...</h2>`;
+        document.getElementById('welcome-msg').classList.add('hidden');
+        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">Sincronizando con Gemini 3...</h2>`;
 
-        const prompt = `Analiza la palabra "${word}" para un simulador de inglés de élite. 
-        Tono: Carlos Mario Navarro (Autoritario, sofisticado).
-        Respuesta obligatoria en HTML usando EXACTAMENTE estas clases:
-        - .main-title para el título "Word Analysis: WORD"
-        - .section-h para cada encabezado de sección
-        - .body-text para párrafos
-        - .pronunciation-box para envolver la fonética y un botón de audio: <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
-        - .grit-scale-container y .grit-row para la escala de intensidad (4 niveles)
-        - .practice-box para el escenario de práctica
-        - .pro-tip para el consejo final.
-        NO incluyas markdown, solo el código HTML interno.`;
+        const prompt = `Analiza la palabra "${word}" como experto. Tono: Carlos Mario Navarro. Devuelve HTML con clases: .main-title, .section-h, .body-text, .pronunciation-box (con botón <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>), .grit-scale-container, .grit-row, .practice-box, .pro-tip. NO USE MARKDOWN.`;
 
         try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
-            const response = await fetch(url, {
+            const res = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
 
-            const data = await response.json();
-            
-            if (data.error) throw new Error(data.error.message);
+            const data = await res.json();
+            if(data.error) throw new Error(data.error.message);
 
-            let htmlContent = data.candidates[0].content.parts[0].text;
-            // Limpiar posibles restos de markdown
-            htmlContent = htmlContent.replace(/```html|```/g, "").trim();
-            
-            displayArea.innerHTML = htmlContent;
+            let html = data.candidates[0].content.parts[0].text;
+            displayArea.innerHTML = html.replace(/```html|```/g, "").trim();
             playAudio(word);
             input.value = '';
 
         } catch (err) {
-            displayArea.innerHTML = `
-                <div style="padding: 30px; background: #fff1f2; border-radius: 15px; border: 1px solid var(--secondary); color: var(--secondary); text-align: center;">
-                    <h3>Linguistic Engine Offline</h3>
-                    <p>${err.message}</p>
-                    <p><small>Espera 15 segundos (límite de cuota) e intenta de nuevo.</small></p>
-                </div>`;
+            displayArea.innerHTML = `<h3 style="color:red; text-align:center;">Error: ${err.message}</h3>`;
         }
     }
 
-    // Listeners
-    goBtn.onclick = startAnalysis;
-    input.onkeydown = (e) => { if (e.key === 'Enter') startAnalysis(); };
-
-    // Exponer la función de audio globalmente para que el HTML inyectado pueda usarla
+    document.getElementById('go-btn').onclick = handleSearch;
+    input.onkeydown = (e) => { if(e.key === 'Enter') handleSearch(); };
     window.playAudio = playAudio;
 </script>
-
 </body>
 </html>
