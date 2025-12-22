@@ -82,115 +82,79 @@
         input.value = '';
     }
 
- function renderElite(api, word) {
-        const upper = word.toUpperCase();
-        const meanings = api.meanings;
+ async function searchWord() {
+    const wordInput = document.getElementById('wordInput');
+    const word = wordInput.value.trim();
+    if (!word) return;
+
+    const fullAnalysis = document.getElementById('full-analysis');
+    
+    // UI de carga profesional
+    fullAnalysis.innerHTML = `
+        <div style="text-align:center; padding:50px;">
+            <div class="spinner" style="border:4px solid #f3f3f3; border-top:4px solid var(--primary); border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; margin:0 auto;"></div>
+            <p style="margin-top:20px; font-family:var(--font-main); color:var(--secondary);">Conectando con el motor neural de Gemini 1.5 Pro...</p>
+        </div>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+    `;
+
+    // CONFIGURACIÓN DE SEGURIDAD
+    const API_KEY = AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM; // <--- PEGA TU LLAVE AQUÍ
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+    const prompt = `Actúa como un lingüista experto en American English de alto nivel. 
+    Analiza la palabra "${word}" con profundidad absoluta, rigor gramatical y contexto cultural.
+    IMPORTANTE: La respuesta debe ser una experiencia educativa de élite, NO una respuesta corta de diccionario.
+
+    Devuelve el contenido en formato HTML (solo el interior, sin <html>) siguiendo este esquema:
+
+    1. <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
+    2. <div class="section-h">English Meaning 🇺🇸</div> (Definición completa con matices de uso real).
+    3. <div class="section-h">Connotation 🗣️</div> (Explicación profunda de la carga emocional y cultural en EE.UU.).
+    4. <div class="section-h">Phonetics & Pronunciation 🗣️</div> (Usa IPA y explica cómo entonarlo para sonar con autoridad).
+    5. <div class="section-h">Synonyms & Antonyms 🤝</div> (Mapeo de sinónimos con sus diferencias sutiles y antónimos claros).
+    6. <div class="section-h">Word Family 👨‍👩‍👧‍👦</div> (Derivaciones reales: adjetivos, verbos, sustantivos de la misma raíz).
+    7. <div class="section-h">The Grit Scale ⚖️</div> (Explica el camino del dominio de esta palabra en 4 niveles).
+    8. <div class="section-h">Idioms & Collocations 🗣️</div> (Frases nativas reales y expresiones comunes).
+    9. <div class="section-h">Professional & Social Practice 🇺🇸</div> (Ejemplos detallados de cómo usarla en una reunión, entrevista o evento social).
+    10. <div class="pro-tip"><b>Tip Pro 💡</b></div> (Un consejo maestro sobre lenguaje no verbal o presencia ejecutiva al usar esta palabra).
+
+    El tono debe ser el de Carlos Mario Navarro: Empoderador, inteligente, sofisticado y auténtico.`;
+
+    try {
+        const response = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
         
-        // 1. ELITE SELECTION: Buscamos la definición con más "sustancia"
-        let mData = meanings[0];
-        let def = mData.definitions[0].definition;
-        let ex = mData.definitions[0].example || `The concept of ${word} is fundamental to this strategy.`;
-        
-        for (let m of meanings) {
-            for (let d of m.definitions) {
-                if (d.example && d.definition.length > 20) {
-                    mData = m;
-                    def = d.definition;
-                    ex = d.example;
-                    break;
-                }
-            }
-        }
-
-        const pos = mData.partOfSpeech;
-        const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
-
-        // 2. AI DEEP LOGIC: CATEGORIZACIÓN TEMÁTICA
-        // Aquí es donde el código "piensa" como yo
-        let category = "universal";
-        if (["low", "small", "weak", "slow"].includes(word.toLowerCase())) category = "baseline";
-        if (["focus", "drive", "relentless", "grit"].includes(word.toLowerCase())) category = "power";
-        if (pos.includes("verb")) category = "action";
-        if (pos.includes("adjective")) category = "trait";
-
-        // 3. GENERADOR DE CONNOTACIÓN LINGÜÍSTICA
-        let connotation = "";
-        if (category === "baseline") {
-            connotation = `In American culture, this term represents a **Critical Minimum** or a starting point. It's often used strategically to describe entry points, efficiency (low cost), or emotional states that precede a breakthrough. It’s a word of contrast.`;
-        } else if (category === "power") {
-            connotation = `This is a **High-Impact Power Word**. In the U.S., it signals a 'refuse-to-lose' mentality. It is the language of executive presence and relentless execution.`;
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            let aiHTML = data.candidates[0].content.parts[0].text;
+            
+            // Limpiamos etiquetas de markdown si la IA las pone por error
+            aiHTML = aiHTML.replace(/```html|```/g, "");
+            
+            fullAnalysis.innerHTML = aiHTML;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            connotation = `In the American mindset, this is a **Foundational Descriptor**. Its value lies in its precision. Using it correctly demonstrates that you possess 'Professional Maturity' and cultural fluency.`;
+            throw new Error("Respuesta de IA incompleta");
         }
 
-        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
-        
-        // English Meaning
-        html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
-        <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
-
-        // Phonetics
-        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
-        <div style="background:#f1f5f9; padding:25px; border-radius:15px; border-left: 5px solid var(--primary); margin-bottom:20px;">
-            <p class="body-text" style="font-family:monospace; font-size:1.6rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
-            <p class="body-text" style="margin:5px 0 0 0; font-style:italic;">"Use a long, resonant American 'O' and a confident downward inflection."</p>
-        </div>`;
-
-        // 4. MAPA DE MATICES DINÁMICO (Sinónimos y Antónimos Reales)
-        html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        let syns = mData.synonyms.length > 0 ? mData.synonyms.slice(0, 4) : ["Strategic", "Minimal", "Essential", "Understated"];
-        syns.forEach(s => {
-            html += `<p class="body-text">• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Shifts the focus to a more specific level of intensity or scale.</p>`;
-        });
-
-        html += `<div class="section-h">Antonyms 🚫</div>`;
-        let ants = mData.antonyms.length > 0 ? mData.antonyms.slice(0, 3) : ["Elevated", "Exorbitant", "Peak"];
-        ants.forEach(a => {
-            html += `<p class="body-text">• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> The direct opposite, representing the maximum or high-level state.</p>`;
-        });
-
-        // 5. WORD FAMILY (Lógica de construcción)
-        let root = word.toLowerCase().replace(/e$|ing$|ed$|s$/, "");
-        html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-        <p class="body-text">• <b>${root}er:</b> A comparative state or a direct action to reduce level.</p>
-        <p class="body-text">• <b>${root}ly:</b> Applying the quality with humility or precision.</p>`;
-
-        // 6. GROWTH SCALE (Cambiamos el texto según la categoría)
-        let phase4 = (category === "power") ? "RELENTLESS IDENTITY" : "STRATEGIC MASTERY";
-        html += `<div class="section-h">The Growth Scale ⚖️</div>
-        <div class="grit-scale-container">
-            <div class="grit-row"><b>Phase 1: Interest</b><div>Recognizing the context of ${upper}.</div></div>
-            <div class="grit-row"><b>Phase 2: Effort</b><div>Applying ${word} to specific daily tasks.</div></div>
-            <div class="grit-row"><b>Phase 3: Persistence</b><div>Maintaining the standard of ${word} under pressure.</div></div>
-            <div class="grit-row"><b>Phase 4: ${phase4}</b><div>${upper} is now a tool in your elite vocabulary.</div></div>
-        </div>`;
-
-        // 7. IDIOMS Y EJEMPLOS REALES
-        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
-        let idioms = (category === "baseline") ? ["'Low-hanging fruit'", "'Lay low'", "'All-time low'"] : ["'Relentless pursuit'", "'Keep the gas on'", "'Zero in'"];
-        idioms.forEach(i => html += `<p class="body-text">• <b>${i}</b></p>`);
-
-        html += `<div class="section-h">Real-World Examples 📝</div>
-        <div class="practice-box" style="background:#fff; border: 1px solid #ddd;">
-            <p>"${ex}"</p>
-            <p>"In the U.S. market, keeping a <b>${word}</b> overhead is the key to aggressive scalability."</p>
-        </div>`;
-
-        // 8. PRACTICE (The American Way)
-        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-        <div class="practice-box">
-            <p><b>In a Meeting:</b> "Let's target the <b>${word}-hanging fruit</b> first to build immediate momentum."</p>
-            <p><b>In an Interview:</b> "I view <b>${word}</b> points as data. They are opportunities to pivot and execute with more grit."</p>
-        </div>`;
-
-        // 9. TIP PRO (Final touch)
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., your vocabulary defines your rank. Never use "<b>${word}</b>" to sound small; use it to sound strategic. Precision is the hallmark of a leader. Own your language.</p></div>`;
-
-        document.getElementById('full-analysis').innerHTML = html;
-        playAudio(word);
-        window.scrollTo(0,0);
+    } catch (error) {
+        console.error("Error Neural:", error);
+        fullAnalysis.innerHTML = `
+            <div style="padding:30px; border:2px solid #ef4444; border-radius:15px; color:#b91c1c; background:#fef2f2;">
+                <b>Error de Conexión Neural:</b> No se pudo obtener la respuesta de la IA. 
+                <br><br>1. Verifica que tu API Key sea correcta.
+                <br>2. Asegúrate de tener conexión a internet.
+                <br>3. Revisa la consola (F12) para más detalles.
+            </div>`;
     }
+}
     function playAudio(w) {
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(w);
@@ -201,6 +165,7 @@
 </script>
 </body>
 </html>
+
 
 
 
