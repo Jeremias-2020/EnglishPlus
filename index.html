@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPlus | Elite American Dictionary</title>
+    <title>EnglishPlus | Elite Smart Dictionary</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f8fafc; --text: #0f172a; }
@@ -39,7 +39,7 @@
             <h1><span class="brand-blue">English</span><span class="brand-red">Plus+</span></h1>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Analyze word (e.g. Growth, Accountability)...">
+            <input type="text" id="word-input" placeholder="Analyze any word (Soup, Accountability)...">
             <button class="btn-search" onclick="handleSearch()">ANALYZE</button>
         </div>
     </div>
@@ -48,8 +48,8 @@
 <div class="container">
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-            <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800;">The "Relentless" Engine 🇺🇸</h1>
-            <p style="font-size: 1.3rem;">Elite professional analysis for any American English word.</p>
+            <h1 style="color: var(--primary); font-size: 3rem; font-weight: 800;">Elite Smart Analysis 🇺🇸</h1>
+            <p style="font-size: 1.3rem;">Every word gets the "Relentless" structure, with real-world common sense.</p>
         </div>
         <div id="full-analysis" class="hidden"></div>
     </div>
@@ -65,14 +65,14 @@
         const container = document.getElementById('full-analysis');
         document.getElementById('welcome-msg').classList.add('hidden');
         container.classList.remove('hidden');
-        container.innerHTML = `<h2 style="text-align:center; padding: 80px; color: var(--primary);">PROCESSING ELITE ANALYSIS...</h2>`;
+        container.innerHTML = `<h2 style="text-align:center; padding: 80px; color: var(--primary);">ANALYZING CONTEXT...</h2>`;
 
         try {
             const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
             const data = await res.json();
             renderElite(data[0], word);
         } catch (err) {
-            container.innerHTML = `<h2 style="text-align:center; padding: 80px;">Word not found. Try a professional term like 'Strategic'.</h2>`;
+            container.innerHTML = `<h2 style="text-align:center; padding: 80px;">Word not found. Check spelling!</h2>`;
         }
         input.value = '';
     }
@@ -84,20 +84,23 @@
         const definition = mean.definitions[0].definition;
         const phonetic = api.phonetic || (api.phonetics && api.phonetics.find(p => p.text)?.text) || "/.../";
 
-        // LÓGICA DE CONNOTACIÓN DINÁMICA
-        let connotation = "";
-        if(pos.includes("adj")) connotation = `In American English, this is a "high-energy" descriptor. It is almost always a huge compliment in professional settings, signifying a state of readiness and high standards.`;
-        else if(pos.includes("verb")) connotation = `In the U.S., this word signals "Action and Impact." It’s used to describe someone who doesn't just wait for things to happen but makes them happen through strategic movement.`;
-        else connotation = `In professional American culture, this concept is a "cornerstone." It signifies structural stability and a deep understanding of the professional environment.`;
+        // LÓGICA DE CATEGORIZACIÓN (Abstract vs Concrete)
+        const businessKeywords = ['relentless', 'growth', 'strategy', 'accountability', 'grit', 'success', 'lead', 'professional', 'efficiency'];
+        const isProfessional = businessKeywords.includes(word) || pos === 'adjective' || pos === 'adverb';
+        const isConcrete = ['noun'].includes(pos) && !isProfessional;
 
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        // English Meaning
+        // 1. English Meaning & Connotation
+        let connotation = isProfessional 
+            ? `In American culture, this is a "high-energy" word. It signals an unstoppable work ethic or a high professional standard.`
+            : `In American life, this is a foundational everyday term. It's often associated with comfort, routine, or the basic elements of a social experience.`;
+        
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
-        // Phonetics
+        // 2. Phonetics
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
         <div style="display:flex; align-items:center; gap:25px; background:#f1f5f9; padding:25px; border-radius:20px; margin-bottom:30px;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
@@ -107,60 +110,63 @@
             </div>
         </div>`;
 
-        // Nuance Map (Synonyms)
+        // 3. Synonyms (Nuance Map)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        const syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0,4) : ["Strategic", "Professional", "Focused", "Effective"];
-        syns.forEach(s => html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: (Focuses on the high-level application of this concept).</span>`);
+        const syns = mean.synonyms.length > 0 ? mean.synonyms.slice(0,4) : (isConcrete ? ["Variety", "Alternative", "Choice"] : ["Strategic", "Effective"]);
+        syns.forEach(s => {
+            let detail = isProfessional ? "Focuses on professional results." : "A common variation or alternative.";
+            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: (${detail})</span>`;
+        });
 
-        // Antonyms
+        // 4. Antonyms
         html += `<div class="section-h">Antonyms 🚫</div>`;
-        const ants = mean.antonyms.length > 0 ? mean.antonyms.slice(0,4) : ["Passive", "Undefined", "Yielding", "Weak"];
-        ants.forEach(a => html += `<span class="list-item" style="border-left-color: #64748b;">${a.charAt(0).toUpperCase() + a.slice(1)}: (Represents a lack of direction or professional energy).</span>`);
+        const ants = mean.antonyms.length > 0 ? mean.antonyms.slice(0,4) : ["Void", "Opposite", "Lack"];
+        ants.forEach(a => html += `<span class="list-item" style="border-left-color: #64748b;">${a.charAt(0).toUpperCase() + a.slice(1)}: (The absence or reverse of the word).</span>`);
 
-        // Word Family (Lógica Real)
+        // 5. Word Family (Realista)
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
-        if(pos.includes("adj")) {
-            html += `<p class="body-text">• ${word}ly (Adverb): "They handled the transition <b>${word}ly</b>."</p>
-                     <p class="body-text">• ${word}ness (Noun): "Her <b>${word}ness</b> was the reason she got promoted."</p>`;
-        } else if(pos.includes("verb")) {
-            html += `<p class="body-text">• ${word}er (Noun): "He is a high-level <b>${word}er</b>."</p>
-                     <p class="body-text">• ${word}able (Adjective): "The situation is <b>${word}able</b>."</p>`;
+        if(pos === 'adjective') {
+            html += `<p class="body-text">• ${word}ly (Adverb)</p><p class="body-text">• ${word}ness (Noun)</p>`;
+        } else if(pos === 'noun') {
+            html += `<p class="body-text">• ${word}s (Plural)</p><p class="body-text">• ${word}-like (Adjective)</p>`;
         } else {
-            html += `<p class="body-text">• ${word}-oriented (Adjective): "We have a <b>${word}-oriented</b> strategy."</p>
-                     <p class="body-text">• To ${word} (Verb): "We need to <b>${word}</b> this effectively."</p>`;
+            html += `<p class="body-text">• To ${word} (Verb)</p><p class="body-text">• ${word}ing (Gerund)</p>`;
         }
 
-        // Grit Scale (Inteligente)
-        html += `<div class="section-h">The "Grit" Scale ⚖️</div>
-        <p class="body-text">Understanding where "${upper}" sits compared to similar traits:</p>
+        // 6. The Scale (Adaptativa)
+        let scaleTitle = isProfessional ? "The Grit Scale" : "The Intensity Scale";
+        let phases = isProfessional 
+            ? [`Interest: You like the idea.`, `Effort: You are working on it.`, `Persistence: You keep going.`, `${upper}: Unstoppable mentality.`]
+            : [`Fragment: Just a small part.`, `Standard: A normal amount of ${word}.`, `Abundance: Plenty of ${word} available.`, `MASTER LEVEL: The absolute best version of ${word}.`];
+
+        html += `<div class="section-h">${scaleTitle} ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>Interest</b>You like the idea of ${word} and understand the concept.</div>
-            <div class="grit-row"><b>Effort</b>You are actively working on applying ${word} in your tasks.</div>
-            <div class="grit-row"><b>Persistence</b>You keep going using ${word} despite mistakes or challenges.</div>
-            <div class="grit-row"><b>${upper}</b>The Master Level: You have a "refuse to lose" mentality. You find a way or make one.</div>
+            <div class="grit-row"><b>Phase 1</b>${phases[0]}</div>
+            <div class="grit-row"><b>Phase 2</b>${phases[1]}</div>
+            <div class="grit-row"><b>Phase 3</b>${phases[2]}</div>
+            <div class="grit-row"><b>Phase 4</b>${phases[3]}</div>
         </div>`;
 
-        // Idioms & Collocations
-        html += `<div class="section-h">Idioms & Collocations 🗣️</div>
-        <p class="body-text">• "The ${word} pursuit of excellence": A classic corporate focus.</p>
-        <p class="body-text">• "Keep your foot on the gas": Maintaining the ${word} pace required for success.</p>`;
+        // 7. Idioms
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
+        const idioms = isConcrete ? ["'In the soup' (In trouble)", "'From soup to nuts' (From beginning to end)"] : [`'Relentless pursuit'`, `'No rest for the wicked'`];
+        idioms.forEach(i => html += `<p class="body-text">• ${i}</p>`);
 
-        // Real-World Examples
+        // 8. Real-World Examples
         const apiEx = mean.definitions.find(d => d.example)?.example;
         html += `<div class="section-h">Real-World Examples 📝</div>
-        <p class="body-text">"<i>${apiEx ? apiEx : `The team's ${word} focus on results made them #1 in the market.`}</i>"</p>
-        <p class="body-text">"<i>To solve this issue, you need to be ${word} with the support team until they answer.</i>"</p>`;
+        <p class="body-text">"<i>${apiEx ? apiEx : `We enjoyed a warm bowl of ${word} on a cold day.`}</i>"</p>
+        <p class="body-text">"<i>The ${word} of the matter is that we need a clear solution.</i>"</p>`;
 
-        // Friendly Practice (Sell Yourself)
-        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
-        <p class="body-text">How to use this to "sell yourself" in a professional environment:</p>
-        <div class="practice-box">
-            <p><b>In a Cover Letter:</b> "I bring a <b>${word}</b> problem-solving attitude to every challenge I face, ensuring projects are optimized."</p>
-            <p><b>During an Interview:</b> "I’m <b>${word}</b> when it comes to hitting my KPIs. I don't just stop when I'm tired; I stop when the job is done."</p>
-        </div>`;
+        // 9. Friendly Practice (Contextual)
+        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>`;
+        let practice = isProfessional 
+            ? `<p><b>In an Interview:</b> "I’m <b>${word}</b> when it comes to quality. I stop when the job is perfect."</p>`
+            : `<p><b>At a Social Event:</b> "There's nothing like a good <b>${word}</b> to bring people together. It's my favorite comfort food."</p>`;
+        html += `<div class="practice-box">${practice}</div>`;
 
-        // Tip Pro
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>Be careful! While being <b>${word}</b> is great for goals, in the U.S., the most respected leaders are those who are <b>${word}</b> with results but empathetic with people. Success is where preparation meets opportunity.</p></div>`;
+        // 10. Tip Pro
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>${isProfessional ? 'Focus on results and drive.' : 'Focus on the cultural experience and the feelings of comfort and connection it brings.'}</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
