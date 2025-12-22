@@ -25,8 +25,9 @@
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
         .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
         .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
-        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin: 20px 0; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+        .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin: 20px 0; border: 1px solid #e2e8f0; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .audio-btn:active { transform: scale(0.9); background: var(--secondary); }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: #fff; margin: 20px 0; }
         .grit-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
         .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; border-bottom: none; }
@@ -35,7 +36,6 @@
         
         .loader { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 50px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -47,7 +47,7 @@
             <p class="brand-subtitle">American English Vocabulary Simulator by Carlos Mario Navarro</p>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Type a word and press Enter...">
+            <input type="text" id="word-input" placeholder="Type a word..." autocomplete="off">
             <button class="btn-search" id="go-btn">GO</button>
         </div>
     </div>
@@ -56,8 +56,8 @@
 <div class="container">
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
-            <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis Treatment 🇺🇸</h1>
-            <p>Mastering the language of results with Gemini 3 Flash technology.</p>
+            <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis 🇺🇸</h1>
+            <p>Directly powered by Gemini 3 Flash Preview.</p>
         </div>
         <div id="display-area"></div>
     </div>
@@ -67,39 +67,54 @@
     const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
     const MODEL = "gemini-3-flash-preview"; 
 
+    // FIXED GLOBAL AUDIO - NO ALERTS
+    window.playEliteAudio = function(text) {
+        if (!text) return;
+        window.speechSynthesis.cancel(); // Stop current audio
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'en-US';
+        msg.rate = 0.85;
+        window.speechSynthesis.speak(msg);
+    };
+
     const input = document.getElementById('word-input');
     const displayArea = document.getElementById('display-area');
-
-    function playAudio(text) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'en-US';
-        u.rate = 0.9;
-        window.speechSynthesis.speak(u);
-    }
 
     async function handleSearch() {
         const word = input.value.trim();
         if(!word) return;
 
-        document.getElementById('welcome-msg').classList.add('hidden');
-        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">SYNCHRONIZING WITH GEMINI 3 ENGINE...</h2>`;
+        document.getElementById('welcome-msg').style.display = 'none';
+        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">Analyzing: ${word.toUpperCase()}</h2>`;
 
-        const prompt = `Perform a comprehensive Elite Linguistic Analysis for the word "${word}". 
-        Tone: Carlos Mario Navarro (Sophisticated, Authoritative, American English).
-        MANDATORY RESPONSE IN PURE HTML using these sections:
-        1. .main-title: Word Analysis: WORD
-        2. .section-h: English Meaning 🇺🇸 (include Part of Speech and Connotation in .body-text)
-        3. .section-h: Phonetics & Pronunciation 🗣️ (inside .pronunciation-box include IPA, "Sounds like", and <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>)
-        4. .section-h: Synonyms 🤝 (The Nuance Map) (list with brief explanations of differences)
-        5. .section-h: Antonyms 🚫
-        6. .section-h: Word Family 👨‍👩‍👧‍👦 (Related: adverb, noun, verb, etc.)
-        7. .section-h: The "Grit" Scale ⚖️ (Use .grit-scale-container with 4 .grit-row: Interest, Effort, Persistence, ${word})
-        8. .section-h: Idioms & Collocations 🗣️
-        9. .section-h: Real-World Examples 📝
-        10. .section-h: Professional Application (The American Way) 🇺🇸 (Use .practice-box with Cover Letter or Interview examples)
-        11. .pro-tip: Pro Tip 💡 with leadership advice.
-        IMPORTANT: Use ONLY English. DO NOT use markdown or code blocks.`;
+        // COMPACT PROMPT FOR SPEED
+        const prompt = `Elite American English Analysis for "${word}". 
+        Tone: Authoritative/Professional. 
+        MANDATORY HTML ONLY (NO MARKDOWN, NO ALERTS):
+        <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
+        <div class="section-h">English Meaning 🇺🇸</div>
+        <div class="body-text"><b>Definition & Connotation:</b> ...</div>
+        <div class="section-h">Phonetics 🗣️</div>
+        <div class="pronunciation-box">
+            <div>IPA: ... | Sounds like: ...</div>
+            <button class="audio-btn" onclick="window.playEliteAudio('${word}')">🔊</button>
+        </div>
+        <div class="section-h">Synonyms & Antonyms</div>
+        ...
+        <div class="section-h">Word Family</div>
+        ...
+        <div class="section-h">The Grit Scale ⚖️</div>
+        <div class="grit-scale-container">
+            <div class="grit-row">1. Interest</div>
+            <div class="grit-row">2. Effort</div>
+            <div class="grit-row">3. Persistence</div>
+            <div class="grit-row">4. ${word.toUpperCase()}</div>
+        </div>
+        <div class="section-h">Idioms & Examples</div>
+        ...
+        <div class="section-h">Professional Application</div>
+        <div class="practice-box">...</div>
+        <div class="pro-tip">...</div>`;
 
         try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
@@ -114,21 +129,17 @@
 
             let html = data.candidates[0].content.parts[0].text;
             displayArea.innerHTML = html.replace(/```html|```/g, "").trim();
-            playAudio(word);
+            
+            window.playEliteAudio(word); // Auto-play
             input.value = '';
 
         } catch (err) {
-            displayArea.innerHTML = `<div style="color:var(--secondary); text-align:center; padding:20px; border:1px solid var(--secondary); border-radius:15px;">
-                <h3>Linguistic Handshake Failed</h3>
-                <p>${err.message}</p>
-                <small>Please wait 15 seconds (Rate Limit) and try again.</small>
-            </div>`;
+            displayArea.innerHTML = `<div style="color:var(--secondary); text-align:center;"><h3>System Error</h3><p>${err.message}</p></div>`;
         }
     }
 
     document.getElementById('go-btn').onclick = handleSearch;
     input.onkeydown = (e) => { if(e.key === 'Enter') handleSearch(); };
-    window.playAudio = playAudio;
 </script>
 </body>
 </html>
