@@ -6,15 +6,16 @@
     <title>Carlos Mario Navarro | AI Linguistic Engine</title>
     <style>
         :root { --primary: #1e293b; --accent: #2563eb; --bg: #f8fafc; --white: #ffffff; --orange: #f97316; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
         .container { max-width: 850px; margin: 40px auto; background: var(--white); padding: 50px; border-radius: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.07); }
         .search-area { display: flex; gap: 15px; margin-bottom: 50px; }
-        input { flex: 1; padding: 20px 30px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 1.2rem; outline: none; }
+        input { flex: 1; padding: 20px 30px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 1.2rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
         button { padding: 0 40px; background: var(--accent); color: white; border: none; border-radius: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; }
         button:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* DISEÑO DE RENDERIZADO CARLOS MARIO NAVARRO */
-        .main-title { font-size: 3rem; font-weight: 900; color: var(--primary); border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
+        /* RENDERIZADO DE ÉLITE */
+        .main-title { font-size: 3rem; font-weight: 900; border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
         .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; display: flex; align-items: center; gap: 10px; }
         .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
         .practice-box { background: #f1f5f9; padding: 35px; border-radius: 25px; border: 1px solid #e2e8f0; margin: 30px 0; }
@@ -41,27 +42,30 @@
 </div>
 
 <script>
-    // 1. TU API KEY
+    // CREDENCIALES VERIFICADAS
     const KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
+    const MODEL = "gemini-1.5-flash"; // Modelo optimizado para latencia baja
 
     async function analyze() {
-        const word = document.getElementById('wordInput').value.trim();
+        const wordInput = document.getElementById('wordInput');
+        const output = document.getElementById('full-analysis');
+        const word = wordInput.value.trim();
+        
         if (!word) return;
 
-        const output = document.getElementById('full-analysis');
-        output.innerHTML = '<div class="loader"></div><p style="text-align:center;">Sincronizando con Gemini v1 Engine...</p>';
+        output.innerHTML = '<div class="loader"></div><p style="text-align:center; font-weight:600;">Sincronizando con el motor de EnglishPlus+...</p>';
 
-        const prompt = `Analiza la palabra "${word}" como un lingüista experto. 
+        const prompt = `Analiza la palabra "${word}" como un lingüista experto en American English de élite. 
+        Respuesta obligatoria en HTML puro usando clases: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
         Tono: Carlos Mario Navarro (Sofisticado, autoritario).
-        Devuelve HTML PURO con estas clases: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
-        ESTRUCTURA: Word Analysis, Meaning, Connotation, Phonetics, Synonyms, Family, Grit Scale (4 fases), Professional Practice, Pro-Tip.
-        NO USES bloques de código markdown ni asteriscos.`;
+        ESTRUCTURA: Word Analysis, English Meaning, Connotation, Phonetics, Synonyms, Family, Grit Scale (4 fases), Professional Practice, Pro-Tip.
+        IMPORTANTE: NO USES markdown ni bloques de código.`;
 
         try {
-            // CAMBIO CRÍTICO: Usamos la versión v1 estable de la API
-            const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${KEY}`;
+            // URL con versión estable 1.5
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${KEY}`;
 
-            const response = await fetch(API_URL, {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -71,31 +75,34 @@
 
             const data = await response.json();
 
-            if (data.error) throw new Error(data.error.message);
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
 
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 let html = data.candidates[0].content.parts[0].text;
-                // Limpiamos residuos de markdown por si la IA los incluye
+                // Limpieza de etiquetas markdown por seguridad
                 html = html.replace(/```html|```/g, "").trim();
                 output.innerHTML = html;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                throw new Error("Respuesta vacía de la IA.");
             }
 
         } catch (err) {
             output.innerHTML = `
                 <div class="error-card">
-                    <h3>Error de Conexión</h3>
-                    <p>${err.message}</p>
+                    <h3>Error de Handshake Lingüístico</h3>
+                    <p>Detalle: ${err.message}</p>
                     <hr>
-                    <p><small>Asegúrate de estar usando <b>Live Server</b> en VS Code. Si estás abriendo el archivo directamente (file://), Google bloqueará la petición por seguridad (CORS).</small></p>
+                    <p><small><b>Nota para Carlos:</b> Si el error persiste, asegúrate de haber activado la "Generative Language API" en tu consola de Google Cloud para el proyecto EnglishPlus+.</small></p>
                 </div>`;
         }
     }
 
-    document.getElementById('searchBtn').onclick = analyze;
-    document.getElementById('wordInput').onkeydown = (e) => { if(e.key==='Enter') analyze(); };
+    // Configuración de disparadores (Listeners)
+    document.getElementById('searchBtn').addEventListener('click', analyze);
+    document.getElementById('wordInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') analyze();
+    });
 </script>
 </body>
 </html>
