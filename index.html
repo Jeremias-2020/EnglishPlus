@@ -86,105 +86,106 @@
         const upper = word.toUpperCase();
         const meanings = api.meanings;
         
-        // 1. SELECCIÓN DE SIGNIFICADO DE ESPECTRO AMPLIO
-        // Buscamos la definición más rica y completa, no solo la técnica.
-        let mainMeaning = meanings[0];
-        let definition = mainMeaning.definitions[0].definition;
-        let example = mainMeaning.definitions[0].example || "No direct example available.";
+        // 1. ELITE SELECTION: Buscamos la definición con más "sustancia"
+        let mData = meanings[0];
+        let def = mData.definitions[0].definition;
+        let ex = mData.definitions[0].example || `The concept of ${word} is fundamental to this strategy.`;
         
-        // Priorizamos definiciones que tengan ejemplos reales de uso
         for (let m of meanings) {
             for (let d of m.definitions) {
-                if (d.example) {
-                    mainMeaning = m;
-                    definition = d.definition;
-                    example = d.example;
+                if (d.example && d.definition.length > 20) {
+                    mData = m;
+                    def = d.definition;
+                    ex = d.example;
                     break;
                 }
             }
         }
 
-        const pos = mainMeaning.partOfSpeech;
+        const pos = mData.partOfSpeech;
         const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
 
-        // 2. LÓGICA DE CONNOTACIÓN AMERICANA (SENTIDO AMPLIO)
+        // 2. AI DEEP LOGIC: CATEGORIZACIÓN TEMÁTICA
+        // Aquí es donde el código "piensa" como yo
+        let category = "universal";
+        if (["low", "small", "weak", "slow"].includes(word.toLowerCase())) category = "baseline";
+        if (["focus", "drive", "relentless", "grit"].includes(word.toLowerCase())) category = "power";
+        if (pos.includes("verb")) category = "action";
+        if (pos.includes("adjective")) category = "trait";
+
+        // 3. GENERADOR DE CONNOTACIÓN LINGÜÍSTICA
         let connotation = "";
-        if (pos.includes('adjective')) {
-            connotation = `In American English, this is a **High-Energy Descriptor**. It defines the intensity or the essence of a subject. Depending on context, it can shift from a profound compliment of character to a neutral observation of a state.`;
-        } else if (pos.includes('verb')) {
-            connotation = `This is an **Action-Driven Power Word**. In the U.S., it signals movement, execution, and the bridge between intent and reality. It's the language of momentum.`;
+        if (category === "baseline") {
+            connotation = `In American culture, this term represents a **Critical Minimum** or a starting point. It's often used strategically to describe entry points, efficiency (low cost), or emotional states that precede a breakthrough. It’s a word of contrast.`;
+        } else if (category === "power") {
+            connotation = `This is a **High-Impact Power Word**. In the U.S., it signals a 'refuse-to-lose' mentality. It is the language of executive presence and relentless execution.`;
         } else {
-            connotation = `This is a **Foundational Concept**. Precision with this noun signals cultural fluency. In the U.S., choosing this exact term demonstrates a disciplined and organized mind.`;
+            connotation = `In the American mindset, this is a **Foundational Descriptor**. Its value lies in its precision. Using it correctly demonstrates that you possess 'Professional Maturity' and cultural fluency.`;
         }
 
         let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
         
-        // 3. SECCIÓN DE SIGNIFICADO Y CONNOTACIÓN
+        // English Meaning
         html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.charAt(0).toUpperCase() + pos.slice(1)}:</b> ${definition}</p>
+        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${def}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
-        // 4. FONÉTICA Y PRONUNCIACIÓN (RIGOR LINGÜÍSTICO)
+        // Phonetics
         html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
-        <div style="display:flex; align-items:center; gap:30px; background:#f8fafc; padding:30px; border-radius:20px; border:1px solid #e2e8f0;">
-            <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
-            <div>
-                <p class="body-text" style="font-family: 'Courier New', monospace; font-size:1.8rem; color:var(--primary); font-weight:700; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0; font-style: italic;">"Stress the dominant syllable to project clarity and authority."</p>
-            </div>
+        <div style="background:#f1f5f9; padding:25px; border-radius:15px; border-left: 5px solid var(--primary); margin-bottom:20px;">
+            <p class="body-text" style="font-family:monospace; font-size:1.6rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
+            <p class="body-text" style="margin:5px 0 0 0; font-style:italic;">"Use a long, resonant American 'O' and a confident downward inflection."</p>
         </div>`;
 
-        // 5. MAPA DE MATICES (SINÓNIMOS Y ANTÓNIMOS REALES)
+        // 4. MAPA DE MATICES DINÁMICO (Sinónimos y Antónimos Reales)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        let syns = mainMeaning.synonyms.slice(0, 4);
-        if (syns.length === 0) syns = ["Strategic", "Principal", "Essential", "Notable"]; // Fallback profesional
+        let syns = mData.synonyms.length > 0 ? mData.synonyms.slice(0, 4) : ["Strategic", "Minimal", "Essential", "Understated"];
         syns.forEach(s => {
-            html += `<p class="body-text">• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Adds a specific nuance of intensity or focus to the root concept.</p>`;
+            html += `<p class="body-text">• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Shifts the focus to a more specific level of intensity or scale.</p>`;
         });
 
         html += `<div class="section-h">Antonyms 🚫</div>`;
-        let ants = mainMeaning.antonyms.slice(0, 3);
-        if (ants.length > 0) {
-            ants.forEach(a => html += `<p class="body-text">• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Represents the direct lack or opposite of ${word}.</p>`);
-        } else {
-            html += `<p class="body-text">Weakness, Hesitation, or Generalization (Contextual opposites).</p>`;
-        }
+        let ants = mData.antonyms.length > 0 ? mData.antonyms.slice(0, 3) : ["Elevated", "Exorbitant", "Peak"];
+        ants.forEach(a => {
+            html += `<p class="body-text">• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> The direct opposite, representing the maximum or high-level state.</p>`;
+        });
 
-        // 6. FAMILIA DE PALABRAS (CONSTRUCCIÓN MORFOLÓGICA)
-        let root = word.toLowerCase().replace(/s$|ing$|ed$/, "");
+        // 5. WORD FAMILY (Lógica de construcción)
+        let root = word.toLowerCase().replace(/e$|ing$|ed$|s$/, "");
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-        <p class="body-text">• <b>${root}ly (Adverb):</b> How the action or quality is applied in real-time.</p>
-        <p class="body-text">• <b>${root}ness (Noun):</b> The core state or essence of being ${word}.</p>`;
+        <p class="body-text">• <b>${root}er:</b> A comparative state or a direct action to reduce level.</p>
+        <p class="body-text">• <b>${root}ly:</b> Applying the quality with humility or precision.</p>`;
 
-        // 7. LA ESCALA DE INTENSIDAD (EL "GRIT" SCALE DINÁMICO)
+        // 6. GROWTH SCALE (Cambiamos el texto según la categoría)
+        let phase4 = (category === "power") ? "RELENTLESS IDENTITY" : "STRATEGIC MASTERY";
         html += `<div class="section-h">The Growth Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>Interest</b><div>You recognize the value of ${upper}.</div></div>
-            <div class="grit-row"><b>Effort</b><div>You are actively applying the concept.</div></div>
-            <div class="grit-row"><b>Persistence</b><div>You maintain the quality despite obstacles.</div></div>
-            <div class="grit-row"><b>MASTERY</b><div>${upper} has become a natural part of your identity.</div></div>
+            <div class="grit-row"><b>Phase 1: Interest</b><div>Recognizing the context of ${upper}.</div></div>
+            <div class="grit-row"><b>Phase 2: Effort</b><div>Applying ${word} to specific daily tasks.</div></div>
+            <div class="grit-row"><b>Phase 3: Persistence</b><div>Maintaining the standard of ${word} under pressure.</div></div>
+            <div class="grit-row"><b>Phase 4: ${phase4}</b><div>${upper} is now a tool in your elite vocabulary.</div></div>
         </div>`;
 
-        // 8. IDIOMATISMOS Y EJEMPLOS REALES
-        html += `<div class="section-h">Idioms & Collocations 🗣️</div>
-        <p class="body-text">• <b>"Relentless pursuit of ${word}"</b>: A common high-stakes phrase.</p>
-        <p class="body-text">• <b>"Stay ${word}-oriented"</b>: Focus on the final outcome.</p>
-        
-        <div class="section-h">Real-World Examples 📝</div>
-        <div class="practice-box" style="background:#fff;">
-            <p>"${example !== "No direct example available." ? example : "The team showed a relentless approach to solving the problem."}"</p>
-            <p>"Success is often a result of ${word} meeting opportunity at the right time."</p>
+        // 7. IDIOMS Y EJEMPLOS REALES
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
+        let idioms = (category === "baseline") ? ["'Low-hanging fruit'", "'Lay low'", "'All-time low'"] : ["'Relentless pursuit'", "'Keep the gas on'", "'Zero in'"];
+        idioms.forEach(i => html += `<p class="body-text">• <b>${i}</b></p>`);
+
+        html += `<div class="section-h">Real-World Examples 📝</div>
+        <div class="practice-box" style="background:#fff; border: 1px solid #ddd;">
+            <p>"${ex}"</p>
+            <p>"In the U.S. market, keeping a <b>${word}</b> overhead is the key to aggressive scalability."</p>
         </div>`;
 
-        // 9. PRÁCTICA AMIGABLE (THE AMERICAN WAY)
+        // 8. PRACTICE (The American Way)
         html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>In a Meeting:</b> "I suggest we <b>zero in</b> on our ${word} to ensure our output matches our elite standards."</p>
-            <p><b>In an Interview:</b> "I am <b>relentless</b> when it comes to ${word}. I don't just finish tasks; I optimize them."</p>
+            <p><b>In a Meeting:</b> "Let's target the <b>${word}-hanging fruit</b> first to build immediate momentum."</p>
+            <p><b>In an Interview:</b> "I view <b>${word}</b> points as data. They are opportunities to pivot and execute with more grit."</p>
         </div>`;
 
-        // 10. TIP PRO
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., words like "<b>${word}</b>" are tools of influence. Don't just say them—vocalize them with a steady, downward inflection. Precision in language is the hallmark of a leader. Own your vocabulary, and you will own the room.</p></div>`;
+        // 9. TIP PRO (Final touch)
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., your vocabulary defines your rank. Never use "<b>${word}</b>" to sound small; use it to sound strategic. Precision is the hallmark of a leader. Own your language.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -200,6 +201,7 @@
 </script>
 </body>
 </html>
+
 
 
 
