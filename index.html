@@ -8,31 +8,26 @@
         :root {
             --primary: #1e293b;
             --accent: #2563eb;
-            --secondary: #64748b;
             --bg: #f8fafc;
             --white: #ffffff;
-            --orange: #f97316;
         }
 
         body { 
-            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             background: var(--bg); 
-            color: var(--primary); 
             margin: 0; 
             padding: 20px; 
-            line-height: 1.6;
         }
 
         .container { 
             max-width: 850px; 
-            margin: 0 auto; 
+            margin: 40px auto; 
             background: var(--white); 
             padding: 50px; 
             border-radius: 35px; 
             box-shadow: 0 20px 60px rgba(0,0,0,0.07); 
         }
 
-        /* DISEÑO DE BÚSQUEDA */
         .search-area { 
             display: flex; 
             gap: 15px; 
@@ -47,10 +42,9 @@
             font-size: 1.2rem; 
             outline: none; 
             transition: 0.3s;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        input:focus { border-color: var(--accent); box-shadow: 0 0 0 5px rgba(37,99,235,0.1); }
+        input:focus { border-color: var(--accent); }
 
         button { 
             padding: 0 40px; 
@@ -61,84 +55,34 @@
             font-weight: 800; 
             font-size: 1rem; 
             cursor: pointer; 
-            transition: 0.4s; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
+            transition: 0.3s; 
         }
 
-        button:hover { background: #1d4ed8; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37,99,235,0.2); }
+        button:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* DISEÑO DE RESPUESTA (ESTILO CARLOS MARIO) */
-        .main-title { 
-            font-size: 3rem; 
-            font-weight: 900; 
-            color: var(--primary); 
-            border-bottom: 8px solid var(--accent); 
-            display: inline-block; 
-            margin-bottom: 40px; 
-            letter-spacing: -1.5px;
-            text-transform: uppercase;
-        }
-
-        .section-h { 
-            font-size: 1.6rem; 
-            font-weight: 800; 
-            color: var(--accent); 
-            margin: 45px 0 20px 0; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px;
-        }
-
-        .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; }
-
-        .practice-box { 
-            background: #f1f5f9; 
-            padding: 35px; 
-            border-radius: 25px; 
-            border-left: 8px solid var(--accent); 
-            margin: 30px 0; 
-        }
-
-        .pro-tip { 
-            background: #fff7ed; 
-            padding: 35px; 
-            border: 2px dashed var(--orange); 
-            border-radius: 25px; 
-            margin-top: 60px; 
-        }
-
-        /* DISEÑO DE LA ESCALA */
+        /* ESTILOS DE LA RESPUESTA */
+        .main-title { font-size: 3rem; font-weight: 900; color: var(--primary); border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; }
+        .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; }
+        .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
+        .practice-box { background: #f1f5f9; padding: 35px; border-radius: 25px; border: 1px solid #e2e8f0; margin: 30px 0; }
+        .pro-tip { background: #fff7ed; padding: 35px; border: 2px dashed #f97316; border-radius: 25px; margin-top: 60px; }
+        
         .grit-scale-container { margin: 30px 0; }
-        .grit-row { 
-            display: flex; 
-            margin-bottom: 12px; 
-            border-radius: 15px; 
-            overflow: hidden; 
-            border: 1px solid #e2e8f0; 
-            transition: 0.3s;
-        }
-        .grit-row:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .grit-row b { background: var(--primary); color: white; padding: 20px; min-width: 130px; text-align: center; font-size: 0.9rem; text-transform: uppercase; }
-        .grit-row div { padding: 20px; background: white; flex: 1; font-size: 1.1rem; }
+        .grit-row { display: flex; margin-bottom: 12px; border-radius: 15px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .grit-row b { background: var(--primary); color: white; padding: 20px; min-width: 130px; text-align: center; }
+        .grit-row div { padding: 20px; background: white; flex: 1; }
 
-        /* LOADER */
-        .loader-container { text-align: center; padding: 60px; }
-        .loader { 
-            width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid var(--accent); 
-            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; 
-        }
+        .loader { border: 5px solid #f3f3f3; border-top: 5px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        #error-log { color: #dc2626; background: #fef2f2; padding: 20px; border-radius: 15px; display: none; margin-top: 20px; border: 1px solid #fee2e2; }
+        #error-log { color: #dc2626; background: #fef2f2; padding: 20px; border-radius: 15px; display: none; margin-bottom: 20px; border: 1px solid #fee2e2; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="search-area">
-        <input type="text" id="wordInput" placeholder="Analyze a word (e.g., Focus, Relentless, Low)...">
-        <button id="searchBtn">Analizar</button>
+        <input type="text" id="wordInput" placeholder="Analyze a word (Focus, Grit, Low)..." autocomplete="off">
+        <button id="searchBtn">ANALIZAR</button>
     </div>
 
     <div id="error-log"></div>
@@ -146,46 +90,44 @@
 </div>
 
 <script>
+    // 1. CONFIGURACIÓN CLAVE
     const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
-    const btn = document.getElementById('searchBtn');
-    const input = document.getElementById('wordInput');
-    const output = document.getElementById('full-analysis');
+    
+    // Seleccionamos los elementos del DOM una sola vez
+    const wordInput = document.getElementById('wordInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const fullAnalysis = document.getElementById('full-analysis');
     const errorLog = document.getElementById('error-log');
 
-    async function performAnalysis() {
-        const word = input.value.trim();
+    // 2. FUNCIÓN PRINCIPAL
+    async function startAnalysis() {
+        const word = wordInput.value.trim();
         if (!word) return;
 
-        output.innerHTML = `
-            <div class="loader-container">
-                <div class="loader"></div>
-                <p style="margin-top:20px; font-weight:600; color:var(--secondary);">Conectando con Gemini 1.5 Pro Brain...</p>
-            </div>`;
+        // Limpiar interfaz
         errorLog.style.display = 'none';
+        fullAnalysis.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#64748b;">Conectando con el cerebro de Gemini 1.5 Pro...</p>';
 
-        // URL CORREGIDA PARA GEMINI 1.5 PRO
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
-
-        const prompt = `Actúa como un lingüista experto de élite. Analiza la palabra "${word}".
-        Respuesta obligatoria en HTML siguiendo este diseño exacto:
+        const prompt = `Analiza la palabra "${word}" como un lingüista experto.
+        RESPUESTA EXCLUSIVA EN HTML. USA ESTAS CLASES: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
         
-        1. <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
-        2. <div class="section-h">English Meaning 🇺🇸</div> (Definición profesional profunda).
-        3. <div class="section-h">Connotation 🗣️</div> (Uso cultural en USA y psicología).
-        4. <div class="section-h">Phonetics & Pronunciation 🗣️</div> (IPA y tip de entonación ejecutiva).
-        5. <div class="section-h">Synonyms & Antonyms 🤝</div> (Mapeo de matices con explicaciones).
-        6. <div class="section-h">Word Family 👨‍👩‍👧‍👦</div> (Morfología: sustantivo, adjetivo, verbo, adverbio).
-        7. <div class="section-h">The Grit Scale ⚖️</div> (Usa .grit-scale-container y .grit-row para Phase 1 a 4).
-        8. <div class="section-h">Idioms & Collocations 🗣️</div> (Frases nativas de alto impacto).
-        9. <div class="section-h">Professional & Social Practice 🇺🇸</div> (Escenarios reales detallados).
-        10. <div class="pro-tip"><b>Tip Pro 💡</b></div> (Consejo de autoridad y presencia).
-
-        IMPORTANTE: No uses markdown. El tono debe ser el de Carlos Mario Navarro: sofisticado, autoritario y empoderador.`;
+        Sigue esta estructura:
+        - Word Analysis (main-title)
+        - English Meaning
+        - Connotation (Psicología USA)
+        - Phonetics (IPA)
+        - Synonyms & Antonyms
+        - Word Family
+        - The Grit Scale (4 fases)
+        - Professional & Social Practice (Ejemplos detallados)
+        - Tip Pro
+        
+        Tono: Carlos Mario Navarro (Sofisticado y Autoritario). NO USES MARKDOWN.`;
 
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${API_KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: prompt }] }]
                 })
@@ -193,24 +135,35 @@
 
             const data = await response.json();
 
-            if (data.error) throw new Error(data.error.message);
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
 
             if (data.candidates && data.candidates[0].content.parts[0].text) {
-                let htmlContent = data.candidates[0].content.parts[0].text;
-                htmlContent = htmlContent.replace(/```html|```/g, "").trim();
-                output.innerHTML = htmlContent;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                let cleanHTML = data.candidates[0].content.parts[0].text;
+                // Eliminamos cualquier bloque de código markdown que la IA agregue
+                cleanHTML = cleanHTML.replace(/```html|```/g, "").trim();
+                fullAnalysis.innerHTML = cleanHTML;
+            } else {
+                throw new Error("No se recibió respuesta del cerebro neural.");
             }
 
         } catch (err) {
-            errorLog.innerText = "SISTEMA: " + err.message;
+            console.error("Error detectado:", err);
             errorLog.style.display = 'block';
-            output.innerHTML = "";
+            errorLog.innerHTML = `<b>Error:</b> ${err.message}<br><small>Intenta usar un servidor local (Live Server) o revisa tu conexión.</small>`;
+            fullAnalysis.innerHTML = "";
         }
     }
 
-    btn.addEventListener('click', performAnalysis);
-    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') performAnalysis(); });
+    // 3. LISTENERS (Para que el botón y el Enter funcionen sí o sí)
+    searchBtn.onclick = startAnalysis;
+
+    wordInput.onkeydown = function(e) {
+        if (e.key === 'Enter') {
+            startAnalysis();
+        }
+    };
 </script>
 
 </body>
