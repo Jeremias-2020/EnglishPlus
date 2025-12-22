@@ -82,107 +82,109 @@
         input.value = '';
     }
 
-  function renderElite(api, word) {
+ function renderElite(api, word) {
         const upper = word.toUpperCase();
         const meanings = api.meanings;
         
-        // 1. DEEP LOGIC: CONTEXTUAL FILTERING
-        // We bypass literal/scientific meanings to find the "Professional/Cultural" core.
-        let bestMeaning = meanings[0];
-        let definition = bestMeaning.definitions[0].definition;
+        // 1. SELECCIÓN DE SIGNIFICADO DE ESPECTRO AMPLIO
+        // Buscamos la definición más rica y completa, no solo la técnica.
+        let mainMeaning = meanings[0];
+        let definition = mainMeaning.definitions[0].definition;
+        let example = mainMeaning.definitions[0].example || "No direct example available.";
         
+        // Priorizamos definiciones que tengan ejemplos reales de uso
         for (let m of meanings) {
             for (let d of m.definitions) {
-                const dText = d.definition.toLowerCase();
-                // We look for "Human Intent" keywords that signify American professional values
-                if (dText.includes('attention') || dText.includes('quality') || 
-                    dText.includes('achieve') || dText.includes('manner') || dText.includes('state')) {
-                    bestMeaning = m;
+                if (d.example) {
+                    mainMeaning = m;
                     definition = d.definition;
+                    example = d.example;
                     break;
                 }
             }
         }
 
-        const pos = bestMeaning.partOfSpeech.toLowerCase();
-        const phonetic = api.phonetic || (api.phonetics && api.phonetics[0]?.text) || "/.../";
+        const pos = mainMeaning.partOfSpeech;
+        const phonetic = api.phonetic || (api.phonetics.find(p => p.text)?.text) || "/.../";
 
-        // 2. CULTURAL CATEGORIZATION (The "Vibe" Engine)
-        let theme = "concept"; 
-        if (pos.includes('verb')) theme = "action";
-        if (pos.includes('adjective') || pos.includes('adverb')) theme = "trait";
-
-        // 3. MORPHOLOGICAL INTELLIGENCE (Grammar Fix)
-        let root = word.toLowerCase();
-        if (root.endsWith('s') && root.length > 4) root = root.slice(0, -1);
-        if (root.endsWith('ing')) root = root.slice(0, -3);
-        
-        // Special grammar handling for professional suffixes
-        let familyAdj = (theme === "trait") ? `${root}ness` : `${root}-oriented`;
-        let familyAct = (word.toLowerCase() === 'focus') ? "Focusing" : `${root}ing`;
-        if (word.toLowerCase() === 'focus') familyAdj = "Focused";
-
-        let html = `<div class="main-title">WORD ANALYSIS: ${upper}</div>`;
-        
-        // 4. HIGH-LEVEL CONNOTATION (Cultural Context)
+        // 2. LÓGICA DE CONNOTACIÓN AMERICANA (SENTIDO AMPLIO)
         let connotation = "";
-        if (theme === "action") {
-            connotation = `In the American professional ecosystem, **${upper}** is categorized as an **Execution Catalyst**. It represents the bridge between strategic intent and tangible results. For a U.S. leader, using this word signals ownership and the drive to move the needle.`;
-        } else if (theme === "trait") {
-            connotation = `This is a **High-Impact Descriptor**. In the U.S., descriptors aren't just labels; they are 'Personal Branding' tools. This word defines the standard of excellence you bring to the table and signals professional maturity.`;
+        if (pos.includes('adjective')) {
+            connotation = `In American English, this is a **High-Energy Descriptor**. It defines the intensity or the essence of a subject. Depending on context, it can shift from a profound compliment of character to a neutral observation of a state.`;
+        } else if (pos.includes('verb')) {
+            connotation = `This is an **Action-Driven Power Word**. In the U.S., it signals movement, execution, and the bridge between intent and reality. It's the language of momentum.`;
         } else {
-            connotation = `This is a **Foundational Asset**. American business culture values the 'Ruthless Precision' of language. Choosing this exact noun over a general one demonstrates an organized mind and elite cultural fluency.`;
+            connotation = `This is a **Foundational Concept**. Precision with this noun signals cultural fluency. In the U.S., choosing this exact term demonstrates a disciplined and organized mind.`;
         }
 
+        let html = `<div class="main-title">Word Analysis: ${upper}</div>`;
+        
+        // 3. SECCIÓN DE SIGNIFICADO Y CONNOTACIÓN
         html += `<div class="section-h">English Meaning 🇺🇸</div>
-        <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
+        <p class="body-text"><b>${pos.charAt(0).toUpperCase() + pos.slice(1)}:</b> ${definition}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
-        // 5. PHONETICS (The Power of Sound)
-        html += `<div class="section-h">Pronunciation 🗣️</div>
-        <div style="display:flex; align-items:center; gap:30px; background:#f1f5f9; padding:30px; border-radius:25px;">
+        // 4. FONÉTICA Y PRONUNCIACIÓN (RIGOR LINGÜÍSTICO)
+        html += `<div class="section-h">Phonetics & Pronunciation 🗣️</div>
+        <div style="display:flex; align-items:center; gap:30px; background:#f8fafc; padding:30px; border-radius:20px; border:1px solid #e2e8f0;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
-                <p class="body-text" style="font-family: monospace; font-size:2rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Stress the dominant syllable and use a downward inflection to project authority.</p>
+                <p class="body-text" style="font-family: 'Courier New', monospace; font-size:1.8rem; color:var(--primary); font-weight:700; margin:0;">${phonetic}</p>
+                <p class="body-text" style="margin:0; font-style: italic;">"Stress the dominant syllable to project clarity and authority."</p>
             </div>
         </div>`;
 
-        // 6. THE NUANCE MAP (Dynamic Logic Synonyms)
+        // 5. MAPA DE MATICES (SINÓNIMOS Y ANTÓNIMOS REALES)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        let syns = bestMeaning.synonyms.length > 0 ? bestMeaning.synonyms.slice(0, 4) : ["Strategic", "Core", "Vital", "Primary"];
+        let syns = mainMeaning.synonyms.slice(0, 4);
+        if (syns.length === 0) syns = ["Strategic", "Principal", "Essential", "Notable"]; // Fallback profesional
         syns.forEach(s => {
-            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: This variation emphasizes the **Elite Standards** required for high-level American business output.</span>`;
+            html += `<p class="body-text">• <b>${s.charAt(0).toUpperCase() + s.slice(1)}:</b> Adds a specific nuance of intensity or focus to the root concept.</p>`;
         });
 
-        // 7. WORD FAMILY (Deep Grammar)
+        html += `<div class="section-h">Antonyms 🚫</div>`;
+        let ants = mainMeaning.antonyms.slice(0, 3);
+        if (ants.length > 0) {
+            ants.forEach(a => html += `<p class="body-text">• <b>${a.charAt(0).toUpperCase() + a.slice(1)}:</b> Represents the direct lack or opposite of ${word}.</p>`);
+        } else {
+            html += `<p class="body-text">Weakness, Hesitation, or Generalization (Contextual opposites).</p>`;
+        }
+
+        // 6. FAMILIA DE PALABRAS (CONSTRUCCIÓN MORFOLÓGICA)
+        let root = word.toLowerCase().replace(/s$|ing$|ed$/, "");
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
-        <p class="body-text">• <b>${familyAct}:</b> The active, ongoing process of execution.</p>
-        <p class="body-text">• <b>${familyAdj}:</b> The state of possessing this quality as a core professional standard.</p>`;
+        <p class="body-text">• <b>${root}ly (Adverb):</b> How the action or quality is applied in real-time.</p>
+        <p class="body-text">• <b>${root}ness (Noun):</b> The core state or essence of being ${word}.</p>`;
 
-        // 8. THE GROWTH SCALE (Executive Logic)
-        let scaleTitle = (theme === "action") ? "The Execution Scale" : "The Grit Scale";
-        let steps = (theme === "action") 
-            ? ["Identification: Spotting the opportunity for movement.", "Intent: Deciding to apply ${upper} to a specific goal.", "Optimization: Refining the process for maximum efficiency.", `MASTERY: Using ${upper} to set the pace for your entire team.`]
-            : ["Concept: Understanding the high-level definition.", "Integration: Applying ${word} to your personal workflow.", "Consistency: Maintaining the quality under high-pressure stakes.", `RELENTLESS: Making ${upper} the absolute baseline of your identity.`];
-
-        html += `<div class="section-h">${scaleTitle} ⚖️</div>
+        // 7. LA ESCALA DE INTENSIDAD (EL "GRIT" SCALE DINÁMICO)
+        html += `<div class="section-h">The Growth Scale ⚖️</div>
         <div class="grit-scale-container">
-            <div class="grit-row"><b>Phase 1</b><div>${steps[0]}</div></div>
-            <div class="grit-row"><b>Phase 2</b><div>${steps[1]}</div></div>
-            <div class="grit-row"><b>Phase 3</b><div>${steps[2]}</div></div>
-            <div class="grit-row"><b>Phase 4</b><div>${steps[3]}</div></div>
+            <div class="grit-row"><b>Interest</b><div>You recognize the value of ${upper}.</div></div>
+            <div class="grit-row"><b>Effort</b><div>You are actively applying the concept.</div></div>
+            <div class="grit-row"><b>Persistence</b><div>You maintain the quality despite obstacles.</div></div>
+            <div class="grit-row"><b>MASTERY</b><div>${upper} has become a natural part of your identity.</div></div>
         </div>`;
 
-        // 9. PROFESSIONAL PRACTICE (Deep Logic Scenarios)
-        html += `<div class="section-h">Professional Practice 🇺🇸</div>
+        // 8. IDIOMATISMOS Y EJEMPLOS REALES
+        html += `<div class="section-h">Idioms & Collocations 🗣️</div>
+        <p class="body-text">• <b>"Relentless pursuit of ${word}"</b>: A common high-stakes phrase.</p>
+        <p class="body-text">• <b>"Stay ${word}-oriented"</b>: Focus on the final outcome.</p>
+        
+        <div class="section-h">Real-World Examples 📝</div>
+        <div class="practice-box" style="background:#fff;">
+            <p>"${example !== "No direct example available." ? example : "The team showed a relentless approach to solving the problem."}"</p>
+            <p>"Success is often a result of ${word} meeting opportunity at the right time."</p>
+        </div>`;
+
+        // 9. PRÁCTICA AMIGABLE (THE AMERICAN WAY)
+        html += `<div class="section-h">Friendly Practice (The American Way) 🇺🇸</div>
         <div class="practice-box">
-            <p><b>In an Executive Meeting:</b> "We need to align our strategy to **${word}** on the highest ROI activities immediately."</p>
-            <p><b>In a High-Stakes Interview:</b> "My track record is **${word}**-driven. I don't just meet expectations; I define the new standard for the role."</p>
+            <p><b>In a Meeting:</b> "I suggest we <b>zero in</b> on our ${word} to ensure our output matches our elite standards."</p>
+            <p><b>In an Interview:</b> "I am <b>relentless</b> when it comes to ${word}. I don't just finish tasks; I optimize them."</p>
         </div>`;
 
-        // 10. TIP PRO (Executive Presence)
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., brevity is the soul of authority. When you use a word like "<b>${word}</b>," don't dilute it with fillers. State your point, maintain eye contact, and let the silence reinforce your confidence. Leaders own their language; followers just use it.</p></div>`;
+        // 10. TIP PRO
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the U.S., words like "<b>${word}</b>" are tools of influence. Don't just say them—vocalize them with a steady, downward inflection. Precision in language is the hallmark of a leader. Own your vocabulary, and you will own the room.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -198,6 +200,7 @@
 </script>
 </body>
 </html>
+
 
 
 
