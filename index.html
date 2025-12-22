@@ -20,20 +20,16 @@
         .btn-search:hover { background: #001a45; }
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 400px; }
-
-        /* ELITE RENDERING STYLES */
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
         .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
         .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
         .pronunciation-box { background: #f1f5f9; border-radius: 20px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin: 20px 0; border: 1px solid #e2e8f0; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .audio-btn:active { transform: scale(0.9); background: var(--secondary); }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
         .grit-scale-container { border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; background: #fff; margin: 20px 0; }
         .grit-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
-        .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; border-bottom: none; }
+        .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; }
         .practice-box { background: #eff6ff; border-radius: 20px; padding: 30px; border-left: 8px solid var(--primary); }
         .pro-tip { background: #fff7ed; border-left: 8px solid #f97316; padding: 25px; border-radius: 15px; margin-top: 30px; }
-        
         .loader { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 50px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -57,18 +53,25 @@
     <div class="app-card">
         <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
             <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis 🇺🇸</h1>
-            <p>Powered by Gemini 3 Flash technology for American Professionalism.</p>
+            <p>Powered by Gemini 3 Flash. High-performance results.</p>
+            <button onclick="localStorage.removeItem('GEMINI_KEY'); location.reload();" style="margin-top:20px; cursor:pointer; background:none; border:1px solid #ccc; padding:5px 10px; border-radius:5px; font-size:12px;">Reset API Key</button>
         </div>
         <div id="display-area"></div>
     </div>
 </div>
 
 <script>
-    // SECURITY: The key is fetched from Vercel Environment Variables
-    const API_KEY = window.process?.env?.NEXT_PUBLIC_GEMINI_API_KEY || ""; 
-    const MODEL = "gemini-3-flash-preview";
+    // MÉTODO DE SEGURIDAD ELITE: La llave se guarda en tu navegador, no en el código.
+    let API_KEY = localStorage.getItem('GEMINI_KEY');
+    const MODEL = "gemini-3-flash-preview"; 
 
-    // GLOBAL AUDIO FUNCTION
+    if (!API_KEY) {
+        API_KEY = prompt("Por favor ingresa tu nueva Gemini API Key (Se guardará de forma segura en este navegador):");
+        if (API_KEY) {
+            localStorage.setItem('GEMINI_KEY', API_KEY);
+        }
+    }
+
     window.playEliteAudio = function(text) {
         if (!text) return;
         window.speechSynthesis.cancel();
@@ -83,19 +86,13 @@
 
     async function handleSearch() {
         const word = input.value.trim();
-        if(!word) return;
-
-        if(!API_KEY) {
-            displayArea.innerHTML = `<h3 style="color:red; text-align:center;">Error: API Key missing. Please set NEXT_PUBLIC_GEMINI_API_KEY in Vercel.</h3>`;
-            return;
-        }
+        if(!word || !API_KEY) return;
 
         document.getElementById('welcome-msg').style.display = 'none';
-        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">SYNCHRONIZING WITH GEMINI 3...</h2>`;
+        displayArea.innerHTML = `<div class="loader"></div><h2 style="text-align:center;">Analyzing: ${word.toUpperCase()}</h2>`;
 
-        const prompt = `Perform an Elite Analysis for the word "${word}". 
-        Tone: Professional American English (Carlos Mario Navarro style).
-        MANDATORY HTML (No Markdown):
+        const prompt = `Perform an Elite Analysis for "${word}". Tone: Professional American English. 
+        MANDATORY HTML ONLY (NO MARKDOWN):
         <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
         <div class="section-h">English Meaning 🇺🇸</div>
         <div class="body-text">... (Include Connotation)</div>
@@ -116,7 +113,7 @@
             <div class="grit-row">4. ${word.toUpperCase()}</div>
         </div>
         <div class="section-h">Professional Application</div>
-        <div class="practice-box">... (Cover Letter/Interview)</div>
+        <div class="practice-box">...</div>
         <div class="pro-tip">...</div>`;
 
         try {
@@ -132,12 +129,11 @@
 
             let html = data.candidates[0].content.parts[0].text;
             displayArea.innerHTML = html.replace(/```html|```/g, "").trim();
-            
             window.playEliteAudio(word);
             input.value = '';
 
         } catch (err) {
-            displayArea.innerHTML = `<div style="color:var(--secondary); text-align:center;"><h3>System Latency Alert</h3><p>${err.message}</p></div>`;
+            displayArea.innerHTML = `<h3 style="color:red; text-align:center;">Error: ${err.message}</h3><p style="text-align:center;">Si tu llave es nueva, espera 1 minuto o reinicia la llave con el botón de arriba.</p>`;
         }
     }
 
