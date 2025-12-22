@@ -82,20 +82,19 @@
         input.value = '';
     }
 
-    function renderElite(api, word) {
+   function renderElite(api, word) {
         const upper = word.toUpperCase();
         const meanings = api.meanings;
         
-        // 1. SMART MEANING SELECTION
-        // We look for the definition that best fits a professional context.
+        // 1. CONTEXTUAL INTELLIGENCE: Find the "Human/Professional" meaning
         let bestMeaning = meanings[0];
         let definition = bestMeaning.definitions[0].definition;
         
         for (let m of meanings) {
             for (let d of m.definitions) {
-                const dText = d.definition.toLowerCase();
-                // Prioritize definitions about respect, attention, or opinion
-                if (dText.includes('respect') || dText.includes('consider') || dText.includes('attention')) {
+                const text = d.definition.toLowerCase();
+                // Filter for definitions that describe human interaction or quality over technicality
+                if (text.includes('person') || text.includes('quality') || text.includes('action') || text.length > 20) {
                     bestMeaning = m;
                     definition = d.definition;
                     break;
@@ -106,64 +105,65 @@
         const pos = bestMeaning.partOfSpeech.toLowerCase();
         const phonetic = api.phonetic || (api.phonetics && api.phonetics[0]?.text) || "/.../";
 
-        // 2. MORPHOLOGICAL ROOT (Preventing "regardsing")
-        // We strip 's', 'ing', or 'ed' to find the base for the Word Family.
+        // 2. THEMATIC DNA: Classify the word to build the narrative
+        let theme = "concept"; 
+        if (pos.includes('verb')) theme = "action";
+        if (pos.includes('adjective') || pos.includes('adverb')) theme = "trait";
+
+        // 3. MORPHOLOGICAL ENGINE: Get the root for Word Family
         let root = word.toLowerCase();
         if (root.endsWith('s') && root.length > 4) root = root.slice(0, -1);
         if (root.endsWith('ing')) root = root.slice(0, -3);
         if (root.endsWith('ed')) root = root.slice(0, -2);
 
-        // 3. THEMATIC CLASSIFICATION
-        let theme = "concept"; 
-        if (pos.includes('verb')) theme = "action";
-        if (pos.includes('adjective') || pos.includes('adverb')) theme = "trait";
-
         let html = `<div class="main-title">WORD ANALYSIS: ${upper}</div>`;
         
-        // 4. CONNOTATION (Chat-Level Depth)
+        // 4. THE CONNOTATION (Professional Tone)
         let connotation = "";
-        if (word.toLowerCase() === 'regards') {
-            connotation = `In American professional circles, this is the **Neutral-Professional Gold Standard**. It signals respect and elite boundaries, making it the most versatile closing in business vocabulary.`;
-        } else if (theme === "action") {
-            connotation = `This is an **Execution Term**. In the U.S., it signals the transition from passive observation to active leadership. It is the language of those who 'own' their results.`;
+        if (theme === "action") {
+            connotation = `In American professional culture, this is an **Execution Term**. It signals the transition from passive thought to active ownership. It is the vocabulary of high-performers who bridge the gap between planning and results.`;
+        } else if (theme === "trait") {
+            connotation = `This is a **High-Impact Descriptor**. In the U.S., using this word defines your professional 'brand' and sets the standard for the quality of your output and leadership.`;
         } else {
-            connotation = `This is a **Foundational Asset**. In the American mindset, precision with this term signals cultural fluency and a high-level command of executive presence.`;
+            connotation = `This is a **Foundational Cornerstone**. American English values precision; choosing this exact noun shows a clear, organized mindset and deep cultural fluency in a business environment.`;
         }
 
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
-        // 5. PHONETICS
+        // 5. PHONETICS (The "Downward Inflection" tip)
         html += `<div class="section-h">Pronunciation 🗣️</div>
         <div style="display:flex; align-items:center; gap:30px; background:#f1f5f9; padding:30px; border-radius:25px;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
                 <p class="body-text" style="font-family: monospace; font-size:2rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Deliver this with a crisp American stress pattern and authoritative tone.</p>
+                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Deliver this with a crisp American stress and authoritative downward inflection.</p>
             </div>
         </div>`;
 
-        // 6. DYNAMIC NUANCE MAP (Real API Synonyms)
+        // 6. DYNAMIC NUANCE MAP (Synonyms)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        let syns = bestMeaning.synonyms.length > 0 ? bestMeaning.synonyms.slice(0, 4) : ["Respects", "Consideration", "Greetings", "Sentiments"];
+        let syns = bestMeaning.synonyms.length > 0 ? bestMeaning.synonyms.slice(0, 4) : ["Strategic", "Core", "Essential", "Primary"];
         syns.forEach(s => {
-            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: This nuance highlights the ${theme} nature of the term in a professional setting.</span>`;
+            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: Emphasizes the elite application of ${upper} in a professional context.</span>`;
         });
 
-        // 7. WORD FAMILY (Using the Root logic)
+        // 7. WORD FAMILY (Morphological Logic)
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
-        if (word.toLowerCase() === 'regards') {
-            html += `<p class="body-text">• <b>Regarding (Prep):</b> Concerning a specific topic.</p><p class="body-text">• <b>Regardless (Adv):</b> Moving forward despite obstacles.</p>`;
+        if (theme === "action") {
+            html += `<p class="body-text">• <b>${root}ing:</b> The active process of application.</p><p class="body-text">• <b>${root}able:</b> The strategic capacity for this to be executed.</p>`;
+        } else if (theme === "trait") {
+            html += `<p class="body-text">• <b>${root}ly:</b> How this quality is applied to a specific task.</p><p class="body-text">• <b>${root}ness:</b> The state of possessing this elite characteristic.</p>`;
         } else {
-            html += `<p class="body-text">• <b>${root}ing:</b> The active process of application.</p><p class="body-text">• <b>${root}ful:</b> Possessing the full quality of the concept.</p>`;
+            html += `<p class="body-text">• <b>${root}-driven:</b> A strategy or mindset built around this concept.</p><p class="body-text">• <b>Standard ${root}:</b> The baseline requirement for excellence.</p>`;
         }
 
-        // 8. THE ADAPTIVE SCALE
+        // 8. THE EXECUTION/GRIT SCALE (Narrative Logic)
         let scaleTitle = theme === "action" ? "The Execution Scale" : "The Grit Scale";
         let steps = theme === "action" 
-            ? ["Identification: Noticing the need for action.", "Implementation: Executing with precision.", "Optimization: Refining the process for speed.", `MASTERY: Using ${upper} to lead and empower teams.`]
-            : ["Awareness: Understanding the definition.", "Effort: Using the word in daily communication.", "Consistency: Maintaining the standard under pressure.", `RELENTLESS: Making ${upper} your professional signature.`];
+            ? ["Identification: Noticing the strategic need for action.", "Implementation: Executing with precision for the first time.", "Optimization: Refining for maximum impact and speed.", `MASTERY: Using ${upper} to empower the entire organization.`]
+            : ["Awareness: Understanding the elite definition of the term.", "Effort: Actively integrating ${word} into daily professional habits.", "Consistency: Maintaining the standard under high-pressure scenarios.", `RELENTLESS: Making ${upper} your professional signature.`];
 
         html += `<div class="section-h">${scaleTitle} ⚖️</div>
         <div class="grit-scale-container">
@@ -173,29 +173,20 @@
             <div class="grit-row"><b>Phase 4</b><div>${steps[3]}</div></div>
         </div>`;
 
-        // 9. IDIOMS (Universal Collocations)
-        html += `<div class="section-h">Idioms & Collocations 🗣️</div>`;
-        let idioms = [`'With regard to' (Concerning)`, `'Best regards' (Professional closing)`, `'Give my regards' (Social etiquette)`];
-        if (theme === "trait") idioms = [`'Relentless pursuit'`, `'Keep the momentum'`, `'High-impact quality'`];
-        idioms.forEach(i => html += `<p class="body-text">• <b>${i}</b></p>`);
-
-        // 10. PROFESSIONAL PRACTICE (Dynamic Context)
+        // 9. PROFESSIONAL PRACTICE (The "Chat-Style" Script)
         html += `<div class="section-h">Professional Practice 🇺🇸</div>
         <div class="practice-box">`;
-        if (word.toLowerCase() === 'regards') {
-            html += `<p><b>Email Closing:</b> "I've attached the report for your review. Please let me know if you have questions. <b>Best regards</b>, [Name]."</p>
-                     <p><b>Executive Presence:</b> "With <b>regard</b> to the new strategy, I believe we are positioned for total market dominance."</p>`;
-        } else if (theme === "action") {
-            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> this as our top priority to hit our Q4 targets."</p>
-                     <p><b>Self-Pitch:</b> "I have the capacity to <b>${word}</b> complex data and turn it into actionable strategy."</p>`;
+        if (theme === "action") {
+            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> these resources immediately to ensure we exceed our Q4 expectations."</p>
+                     <p><b>Executive Pitch:</b> "I have the capacity to <b>${word}</b> complex projects and deliver results with total ownership."</p>`;
         } else {
-            html += `<p><b>Professional Branding:</b> "I bring a <b>${word}</b> approach to every client interaction, ensuring elite service."</p>
-                     <p><b>Networking:</b> "Maintaining a <b>${word}</b> mindset is key to scaling this business effectively."</p>`;
+            html += `<p><b>In an Interview:</b> "I bring a <b>${word}</b>-oriented approach to leadership, ensuring that every detail aligns with our core mission."</p>
+                     <p><b>Executive Presence:</b> "By maintaining a <b>${word}</b> perspective, we ensure long-term scalability and market dominance."</p>`;
         }
         html += `</div>`;
 
-        // 11. TIP PRO (The Final Touch)
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the United States, precision with words like "<b>${word}</b>" defines your status. Leaders don't just speak; they choose words that 'land' with authority. Use this term, maintain eye contact, and let the message settle. Ownership is everything.</p></div>`;
+        // 10. TIP PRO (The Master's Advice)
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the United States, your vocabulary is your resume. When you use a word like "<b>${word}</b>," own it. Don't rush your speech; speak with purpose and let the precision of your language project the authority of your character. Ownership is the only path to elite status.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -211,6 +202,7 @@
 </script>
 </body>
 </html>
+
 
 
 
