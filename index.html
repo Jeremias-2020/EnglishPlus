@@ -61,7 +61,7 @@
 
         button:hover { background: #1d4ed8; transform: translateY(-2px); }
 
-        /* DISEÑO DE LA RESPUESTA */
+        /* DISEÑO DE LA RESPUESTA DE ÉLITE */
         .main-title { font-size: 3rem; font-weight: 900; color: var(--primary); border-bottom: 8px solid var(--accent); display: inline-block; margin-bottom: 40px; text-transform: uppercase; letter-spacing: -1px; }
         .section-h { font-size: 1.6rem; font-weight: 800; color: var(--accent); margin: 45px 0 20px 0; border-left: 6px solid var(--accent); padding-left: 15px; display: flex; align-items: center; gap: 10px; }
         .body-text { font-size: 1.2rem; color: #334155; margin-bottom: 25px; line-height: 1.8; }
@@ -82,7 +82,7 @@
 
 <div class="container">
     <div class="search-area">
-        <input type="text" id="wordInput" placeholder="Analyze (Focus, Relentless, Grit)..." autocomplete="off">
+        <input type="text" id="wordInput" placeholder="Analyze (Focus, Relentless, Low)..." autocomplete="off">
         <button id="searchBtn">ANALIZAR</button>
     </div>
 
@@ -92,7 +92,6 @@
 
 <script>
     const API_KEY = "AIzaSyBxYTDxFc60FegEQpdPAjpfKAslxAu4pRM"; 
-    
     const wordInput = document.getElementById('wordInput');
     const searchBtn = document.getElementById('searchBtn');
     const fullAnalysis = document.getElementById('full-analysis');
@@ -103,10 +102,10 @@
         if (!word) return;
 
         errorLog.style.display = 'none';
-        fullAnalysis.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#64748b; font-weight:600;">CONSULTANDO CEREBRO NEURAL...</p>';
+        fullAnalysis.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#64748b; font-weight:600;">CONECTANDO CON EL CEREBRO DE GEMINI...</p>';
 
-        // Cambiamos a gemini-1.5-flash-latest que es el modelo más estable para v1beta
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+        // PROBAMOS CON EL NOMBRE DE MODELO MÁS ESTÁNDAR POSIBLE
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
         const prompt = `Analiza la palabra "${word}" con el máximo rigor de un lingüista experto en American English.
         Respuesta EXCLUSIVAMENTE en HTML usando estas clases: .main-title, .section-h, .body-text, .practice-box, .pro-tip, .grit-scale-container, .grit-row.
@@ -117,13 +116,13 @@
         2. English Meaning (Definición profesional)
         3. Connotation (Psicología y cultura USA)
         4. Phonetics (IPA y entonación ejecutiva)
-        5. Synonyms & Antonyms (Matices reales)
+        5. Synonyms & Antonyms (Matices reales con sus porqués)
         6. Word Family (Morfología completa)
         7. The Grit Scale (4 fases de dominio)
-        8. Professional & Social Practice (Ejemplos de alto impacto)
+        8. Professional & Social Practice (Ejemplos detallados de alto impacto)
         9. Tip Pro (Cierre de autoridad)
         
-        NO USES bloques de código markdown ni asteriscos.`;
+        IMPORTANTE: No uses markdown. No uses asteriscos. Entrega HTML puro.`;
 
         try {
             const response = await fetch(API_URL, {
@@ -137,27 +136,25 @@
             const data = await response.json();
 
             if (data.error) {
+                // Si este falla, es un tema de permisos de la API Key o región.
                 throw new Error(data.error.message);
             }
 
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 let cleanHTML = data.candidates[0].content.parts[0].text;
-                // Limpieza profunda de markdown
                 cleanHTML = cleanHTML.replace(/```html|```/g, "").trim();
                 fullAnalysis.innerHTML = cleanHTML;
-            } else {
-                throw new Error("No candidates found in response.");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
         } catch (err) {
             console.error("Error:", err);
             errorLog.style.display = 'block';
-            errorLog.innerHTML = `<b>Linguistic Engine Error:</b><br>${err.message}`;
+            errorLog.innerHTML = `<b>Linguistic Engine Error:</b><br>${err.message}<br><br><small>Sugerencia: Revisa en Google AI Studio si tu API Key está activa para el modelo 'Gemini 1.5 Flash'.</small>`;
             fullAnalysis.innerHTML = "";
         }
     }
 
-    // Vinculación explícita de eventos
     searchBtn.onclick = startAnalysis;
     wordInput.onkeydown = function(e) {
         if (e.key === 'Enter') startAnalysis();
