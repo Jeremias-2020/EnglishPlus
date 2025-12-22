@@ -86,15 +86,14 @@
         const upper = word.toUpperCase();
         const meanings = api.meanings;
         
-        // 1. CONTEXTUAL INTELLIGENCE: Find the "Human/Professional" meaning
+        // 1. ELITE CONTEXT SELECTION
         let bestMeaning = meanings[0];
         let definition = bestMeaning.definitions[0].definition;
-        
         for (let m of meanings) {
             for (let d of m.definitions) {
-                const text = d.definition.toLowerCase();
-                // Filter for definitions that describe human interaction or quality over technicality
-                if (text.includes('person') || text.includes('quality') || text.includes('action') || text.length > 20) {
+                const dText = d.definition.toLowerCase();
+                // Filter for definitions used in professional/social achievement
+                if (dText.includes('attention') || dText.includes('achieve') || dText.includes('quality') || dText.includes('result')) {
                     bestMeaning = m;
                     definition = d.definition;
                     break;
@@ -105,65 +104,74 @@
         const pos = bestMeaning.partOfSpeech.toLowerCase();
         const phonetic = api.phonetic || (api.phonetics && api.phonetics[0]?.text) || "/.../";
 
-        // 2. THEMATIC DNA: Classify the word to build the narrative
-        let theme = "concept"; 
-        if (pos.includes('verb')) theme = "action";
-        if (pos.includes('adjective') || pos.includes('adverb')) theme = "trait";
-
-        // 3. MORPHOLOGICAL ENGINE: Get the root for Word Family
+        // 2. MORPHOLOGICAL INTELLIGENCE (The "Vowel-Root" Fix)
         let root = word.toLowerCase();
         if (root.endsWith('s') && root.length > 4) root = root.slice(0, -1);
         if (root.endsWith('ing')) root = root.slice(0, -3);
         if (root.endsWith('ed')) root = root.slice(0, -2);
+        // Correcting for words ending in 'e' or 'us'
+        let ingRoot = root.endsWith('e') ? root.slice(0, -1) : root;
+        if (root.endsWith('us')) ingRoot = root; // Special case for Focus
+
+        // 3. THEMATIC DNA
+        let theme = "concept"; 
+        if (pos.includes('verb')) theme = "action";
+        if (pos.includes('adjective') || pos.includes('adverb')) theme = "trait";
 
         let html = `<div class="main-title">WORD ANALYSIS: ${upper}</div>`;
         
-        // 4. THE CONNOTATION (Professional Tone)
+        // 4. CONNOTATION (Carlos Mario Navarro Standard)
         let connotation = "";
         if (theme === "action") {
-            connotation = `In American professional culture, this is an **Execution Term**. It signals the transition from passive thought to active ownership. It is the vocabulary of high-performers who bridge the gap between planning and results.`;
+            connotation = `In the American mindset, **${upper}** is not just an action; it is a **Strategic Directive**. It signals the transition from passive thought to active ownership. Elite professionals use this word to describe the ruthless prioritization of high-value targets over minor distractions.`;
         } else if (theme === "trait") {
-            connotation = `This is a **High-Impact Descriptor**. In the U.S., using this word defines your professional 'brand' and sets the standard for the quality of your output and leadership.`;
+            connotation = `This is a **High-Impact Descriptor**. In the U.S., using this word defines your professional 'brand' and establishes a standard of excellence. It signals that you don't just work—you perform at a specialized, elite level.`;
         } else {
-            connotation = `This is a **Foundational Cornerstone**. American English values precision; choosing this exact noun shows a clear, organized mindset and deep cultural fluency in a business environment.`;
+            connotation = `This is a **Foundational Asset**. In American business, precision is power. Using this noun correctly demonstrates deep cultural fluency and a disciplined, organized mind that commands respect.`;
         }
 
         html += `<div class="section-h">English Meaning 🇺🇸</div>
         <p class="body-text"><b>${pos.toUpperCase()}:</b> ${definition}</p>
         <p class="body-text"><b>Connotation:</b> ${connotation}</p>`;
 
-        // 5. PHONETICS (The "Downward Inflection" tip)
+        // 5. PHONETICS
         html += `<div class="section-h">Pronunciation 🗣️</div>
         <div style="display:flex; align-items:center; gap:30px; background:#f1f5f9; padding:30px; border-radius:25px;">
             <button class="audio-btn" onclick="playAudio('${word}')">🔊</button>
             <div>
                 <p class="body-text" style="font-family: monospace; font-size:2rem; color:var(--primary); font-weight:800; margin:0;">${phonetic}</p>
-                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Deliver this with a crisp American stress and authoritative downward inflection.</p>
+                <p class="body-text" style="margin:0; font-weight:600; color:var(--secondary);">Deliver this with a crisp American stress and a downward authoritative inflection.</p>
             </div>
         </div>`;
 
-        // 6. DYNAMIC NUANCE MAP (Synonyms)
+        // 6. DYNAMIC NUANCE MAP (Intelligent Synonyms)
         html += `<div class="section-h">Synonyms 🤝 (The Nuance Map)</div>`;
-        let syns = bestMeaning.synonyms.length > 0 ? bestMeaning.synonyms.slice(0, 4) : ["Strategic", "Core", "Essential", "Primary"];
+        let syns = bestMeaning.synonyms.length > 0 ? bestMeaning.synonyms.slice(0, 4) : [];
+        if (syns.length === 0) {
+            if (theme === "action") syns = ["Execute", "Direct", "Prioritize", "Enable"];
+            else if (theme === "trait") syns = ["Strategic", "Vital", "Exceptional", "Distinct"];
+            else syns = ["Cornerstone", "Asset", "Element", "Primary"];
+        }
         syns.forEach(s => {
-            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: Emphasizes the elite application of ${upper} in a professional context.</span>`;
+            let detail = (theme === "action") ? "Focuses on the ability to drive results." : "Highlights the elite standard of the quality.";
+            html += `<span class="list-item">${s.charAt(0).toUpperCase() + s.slice(1)}: ${detail}</span>`;
         });
 
-        // 7. WORD FAMILY (Morphological Logic)
+        // 7. WORD FAMILY
         html += `<div class="section-h">Word Family 👨‍👩‍👧‍👦</div>`;
-        if (theme === "action") {
-            html += `<p class="body-text">• <b>${root}ing:</b> The active process of application.</p><p class="body-text">• <b>${root}able:</b> The strategic capacity for this to be executed.</p>`;
-        } else if (theme === "trait") {
-            html += `<p class="body-text">• <b>${root}ly:</b> How this quality is applied to a specific task.</p><p class="body-text">• <b>${root}ness:</b> The state of possessing this elite characteristic.</p>`;
+        if (word.toLowerCase() === 'focus') {
+            html += `<p class="body-text">• <b>Focused (Adj):</b> The state of being laser-targeted on a goal.</p><p class="body-text">• <b>Focusing (Gerund):</b> The active, ongoing prioritization of the 'North Star'.</p>`;
+        } else if (theme === "action") {
+            html += `<p class="body-text">• <b>${ingRoot}ing:</b> The active process of application.</p><p class="body-text">• <b>${root}able:</b> The strategic capacity for this to be executed.</p>`;
         } else {
-            html += `<p class="body-text">• <b>${root}-driven:</b> A strategy or mindset built around this concept.</p><p class="body-text">• <b>Standard ${root}:</b> The baseline requirement for excellence.</p>`;
+            html += `<p class="body-text">• <b>${root}-driven:</b> A mindset or strategy built around this concept.</p><p class="body-text">• <b>Elite ${root}:</b> The highest expression of this standard.</p>`;
         }
 
-        // 8. THE EXECUTION/GRIT SCALE (Narrative Logic)
+        // 8. THE SCALE (Grit vs Execution)
         let scaleTitle = theme === "action" ? "The Execution Scale" : "The Grit Scale";
         let steps = theme === "action" 
-            ? ["Identification: Noticing the strategic need for action.", "Implementation: Executing with precision for the first time.", "Optimization: Refining for maximum impact and speed.", `MASTERY: Using ${upper} to empower the entire organization.`]
-            : ["Awareness: Understanding the elite definition of the term.", "Effort: Actively integrating ${word} into daily professional habits.", "Consistency: Maintaining the standard under high-pressure scenarios.", `RELENTLESS: Making ${upper} your professional signature.`];
+            ? ["Identification: Noticing the strategic need for movement.", "Action: Taking the first step with total intent.", "Optimization: Refining for maximum speed and impact.", `MASTERY: Using ${upper} to empower and lead others.`]
+            : ["Awareness: Understanding the elite definition of the term.", "Integration: Applying ${word} to your daily workflow.", "Consistency: Maintaining the standard under pressure.", `RELENTLESS: Making ${upper} your professional identity.`];
 
         html += `<div class="section-h">${scaleTitle} ⚖️</div>
         <div class="grit-scale-container">
@@ -173,20 +181,20 @@
             <div class="grit-row"><b>Phase 4</b><div>${steps[3]}</div></div>
         </div>`;
 
-        // 9. PROFESSIONAL PRACTICE (The "Chat-Style" Script)
+        // 9. PROFESSIONAL PRACTICE (Chat Quality Scripts)
         html += `<div class="section-h">Professional Practice 🇺🇸</div>
         <div class="practice-box">`;
-        if (theme === "action") {
-            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> these resources immediately to ensure we exceed our Q4 expectations."</p>
-                     <p><b>Executive Pitch:</b> "I have the capacity to <b>${word}</b> complex projects and deliver results with total ownership."</p>`;
+        if (theme === "action" || word.toLowerCase() === 'focus') {
+            html += `<p><b>In a Meeting:</b> "We need to <b>${word}</b> our efforts immediately to ensure we hit the Q4 targets with precision."</p>
+                     <p><b>Executive Pitch:</b> "I have the capacity to <b>${word}</b> complex projects and deliver elite results through total ownership."</p>`;
         } else {
-            html += `<p><b>In an Interview:</b> "I bring a <b>${word}</b>-oriented approach to leadership, ensuring that every detail aligns with our core mission."</p>
-                     <p><b>Executive Presence:</b> "By maintaining a <b>${word}</b> perspective, we ensure long-term scalability and market dominance."</p>`;
+            html += `<p><b>In an Interview:</b> "My approach is <b>${word}</b>-oriented. I don't just follow rules; I define the standard of excellence."</p>
+                     <p><b>Executive Presence:</b> "By maintaining a <b>${word}</b> perspective, we ensure long-term scalability and dominance."</p>`;
         }
         html += `</div>`;
 
-        // 10. TIP PRO (The Master's Advice)
-        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the United States, your vocabulary is your resume. When you use a word like "<b>${word}</b>," own it. Don't rush your speech; speak with purpose and let the precision of your language project the authority of your character. Ownership is the only path to elite status.</p></div>`;
+        // 10. TIP PRO
+        html += `<div class="pro-tip"><b>Tip Pro 💡</b><br><p>In the United States, your vocabulary is your brand. When you use a word like "<b>${word}</b>," own it. Don't rush; speak with purpose and let the precision of your language project the authority of your character. Ownership is the only path to elite status.</p></div>`;
 
         document.getElementById('full-analysis').innerHTML = html;
         playAudio(word);
@@ -202,6 +210,7 @@
 </script>
 </body>
 </html>
+
 
 
 
