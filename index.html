@@ -8,47 +8,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; --white: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 170px; color: #1e293b; line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 170px; color: #1e293b; }
         
-        /* Header & Brand */
+        /* Header & Brand Identity */
         header { background: var(--white); border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .header-container { max-width: 1200px; margin: 0 auto; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; }
         .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 0.9; }
         .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
         .brand-subtitle { font-size: 0.75rem; color: #000; font-weight: 600; margin-top: 5px; }
         
-        /* Tabs Navigation */
+        /* Tabs System */
         .nav-tabs { background: #e2e8f0; display: flex; justify-content: center; gap: 5px; padding: 10px 0; border-bottom: 1px solid #cbd5e1; position: fixed; top: 110px; width: 100%; z-index: 1000; }
         .tab-btn { padding: 10px 25px; border: none; background: none; font-weight: 700; cursor: pointer; border-radius: 8px; color: #64748b; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; }
         .tab-btn.active { background: var(--primary); color: var(--white); }
 
-        /* Search Interface */
+        /* Search bar */
         .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
         #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 250px; }
         .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
 
-        /* Content Area */
+        /* Container & Cards */
         .container { max-width: 950px; margin: 20px auto; padding: 20px; }
         .app-card { background: var(--white); border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 500px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
 
-        /* Simulator UI Elements */
-        .main-title { color: var(--primary); font-size: 2.8rem; font-weight: 800; margin-bottom: 25px; border-left: 10px solid var(--secondary); padding-left: 20px; text-transform: uppercase; }
-        .section-h { color: var(--primary); font-size: 1.5rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .pronunciation-box { background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .audio-btn { background: var(--primary); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        /* Estilos de respuesta Relentless */
+        .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; border-left: 10px solid var(--secondary); padding-left: 20px; text-transform: uppercase; }
+        .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 35px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .pronunciation-box { background: #f8fafc; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .audio-btn { background: var(--primary); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         .audio-btn:hover { background: var(--secondary); transform: scale(1.1); }
-        .grit-scale { background: #fff; border: 2px solid #e2e8f0; border-radius: 15px; overflow: hidden; margin: 20px 0; }
-        .grit-row { padding: 15px 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
-        .grit-row:last-child { background: #fff1f2; color: var(--secondary); font-weight: 800; border-bottom: none; }
 
-        /* List Items (History/AZ) */
-        .list-item { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; }
+        /* History & AZ lists */
+        .list-item { background: #f8fafc; padding: 18px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; }
         .list-item:hover { transform: translateX(8px); background: #f1f5f9; border-left-color: var(--secondary); }
-        .list-item strong { font-size: 1.2rem; color: var(--primary); }
-
-        .loader { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 60px auto; }
+        
+        .loader { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 50px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -62,7 +58,7 @@
             <p class="brand-subtitle">American English Vocabulary Simulator by Carlos Mario Navarro Molina</p>
         </div>
         <div class="search-box-top">
-            <input type="text" id="word-input" placeholder="Analyze a word..." autocomplete="off">
+            <input type="text" id="word-input" placeholder="Type a word..." autocomplete="off">
             <button class="btn-search" id="go-btn">GO</button>
         </div>
     </div>
@@ -77,41 +73,35 @@
 <div class="container">
     <div class="app-card">
         <div id="simulator" class="tab-content active">
-            <div id="welcome-msg" style="text-align: center; padding: 80px 0;">
-                <h1 style="color: var(--primary); font-size: 3.5rem; margin-bottom: 10px;">Elite Simulator 🇺🇸</h1>
-                <p style="font-size: 1.2rem; color: #64748b;">Ready for a deep-dive analysis? Enter a word to begin.</p>
-                <button onclick="resetKey()" style="margin-top:40px; cursor:pointer; background:none; border:1px solid #cbd5e1; padding:8px 15px; border-radius:8px; font-size:11px; color: #94a3b8;">Update API Key</button>
+            <div id="welcome-msg" style="text-align: center; padding: 60px 0;">
+                <h1 style="color: var(--primary); font-size: 3rem;">Elite Analysis 🇺🇸</h1>
+                <p>Ready for your next high-performance word?</p>
+                <button onclick="localStorage.removeItem('GEMINI_KEY'); location.reload();" style="margin-top:20px; cursor:pointer; background:none; border:1px solid #ccc; padding:5px 10px; border-radius:5px; font-size:12px; color:#94a3b8;">Reset API Key</button>
             </div>
             <div id="display-area"></div>
         </div>
 
         <div id="history" class="tab-content">
             <h2 class="section-h">Recent Inquiries (Newest First)</h2>
-            <div id="history-container"></div>
+            <div id="history-list"></div>
         </div>
 
         <div id="azlist" class="tab-content">
-            <h2 class="section-h">Vocabulary Bank (Alphabetical)</h2>
-            <div id="az-container"></div>
+            <h2 class="section-h">Vocabulary Bank (A-Z)</h2>
+            <div id="az-list"></div>
         </div>
     </div>
 </div>
 
 <script>
     let API_KEY = localStorage.getItem('GEMINI_KEY');
-    const MODEL = "gemini-3-flash-preview"; 
+    const MODEL = "gemini-1.5-flash"; // Modelo ultra estable y rápido
 
     if (!API_KEY) {
-        API_KEY = prompt("Please enter your Gemini API Key (saved securely in your browser):");
+        API_KEY = prompt("Enter your Gemini API Key:");
         if (API_KEY) localStorage.setItem('GEMINI_KEY', API_KEY);
     }
 
-    function resetKey() {
-        localStorage.removeItem('GEMINI_KEY');
-        location.reload();
-    }
-
-    // Tab Logic
     function switchTab(tabId) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -121,34 +111,25 @@
         if(tabId === 'azlist') renderAZ();
     }
 
-    // Storage Logic
-    function saveWord(word) {
-        let history = JSON.parse(localStorage.getItem('ep_elite_history') || '[]');
+    function saveToStorage(word) {
+        let history = JSON.parse(localStorage.getItem('elite_words') || '[]');
         history = history.filter(w => w.toLowerCase() !== word.toLowerCase());
         history.unshift(word);
-        localStorage.setItem('ep_elite_history', JSON.stringify(history));
+        localStorage.setItem('elite_words', JSON.stringify(history));
     }
 
     function renderHistory() {
-        const words = JSON.parse(localStorage.getItem('ep_elite_history') || '[]');
-        const container = document.getElementById('history-container');
-        container.innerHTML = words.map(w => `
-            <div class="list-item" onclick="quickSearch('${w}')">
-                <strong>${w.toUpperCase()}</strong>
-                <span style="color:#94a3b8; font-weight:bold;">REPLAY →</span>
-            </div>
-        `).join('') || "<p style='text-align:center;'>No searches found.</p>";
+        const words = JSON.parse(localStorage.getItem('elite_words') || '[]');
+        document.getElementById('history-list').innerHTML = words.map(w => `
+            <div class="list-item" onclick="quickSearch('${w}')"><strong>${w.toUpperCase()}</strong><span>VIEW →</span></div>
+        `).join('') || "<p>No history yet.</p>";
     }
 
     function renderAZ() {
-        const words = JSON.parse(localStorage.getItem('ep_elite_history') || '[]').sort();
-        const container = document.getElementById('az-container');
-        container.innerHTML = words.map(w => `
-            <div class="list-item" onclick="quickSearch('${w}')">
-                <strong>${w.toUpperCase()}</strong>
-                <span style="color:#94a3b8; font-weight:bold;">A-Z</span>
-            </div>
-        `).join('') || "<p style='text-align:center;'>List empty.</p>";
+        const words = JSON.parse(localStorage.getItem('elite_words') || '[]').sort();
+        document.getElementById('az-list').innerHTML = words.map(w => `
+            <div class="list-item" onclick="quickSearch('${w}')"><strong>${w.toUpperCase()}</strong><span>A-Z</span></div>
+        `).join('') || "<p>List empty.</p>";
     }
 
     function quickSearch(word) {
@@ -157,44 +138,42 @@
         handleSearch();
     }
 
-    // Audio Engine
     window.playEliteAudio = function(text) {
         window.speechSynthesis.cancel();
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'en-US';
-        msg.rate = 0.8;
+        msg.rate = 0.85;
         window.speechSynthesis.speak(msg);
     };
 
-    // Simulation Engine (Gemini 3)
     async function handleSearch() {
         const word = document.getElementById('word-input').value.trim();
         if(!word || !API_KEY) return;
 
-        saveWord(word);
+        saveToStorage(word);
         document.getElementById('welcome-msg').style.display = 'none';
-        const displayArea = document.getElementById('display-area');
-        displayArea.innerHTML = `<div class="loader"></div><h3 style="text-align:center; color:var(--primary);">Performing Elite Analysis on: ${word.toUpperCase()}</h3>`;
+        const display = document.getElementById('display-area');
+        display.innerHTML = `<div class="loader"></div><h3 style="text-align:center;">Analyzing: ${word.toUpperCase()}</h3>`;
 
-        const prompt = `Perform a deep 'Elite Analysis' for the word: "${word}". Tone: High-energy, professional American coach. 
-        MANDATORY FORMAT (HTML ONLY, NO MARKDOWN):
+        const prompt = `Perform an 'Elite Analysis' for the word "${word}". Use a professional American English tone. 
+        REQUIRED HTML FORMAT (NO MARKDOWN):
         - <div class="main-title">Word Analysis: ${word.toUpperCase()}</div>
-        - <div class="section-h">English Meaning 🇺🇸</div> Definition + Nuanced Connotation (Is it high-energy? Professional?).
+        - <div class="section-h">English Meaning 🇺🇸</div> (Definition and nuanced connotation)
         - <div class="section-h">Phonetics & Pronunciation 🗣️</div>
           <div class="pronunciation-box">
-             <div>IPA | Sounds like guide</div>
-             <button class="audio-btn" onclick="window.playEliteAudio('${word}')">
+            <div>IPA and Sounds-like guide</div>
+            <button class="audio-btn" onclick="window.playEliteAudio('${word}')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-             </button>
+            </button>
           </div>
-        - <div class="section-h">Synonyms 🤝 (The Nuance Map)</div> List with professional context.
-        - <div class="section-h">Antonyms 🚫</div> Professional list.
-        - <div class="section-h">Word Family 👨‍👩‍👧‍👦</div> Noun/Verb/Adjective forms with usage examples.
-        - <div class="section-h">The 'Grit' Scale ⚖️</div> Create a Comparison Table with 4 levels of intensity leading to "${word.toUpperCase()}".
+        - <div class="section-h">Synonyms 🤝 (The Nuance Map)</div>
+        - <div class="section-h">Antonyms 🚫</div>
+        - <div class="section-h">Word Family 👨‍👩‍👧‍👦</div>
+        - <div class="section-h">The "Grit" Scale ⚖️</div> (Comparison table)
         - <div class="section-h">Idioms & Collocations 🗣️</div>
-        - <div class="section-h">Real-World Examples 📝</div> 3 sentences in business/corporate context.
-        - <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div> Tips for Cover Letters and Interviews using this word.
-        - <div class="section-h">Tip Pro 💡</div> Cultural workplace advice.`;
+        - <div class="section-h">Real-World Examples 📝</div> (3 Professional sentences)
+        - <div class="section-h">Friendly Practice (The American Way) 🇺🇸</div> (Tips for interviews/cover letters)
+        - <div class="section-h">Tip Pro 💡</div>`;
 
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`, {
@@ -204,16 +183,16 @@
             });
 
             const data = await res.json();
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
+            
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
                 let html = data.candidates[0].content.parts[0].text;
-                displayArea.innerHTML = html.replace(/```html|```/g, "").trim();
+                display.innerHTML = html.replace(/```html|```/g, "").trim();
                 window.playEliteAudio(word);
-                document.getElementById('word-input').value = '';
             } else {
-                throw new Error("Invalid Response. Check your Gemini 3 permissions.");
+                throw new Error(data.error?.message || "Invalid response from Gemini. Check key/permissions.");
             }
         } catch (err) {
-            displayArea.innerHTML = `<div style="color:red; text-align:center; padding:30px;">
+            display.innerHTML = `<div style="color:red; text-align:center; padding:20px; border:2px dashed red; border-radius:15px;">
                 <h3>System Error</h3>
                 <p>${err.message}</p>
             </div>`;
