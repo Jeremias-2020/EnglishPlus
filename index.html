@@ -8,32 +8,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #002868; --secondary: #bf0a30; --bg: #f1f5f9; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 140px; color: #1e293b; line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-top: 160px; color: #1e293b; line-height: 1.6; }
+        
+        /* Header & Navigation Elite */
         header { background: #fff; border-bottom: 4px solid var(--primary); position: fixed; top: 0; width: 100%; z-index: 2000; height: 110px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .header-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .logo-section h1 { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 0.9; }
         .brand-blue { color: var(--primary); } .brand-red { color: var(--secondary); }
         .brand-subtitle { font-size: 0.75rem; color: #000; font-weight: 600; margin-top: 5px; }
         
-        /* Navigation Tabs */
-        .nav-tabs { background: #e2e8f0; display: flex; justify-content: center; gap: 5px; padding: 8px 0; border-bottom: 1px solid #cbd5e1; position: fixed; top: 110px; width: 100%; z-index: 1000; }
-        .tab-btn { padding: 8px 20px; border: none; background: none; font-weight: 700; cursor: pointer; border-radius: 8px; color: #64748b; transition: 0.3s; }
+        .nav-tabs { background: #e2e8f0; display: flex; justify-content: center; gap: 5px; padding: 10px 0; border-bottom: 1px solid #cbd5e1; position: fixed; top: 110px; width: 100%; z-index: 1000; }
+        .tab-btn { padding: 10px 25px; border: none; background: none; font-weight: 700; cursor: pointer; border-radius: 8px; color: #64748b; transition: 0.3s; font-size: 0.9rem; }
         .tab-btn.active { background: var(--primary); color: white; }
 
         .search-box-top { display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px; border: 2px solid #e2e8f0; }
         #word-input { border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; font-weight: 600; width: 250px; }
-        .btn-search { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .btn-search { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-search:hover { background: #001a45; }
         
-        .container { max-width: 900px; margin: 40px auto; padding: 20px; }
-        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 400px; }
+        /* Layout */
+        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
+        .app-card { background: #fff; border-radius: 24px; padding: 45px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 450px; }
         
-        .tab-content { display: none; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-        
-        .list-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; font-weight: 600; border-left: 5px solid var(--primary); margin-bottom: 5px; background: #f8fafc; border-radius: 0 8px 8px 0; }
-        .list-item:hover { background: #f1f5f9; border-left-color: var(--secondary); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Estilos del Simulador Original */
+        /* Estilos del Simulador (Tu Diseño Original) */
         .main-title { color: var(--primary); font-size: 2.5rem; font-weight: 800; margin-bottom: 25px; border-left: 8px solid var(--secondary); padding-left: 15px; text-transform: uppercase; }
         .section-h { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-top: 40px; border-bottom: 3px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 15px; }
-        .loader
+        .body-text { font-size: 1.1rem; margin-bottom: 15px; color: #334155; }
+        
+        /* Listas de Hist
